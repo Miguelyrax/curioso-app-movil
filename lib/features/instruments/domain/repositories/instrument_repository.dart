@@ -5,5 +5,5 @@ import 'package:curioso_app/features/instruments/domain/entities/instrument.dart
 import 'package:dartz/dartz.dart';
 
 abstract class InstrumentRepository{
-  Future<Either<Failure,Instrument>> getInstruments();
+  Future<Either<Failure,List<Instrument>>> getInstruments();
 }

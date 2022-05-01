@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_)=>di.locator<QuizBloc>())
       ],
-      child: MaterialApp(
+      child:const MaterialApp(
         title: 'Material App',
         home: QuizScreen(),
       ),
