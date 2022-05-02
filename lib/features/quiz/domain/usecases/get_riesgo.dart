@@ -6,20 +6,20 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/usecases/usecase.dart';
 
-class GetRiesgo implements UseCase<Riesgo,Params>{
+class GetRiesgo implements UseCase<Riesgo,ParamsRiesgo>{
   final QuizRepository quizRepository;
 
   GetRiesgo(this.quizRepository);
   @override
-  Future<Either<Failure,Riesgo>> execute(Params params){
+  Future<Either<Failure,Riesgo>> execute(ParamsRiesgo params){
     return quizRepository.getRiesgo(params.data);
   }
 }
 
-class Params extends Equatable{
+class ParamsRiesgo extends Equatable{
   final Map<String,dynamic> data;
 
-  const Params({required this.data});
+  const ParamsRiesgo({required this.data});
 
   @override
   List<Object?> get props => [data];

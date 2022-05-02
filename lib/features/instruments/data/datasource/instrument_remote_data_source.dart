@@ -37,7 +37,7 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
   }
   @override
   Future<HistorialDataModel> getHistoricalData(String symbol) async{
-    final url = Uri.parse('http://localhost:8080/api/instrument/historicalData/$symbol');
+    final url = Uri.parse('http://localhost:8080/api/instrument/historicalData/$symbol/D');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json'
     });

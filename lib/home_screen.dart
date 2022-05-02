@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              InstrumentList()
+              const InstrumentList()
             ],
        ),
         ),

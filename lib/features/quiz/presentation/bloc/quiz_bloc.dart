@@ -39,7 +39,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     });
     on<OnQuizSubmite>((event, emit)async{
       emit(QuizLoading());
-      final result = await _getRiesgo.execute(Params(data: event.data));
+      final result = await _getRiesgo.execute(ParamsRiesgo(data: event.data));
       result.fold(
         (failure) => emit(QuizError(failure.message)),
         (data) => emit(QuizSubmited(riesgo:data))

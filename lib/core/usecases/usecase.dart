@@ -13,3 +13,11 @@ class NoParams extends Equatable{
   // TODO: implement props
   List<Object?> get props => [];
 }
+class Params extends Equatable{
+  final String symbol;
+
+  const Params({required this.symbol});
+
+  @override
+  List<Object?> get props => [symbol];
+}

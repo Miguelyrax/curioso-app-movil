@@ -2,6 +2,8 @@
 import 'package:curioso_app/features/instruments/data/datasource/instrument_remote_data_source.dart';
 import 'package:curioso_app/features/instruments/domain/repositories/instrument_repository.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/getInstrument.dart';
+import 'package:curioso_app/features/instruments/domain/usecases/get_detail.dart';
+import 'package:curioso_app/features/instruments/domain/usecases/get_historical_data.dart';
 import 'package:curioso_app/features/instruments/presentation/bloc/instrument_bloc.dart';
 import 'package:curioso_app/features/quiz/data/datasource/quiz_remote_data_source.dart';
 import 'package:curioso_app/features/quiz/data/repositories/quiz_repository_impl.dart';
@@ -18,12 +20,14 @@ final locator = GetIt.instance;
 void init(){
   //bloc
   locator.registerFactory(() => QuizBloc(locator(),locator()));
-  locator.registerFactory(() => InstrumentBloc(locator()));
+  locator.registerFactory(() => InstrumentBloc(locator(),locator(),locator()));
 
   //usecase
   locator.registerLazySingleton(() => GetQuiz(locator()));
   locator.registerLazySingleton(() => GetRiesgo(locator()));
   locator.registerLazySingleton(() => GetInstrument(locator()));
+  locator.registerLazySingleton(() => GetDetail(locator()));
+  locator.registerLazySingleton(() => GetHistoricalData(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 

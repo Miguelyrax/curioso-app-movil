@@ -24,7 +24,7 @@ class Detail extends Equatable{
     final String finnhubIndustry;
     final DateTime ipo;
     final String logo;
-    final int marketCapitalization;
+    final double marketCapitalization;
     final String name;
     final String phone;
     final double shareOutstanding;
