@@ -25,7 +25,7 @@ class InstrumentModel extends Instrument{
         hasIntraday: json["has_intraday"],
         hasEod: json["has_eod"],
         country: json["country"],
-        stockExchange: StockExchangeModel.fromJson(json["stock_exchange"]),
+        stockExchange: StockExchangeModel.fromMap(json["stock_exchange"]),
     );
 
 }

@@ -1,23 +1,52 @@
+import 'dart:math';
+
+import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/themes/themes.dart';
+import 'features/instruments/presentation/bloc/instrument_bloc.dart';
 import 'features/quiz/presentation/bloc/quiz_bloc.dart';
-import 'features/quiz/presentation/screens/quiz_screen.dart';
 import 'injection.dart' as di;
 void main() {
   di.init();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    ThemeApp themeApp = ThemeApp();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=>di.locator<QuizBloc>())
+        BlocProvider(create: (_)=>di.locator<QuizBloc>()),
+        BlocProvider(create: (_)=>di.locator<InstrumentBloc>()),
       ],
-      child:const MaterialApp(
-        title: 'Material App',
-        home: QuizScreen(),
+      child: MaterialApp(
+        theme: ThemeData(
+              useMaterial3: true,
+              appBarTheme: const AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
+              ),
+              inputDecorationTheme: themeApp.customInputForm,
+              textTheme: themeApp.textTheme,
+        ),
+        navigatorKey: AppNavigator.navigatorKey,
+        onGenerateRoute: AppNavigator.onGenerateRoute,
+        builder: (context, child) {
+        if (child == null) return const SizedBox.shrink();
+        final data = MediaQuery.of(context);
+        final smallestSize = min(data.size.width, data.size.height);
+        final textScaleFactor = min(smallestSize / 375, 1.0);
+        return MediaQuery(
+          data: data.copyWith(
+            textScaleFactor: textScaleFactor,
+          ),
+          child: child,
+        );
+      },
       ),
     );
   }
