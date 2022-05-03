@@ -18,4 +18,15 @@ class CuriosityColors {
   static const Color  dark2         = Color(0xff1A212B);
   static const Color  sunsetOrange  = Color(0xffFF5651);
   static const Color  smokeyGrey    = Color(0xff6B7076);
+  static LinearGradient get gradientDefaultChart  => _getGradientChart(crystalblue);
+  static LinearGradient _getGradientChart( Color ? color ) {
+    return LinearGradient(
+      begin: const Alignment(0,-0.72),
+      end: const Alignment(0,1.62),
+      colors: [
+        color!.withOpacity(0.6),
+        color.withOpacity(0),
+      ]
+    );
+  }
 }
