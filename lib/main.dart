@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/themes/themes.dart';
-import 'features/instruments/presentation/bloc/instrument_bloc.dart';
+import 'features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
+import 'features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
+import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
 import 'features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'injection.dart' as di;
 void main() {
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_)=>di.locator<QuizBloc>()),
         BlocProvider(create: (_)=>di.locator<InstrumentBloc>()),
+        BlocProvider(create: (_)=>di.locator<DetailBloc>()),
+        BlocProvider(create: (_)=>di.locator<HistoricaldataBloc>()),
       ],
       child: MaterialApp(
         theme: ThemeData(

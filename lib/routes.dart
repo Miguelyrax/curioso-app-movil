@@ -32,7 +32,7 @@ class AppNavigator {
       case _Paths.splash:
         return FadeRoute(page: const LoadingScreen());
       case _Paths.detail:
-        return SlideTransitionRoute(page: const DetailInstrumentScreen());
+        return SlideTransitionRoute(page:  DetailInstrumentScreen());
       default:
         return FadeRoute(page:const HomeScreen());
     }

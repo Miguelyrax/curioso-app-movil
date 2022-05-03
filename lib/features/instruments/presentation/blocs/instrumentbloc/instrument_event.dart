@@ -10,8 +10,3 @@ abstract class InstrumentEvent extends Equatable {
 class OnInstrumentLoaded extends InstrumentEvent{}
 class OnLoadingStart extends InstrumentEvent{}
 class OnLoadingEnd extends InstrumentEvent{}
-class OnInstrumentClick extends InstrumentEvent{
-  final String symbol;
-
-  const OnInstrumentClick(this.symbol);
-}

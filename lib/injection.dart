@@ -4,7 +4,8 @@ import 'package:curioso_app/features/instruments/domain/repositories/instrument_
 import 'package:curioso_app/features/instruments/domain/usecases/getInstrument.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_detail.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_historical_data.dart';
-import 'package:curioso_app/features/instruments/presentation/bloc/instrument_bloc.dart';
+import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
+import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'package:curioso_app/features/quiz/data/datasource/quiz_remote_data_source.dart';
 import 'package:curioso_app/features/quiz/data/repositories/quiz_repository_impl.dart';
 import 'package:curioso_app/features/quiz/domain/repositories/quiz_repository.dart';
@@ -15,12 +16,15 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 import 'features/instruments/data/repositories/instrument_repository_impl.dart';
+import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
 final locator = GetIt.instance;
 
 void init(){
   //bloc
   locator.registerFactory(() => QuizBloc(locator(),locator()));
-  locator.registerFactory(() => InstrumentBloc(locator(),locator(),locator()));
+  locator.registerFactory(() => InstrumentBloc(locator()));
+  locator.registerFactory(() => DetailBloc(locator()));
+  locator.registerFactory(() => HistoricaldataBloc(locator()));
 
   //usecase
   locator.registerLazySingleton(() => GetQuiz(locator()));

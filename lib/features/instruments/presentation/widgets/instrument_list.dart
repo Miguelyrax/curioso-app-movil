@@ -1,9 +1,11 @@
+import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
+import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/themes/colors.dart';
 import '../../../../routes.dart';
-import '../bloc/instrument_bloc.dart';
+import '../blocs/instrumentbloc/instrument_bloc.dart';
 
 class InstrumentList extends StatefulWidget {
   const InstrumentList({
@@ -23,7 +25,8 @@ class _InstrumentListState extends State<InstrumentList> {
   }
   @override
   Widget build(BuildContext context) {
-    final blocProvider=BlocProvider.of<InstrumentBloc>(context,listen: false);
+    final detailBloc=BlocProvider.of<DetailBloc>(context,listen: false);
+    final HistoricalBloc=BlocProvider.of<HistoricaldataBloc>(context,listen: false);
     return BlocBuilder<InstrumentBloc, InstrumentState>(
       builder: (context, state) {
         if(state is InstrumentLoading){
@@ -48,7 +51,8 @@ class _InstrumentListState extends State<InstrumentList> {
               (context, index) {
                 return GestureDetector(
                   onTap: (){
-                    blocProvider.add(OnInstrumentClick(state.instruments[index].symbol));
+                    detailBloc.add(OnDetailLoaded(state.instruments[index].symbol));
+                    HistoricalBloc.add(OnHistoricalDataLoaded(state.instruments[index].symbol));
                     AppNavigator.push(Routes.detail);
                   },
                   child: Container(
