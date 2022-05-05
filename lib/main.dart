@@ -8,6 +8,7 @@ import 'core/themes/themes.dart';
 import 'features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
 import 'features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
+import 'features/news/presentation/bloc/news/news_bloc.dart';
 import 'features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'injection.dart' as di;
 void main() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_)=>di.locator<InstrumentBloc>()),
         BlocProvider(create: (_)=>di.locator<DetailBloc>()),
         BlocProvider(create: (_)=>di.locator<HistoricaldataBloc>()),
+        BlocProvider(create: (_)=>di.locator<NewsBloc>()),
       ],
       child: MaterialApp(
         theme: ThemeData(

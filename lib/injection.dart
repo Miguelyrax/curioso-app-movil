@@ -6,6 +6,12 @@ import 'package:curioso_app/features/instruments/domain/usecases/get_detail.dart
 import 'package:curioso_app/features/instruments/domain/usecases/get_historical_data.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
+import 'package:curioso_app/features/news/data/datasource/news_datasource.dart';
+import 'package:curioso_app/features/news/data/repositories/news_repository.dart';
+import 'package:curioso_app/features/news/domain/repositories/news_repository.dart';
+import 'package:curioso_app/features/news/domain/usecases/get_news_general.dart';
+import 'package:curioso_app/features/news/domain/usecases/get_news_symbol.dart';
+import 'package:curioso_app/features/news/presentation/bloc/news/news_bloc.dart';
 import 'package:curioso_app/features/quiz/data/datasource/quiz_remote_data_source.dart';
 import 'package:curioso_app/features/quiz/data/repositories/quiz_repository_impl.dart';
 import 'package:curioso_app/features/quiz/domain/repositories/quiz_repository.dart';
@@ -25,6 +31,7 @@ void init(){
   locator.registerFactory(() => InstrumentBloc(locator()));
   locator.registerFactory(() => DetailBloc(locator()));
   locator.registerFactory(() => HistoricaldataBloc(locator()));
+  locator.registerFactory(() => NewsBloc(getNewsGeneral: locator(), getNewsSymbol: locator()));
 
   //usecase
   locator.registerLazySingleton(() => GetQuiz(locator()));
@@ -32,6 +39,8 @@ void init(){
   locator.registerLazySingleton(() => GetInstrument(locator()));
   locator.registerLazySingleton(() => GetDetail(locator()));
   locator.registerLazySingleton(() => GetHistoricalData(locator()));
+  locator.registerLazySingleton(() => GetNewsGeneral(locator()));
+  locator.registerLazySingleton(() => GetNewsSymbol(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 
@@ -44,6 +53,11 @@ void init(){
       locator()
     )
   );
+  locator.registerLazySingleton<NewsRepository>(() => 
+    NewsRepositoryImpl(
+      locator()
+    )
+  );
 
   //data source
   locator.registerLazySingleton<QuizRemoteDataSource>(() => 
@@ -51,6 +65,9 @@ void init(){
   );
   locator.registerLazySingleton<InstrumentRemoteDataSource>(() => 
     InstrumentRemoteDataSourceImpl(locator())
+  );
+  locator.registerLazySingleton<NewsDatasource>(() => 
+    NewsDataSourceImpl(locator())
   );
 
   //external
