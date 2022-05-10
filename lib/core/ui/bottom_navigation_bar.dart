@@ -1,13 +1,21 @@
 import 'package:curioso_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
+
 
 class CustomBottomNavigatorBar extends StatelessWidget {
+  final PageController pageController;
 
+  const CustomBottomNavigatorBar(
+    {
+      Key? key, required this.pageController
+    }
+    ) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size=MediaQuery.of(context).size.width;
-    return Container(
+    return SizedBox(
       height: 70,
       width: size,
       child: Stack(
@@ -21,18 +29,35 @@ class CustomBottomNavigatorBar extends StatelessWidget {
             child: FloatingActionButton(
               backgroundColor: CuriosityColors.beige,
               child:const Icon(Icons.home,color: CuriosityColors.mirage,),
-                  onPressed: (){},
+                  onPressed: (){
+                    pageController.animateToPage(1, duration: Constants.duration, curve: Constants.cubic);
+                  },
                 ),
           ),
-          Container(
+          SizedBox(
             width: size,
             height: 70,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.call_sharp, color: CuriosityColors.white,),
+                GestureDetector(
+                  onTap: (){
+                    pageController.animateToPage(0, duration: Constants.duration, curve: Constants.cubic);
+                  },
+                  child: const Icon(
+                    Icons.call_sharp, color: CuriosityColors.white,
+                  )
+                ),
                 SizedBox(width: size*.2,),
-                const Icon(Icons.newspaper,color: CuriosityColors.white,),
+                GestureDetector(
+                  onTap: (){
+                    pageController.animateToPage(2, duration: Constants.duration, curve: Constants.cubic);
+                  },
+                  child: const Icon(
+                    Icons.newspaper,
+                    color: CuriosityColors.white,
+                  )
+                ),
               ],
             ),
           )

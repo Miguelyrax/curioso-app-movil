@@ -1,91 +1,44 @@
 import 'package:curioso_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
-
 import 'core/ui/bottom_navigation_bar.dart';
-import 'features/instruments/presentation/widgets/instrument_list.dart';
+import 'features/instruments/presentation/screens/instrumentos_screen.dart';
+import 'features/user/presentation/screens/login_screen.dart';
 
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  late PageController _controller;
+  @override
+  void initState() {
+    _controller=PageController(initialPage: 1);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    final size=MediaQuery.of(context).size.width;
     return  SafeArea(
       child: Scaffold(
-
-
         backgroundColor: CuriosityColors.dark,
         body: Stack(
           children: [
-           
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Curiosity',
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline2!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: CuriosityColors.beige
-                          )
-                        ),
-                        Text('App',
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline2!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                          )
-                        ),
-                        Text('1 de mayo',
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: CuriosityColors.gray
-                          )
-                        ),
-                        const SizedBox(height: 8,),
-                        SizedBox(
-                          height: 30,
-                          child: TextFormField(
-                            decoration:const InputDecoration(
-                              hintText: 'Buscar'
-                            ),
-                          )
-                        ),
-                        const SizedBox(height: 32,),
-                        Text('Instrumentos',
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline2!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                          )
-                        ),
-                        const SizedBox(height: 16,),
-                      ],
-                    ),
-                  ),
-                  const InstrumentList(),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 100,),
-                  )
+              child: PageView(
+                controller: _controller,
+                children: [
+                  LoginScreen(),
+                  const InstrumentosScreen(),
                 ],
               ),
             ),
             Positioned(
              bottom: 0,
-             child: CustomBottomNavigatorBar()
+             child: CustomBottomNavigatorBar(pageController:_controller)
             ),
           ],
         ),

@@ -10,6 +10,7 @@ import 'features/instruments/presentation/blocs/historicaldatabloc/historicaldat
 import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
 import 'features/news/presentation/bloc/news/news_bloc.dart';
 import 'features/quiz/presentation/bloc/quiz_bloc.dart';
+import 'features/user/presentation/bloc/user_bloc.dart';
 import 'injection.dart' as di;
 void main() {
   di.init();
@@ -29,15 +30,16 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_)=>di.locator<DetailBloc>()),
         BlocProvider(create: (_)=>di.locator<HistoricaldataBloc>()),
         BlocProvider(create: (_)=>di.locator<NewsBloc>()),
+        BlocProvider(create: (_)=>di.locator<UserBloc>()),
       ],
       child: MaterialApp(
         theme: ThemeData(
-              useMaterial3: true,
-              appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
-              ),
-              inputDecorationTheme: themeApp.customInputForm,
-              textTheme: themeApp.textTheme,
+          useMaterial3: true,
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
+          ),
+          inputDecorationTheme: themeApp.customInputForm,
+          textTheme: themeApp.textTheme,
         ),
         navigatorKey: AppNavigator.navigatorKey,
         onGenerateRoute: AppNavigator.onGenerateRoute,

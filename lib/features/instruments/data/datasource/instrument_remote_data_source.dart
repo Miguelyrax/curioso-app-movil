@@ -19,6 +19,7 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
   InstrumentRemoteDataSourceImpl(this.client);
   @override
   Future<List<InstrumentModel>> getInstruments() async{
+    print('solicitado');
     final url = Uri.parse('http://localhost:8080/api/instrument/');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json'
