@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/user_bloc.dart';
+import '../../../../core/themes/colors.dart';
+import '../../../../routes.dart';
+
 
 class LoginView extends StatelessWidget {
   const LoginView({
     Key? key,
-    required this.ctrlEmail,
-    required this.ctrlPassword,
-    required this.blocProvider,
   }) : super(key: key);
 
-  final TextEditingController ctrlEmail;
-  final TextEditingController ctrlPassword;
-  final UserBloc blocProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -21,56 +16,77 @@ class LoginView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: Text(
-            'Login',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .headline1!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
+        Text('Curiosity',
+              style:Theme.of(context)
+              .textTheme
+              .headline1!
+              .copyWith(
+                fontWeight: FontWeight.bold,
+                color: CuriosityColors.beige
+              )
+            ),
+        Text('App',
+              style:Theme.of(context)
+              .textTheme
+              .headline1!
+              .copyWith(
+                fontWeight: FontWeight.bold,
+              )
         ),
-        const SizedBox(
-          height: 32,
+        const SizedBox(height: 70,),
+        Text('Binvenido a una nueva forma de aprender',
+              style:Theme.of(context)
+              .textTheme
+              .headline2!
         ),
-        Text(
-          'Email',
-          style: Theme.of(context).textTheme.headline4!.copyWith(),
+        const SizedBox(height: 32,),
+        Text('Ingresa y conoce mucho mas',
+              style:Theme.of(context)
+              .textTheme
+              .headline3!.copyWith(
+                color: CuriosityColors.gray
+              )
         ),
-        const SizedBox(
-          height: 4,
-        ),
-        TextFormField(
-          controller: ctrlEmail,
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Text(
-          'Password',
-          style: Theme.of(context).textTheme.headline4!.copyWith(),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        TextFormField(
-          controller: ctrlPassword,
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        BlocBuilder<UserBloc, UserState>(
-          builder: (context, state) {
-            return ElevatedButton(
-                onPressed:state is UserLoading?null: () {
-                  blocProvider.add(OnUserLoaded(
-                      email: ctrlEmail.text, password: ctrlPassword.text));
+        const SizedBox(height: 32,),
+        Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                width: double.infinity,
+                height: 63,
+                child: ElevatedButton(onPressed: (){
+                 AppNavigator.push(Routes.auth);
+                }, child: const Text('Iniciar sesión')),
+              ),
+            ),
+            const SizedBox(width: 16,),
+            SizedBox(
+              height: 63,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(CuriosityColors.aquagreen)
+                ),
+                onPressed: (){
+            
                 },
-                child:Text(state is UserLoading?'Cargando...':'Iniciar sesión'));
-          },
-        )
+                child: const Text('?'),
+              ),
+            )
+          ],
+        ),
+        const SizedBox(height: 16,),
+        SizedBox(
+                width: double.infinity,
+                height: 63,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
+                  ),
+                  onPressed: (){
+              AppNavigator.push(Routes.register);
+                }, child: const Text('Hazte una cuenta')),
+        ),
+        const SizedBox(height: 100,),
       ],
     );
   }

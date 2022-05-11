@@ -14,13 +14,13 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final blocProvider=BlocProvider.of<UserBloc>(context,listen: false);
+    
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if(state is UserHasData){
           return PerfilScreen(data:state.user);
         }else{
-          return LoginView(ctrlEmail: ctrlEmail, ctrlPassword: ctrlPassword, blocProvider: blocProvider);
+          return const LoginView();
         }
       },
     );

@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
           ),
           inputDecorationTheme: themeApp.customInputForm,
           textTheme: themeApp.textTheme,
+          elevatedButtonTheme: themeApp.buttonTheme,
         ),
         navigatorKey: AppNavigator.navigatorKey,
         onGenerateRoute: AppNavigator.onGenerateRoute,

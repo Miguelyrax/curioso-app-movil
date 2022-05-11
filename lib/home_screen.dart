@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: _controller,
                 children: [
                   LoginScreen(),
@@ -38,7 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Positioned(
              bottom: 0,
-             child: CustomBottomNavigatorBar(pageController:_controller)
+             child: CustomBottomNavigatorBar(
+               pageController:_controller
+            )
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 /// Archivo para exportar todos los themes de la aplicacion
 ///
+import 'package:curioso_app/core/themes/buttons.dart';
 import 'package:curioso_app/core/themes/tiles.dart';
 import 'package:flutter/material.dart';
 
@@ -20,4 +21,10 @@ class ThemeApp {
     bodyText2: CuriosityTitles.bodyText2
   );
   InputDecorationTheme get customInputForm => CuriosityInputs.customInputForm;
+  ElevatedButtonThemeData get buttonTheme => ElevatedButtonThemeData(
+    style: CuriosityCustomButtons.elevatedButton
+  );
+  TextButtonThemeData get textButtonTheme => TextButtonThemeData(
+    style: CuriosityCustomButtons.textButton
+  );
 }
