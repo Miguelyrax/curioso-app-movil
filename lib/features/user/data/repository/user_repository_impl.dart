@@ -21,4 +21,18 @@ class UserRepositoryImpl extends UserRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, User>> register(String email, String password,String name) async{
+    try {
+       final result = await datasource.register(email,password,name);
+       return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure('Error del servidor'));
+    }on SocketException{
+      return const Left(ConnectionFailure('Error de conexión'));
+    }on DatabaseFailure{
+      return const Left(DatabaseFailure('Error del servidor'));
+    }
+  }
+
 }

@@ -2,19 +2,23 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:curioso_app/features/user/domain/entities/user.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
+import 'package:curioso_app/features/user/domain/usecases/register.dart';
 import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockLogin extends Mock implements Login{}
+class MockRegister extends Mock implements Register{}
 void main() {
   late MockLogin mockLogin;
+  late MockRegister mockRegister;
   late UserBloc bloc;
 
   setUp(() {
     mockLogin = MockLogin();
-    bloc = UserBloc(mockLogin);
+    mockRegister = MockRegister();
+    bloc = UserBloc(mockLogin,mockRegister);
   });
 
   test(
@@ -24,16 +28,15 @@ void main() {
     },
   );
 
-   
-
-  group(
-    'login', (){
-       const data =  User(
+   const data =  User(
     name: 'miguel',
     email: 'miguel@albanez.com',
     status: true,
     token: '123456'
     );
+
+  group(
+    'login', (){
     final userParams=UserParams(email: 'miguel@albanez.com', password: '123456');
       test(
         "should get data from usecase login",
@@ -63,5 +66,18 @@ void main() {
       
       );
 
+  });
+  group('register', 
+  (){
+    final userParamsRegister=UserParams(email: 'miguel@albanez.com', password: '123456');
+    test(
+      "should get data from login",
+      () async {
+        when(()=>mockRegister.execute(userParamsRegister)).thenAnswer((invocation) async => const Right(data));
+        bloc.add(const OnUserRegister(email: 'miguel@albanez.com', password: '123456',name: '123'));
+        await untilCalled(()=>mockRegister.execute(userParamsRegister));
+        verify(()=>mockRegister.execute(userParamsRegister));
+      },
+    );
   });
 }

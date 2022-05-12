@@ -21,6 +21,7 @@ import 'package:curioso_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/domain/repository/user_repository.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
+import 'package:curioso_app/features/user/domain/usecases/register.dart';
 import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +38,7 @@ void init(){
   locator.registerFactory(() => DetailBloc(locator()));
   locator.registerFactory(() => HistoricaldataBloc(locator()));
   locator.registerFactory(() => NewsBloc(getNewsGeneral: locator(), getNewsSymbol: locator()));
-  locator.registerFactory(() => UserBloc(locator()));
+  locator.registerFactory(() => UserBloc(locator(),locator()));
 
   //usecase
   locator.registerLazySingleton(() => GetQuiz(locator()));
@@ -48,6 +49,7 @@ void init(){
   locator.registerLazySingleton(() => GetNewsGeneral(locator()));
   locator.registerLazySingleton(() => GetNewsSymbol(locator()));
   locator.registerLazySingleton(() => Login(locator()));
+  locator.registerLazySingleton(() => Register(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 

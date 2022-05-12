@@ -40,7 +40,7 @@ class AppNavigator {
       case _Paths.detail:
         return SlideTransitionRoute(page:const DetailInstrumentScreen());
       case _Paths.auth:
-        return SlideTransitionRoute(page: AuthScreen(),offset: const Offset(0,2));
+        return SlideTransitionRoute(page: const AuthScreen(),offset: const Offset(0,2));
       case _Paths.register:
         return SlideTransitionRoute(page: const RegisterScreen(),offset: const Offset(0,2));
       default:

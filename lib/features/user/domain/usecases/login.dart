@@ -20,10 +20,12 @@ class Login extends UseCase<User,UserParams>{
 class UserParams {
   final String email;
   final String password;
+  final String? name;
 
   UserParams(
     {
     required this.email, 
+    this.name, 
     required this.password
     }
   );

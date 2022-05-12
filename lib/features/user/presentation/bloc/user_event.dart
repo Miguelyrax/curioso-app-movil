@@ -17,3 +17,16 @@ class OnUserLoaded extends UserEvent{
     }
   );
 }
+class OnUserRegister extends UserEvent{
+  final String email;
+  final String password;
+  final String name;
+
+  const OnUserRegister(
+    {
+    required this.email, 
+    required this.password,
+    required this.name,
+    }
+  );
+}

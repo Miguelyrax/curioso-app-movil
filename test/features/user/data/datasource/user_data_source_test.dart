@@ -20,6 +20,7 @@ void main() {
   });
   final UserModel user=UserModel.fromJson(jsonDecode(fixture('user.json')));
   final url=Uri.parse('http://localhost:8080/api/auth/');
+  final urlRegister=Uri.parse('http://localhost:8080/api/auth/register');
   final headers={
       'Content-type':'application/json; charset=utf-8',
   };
@@ -36,7 +37,7 @@ void main() {
           })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
         );
         await datasource.login('miguel@albanez.com', '123456');
-        verifyNever(()=>mockHttpClient.get(url,headers:headers));
+        verifyNever(()=>mockHttpClient.post(url,headers:headers));
 
       },
     );
@@ -72,4 +73,58 @@ void main() {
     );
 
   });
+  
+  group('register', () {
+    test(
+      "should perform a POST register request on a URL",
+      () async {
+        when(()=>mockHttpClient.post(
+          urlRegister,
+          headers: headers,
+          body:{
+            'email':'miguel@albanez.com',
+            'password':'123456',
+            'name':'123'
+          })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
+        );
+        await datasource.register('miguel@albanez.com', '123456','123');
+        verifyNever(()=>mockHttpClient.post(urlRegister,headers:headers));
+
+      },
+    );
+    test(
+      "should perform a POST register request on a URL are equal",
+      () async {
+        when(()=>mockHttpClient.post(
+          urlRegister,
+          headers: headers,
+          body:{
+            'email':'miguel@albanez.com',
+            'password':'123456',
+            'name':'123',
+          })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
+        );
+        final result = await datasource.register('miguel@albanez.com', '123456', '123');
+        expect(result, equals(user));
+
+      },
+    );
+    test(
+      "should throw a serverException when the response code is 500 of register",
+      () async {
+        when(()=>mockHttpClient.post(
+          urlRegister,
+          headers: headers,
+          body:{
+            'email':'miguel@albanez.com',
+            'password':'123456',
+            'name':'123'
+          })).thenAnswer((_) async => http.Response('Server error',500));
+          final call=datasource.register('miguel@albanez.com', '123456','123');
+          expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+
+  });
+  
 }

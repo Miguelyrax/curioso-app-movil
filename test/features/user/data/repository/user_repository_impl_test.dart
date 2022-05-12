@@ -32,4 +32,13 @@ void main() {
       expect(result, equals(const Right(data)));
     },
   );
+  test(
+    "should return data when the call to remote data source of register is success",
+    () async {
+      when(()=>mockUserDataSource.register('miguel@albanez.com','123','123')).thenAnswer((_) async => data);
+      final result = await repository.register('miguel@albanez.com','123','123');
+      verify(()=>mockUserDataSource.register('miguel@albanez.com','123','123'));
+      expect(result, equals(const Right(data)));
+    },
+  );
 }
