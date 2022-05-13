@@ -1,7 +1,7 @@
 
 import 'package:curioso_app/features/instruments/data/datasource/instrument_remote_data_source.dart';
 import 'package:curioso_app/features/instruments/domain/repositories/instrument_repository.dart';
-import 'package:curioso_app/features/instruments/domain/usecases/getInstrument.dart';
+import 'package:curioso_app/features/instruments/domain/usecases/get_instrument.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_detail.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_historical_data.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
@@ -28,6 +28,7 @@ import 'package:http/http.dart' as http;
 
 import 'features/instruments/data/repositories/instrument_repository_impl.dart';
 import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
+import 'features/news/presentation/bloc/general-news/generalnews_bloc.dart';
 import 'features/user/data/repository/user_repository_impl.dart';
 final locator = GetIt.instance;
 
@@ -37,7 +38,8 @@ void init(){
   locator.registerFactory(() => InstrumentBloc(locator()));
   locator.registerFactory(() => DetailBloc(locator()));
   locator.registerFactory(() => HistoricaldataBloc(locator()));
-  locator.registerFactory(() => NewsBloc(getNewsGeneral: locator(), getNewsSymbol: locator()));
+  locator.registerFactory(() => NewsBloc(getNewsSymbol: locator()));
+  locator.registerFactory(() => GeneralnewsBloc(getNewsGeneral: locator()));
   locator.registerFactory(() => UserBloc(locator(),locator()));
 
   //usecase

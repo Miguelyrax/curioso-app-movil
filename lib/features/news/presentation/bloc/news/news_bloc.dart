@@ -10,22 +10,12 @@ part 'news_event.dart';
 part 'news_state.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
-  final GetNewsGeneral getNewsGeneral;
   final GetNewsSymbol getNewsSymbol;
   NewsBloc({
-  required this.getNewsGeneral, 
   required this.getNewsSymbol
   }) : super(NewsInitial()) {
     on<NewsEvent>((event, emit) {
       
-    });
-    on<NewsLoaded>((event,emit)async{
-      emit(NewsLoading());
-      final result=await getNewsGeneral.execute(NoParams());
-      result.fold(
-        (failure) => emit(const NewsError('Error al cargar las noticias')),
-        (data) => emit(NewsHasData(data))
-      );
     });
     on<NewsLoadedSymbol>((event,emit)async{
       emit(NewsLoading());

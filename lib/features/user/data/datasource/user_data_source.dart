@@ -8,7 +8,7 @@ import '../models/user_model.dart';
 
 abstract class UserDataSource{
   Future<UserModel> login(String email, String password);
-  Future<UserModel> register(String email, String password, String user);
+  Future<UserModel> register(String email, String password, String name);
 }
 
 class UserDataSourceImpl extends UserDataSource{
@@ -26,7 +26,6 @@ class UserDataSourceImpl extends UserDataSource{
           'Content-type':'application/json; charset=utf-8'
         },body:json.encode(data));
     if(resp.statusCode==200){
-      print(resp.body);
       final UserModel user=UserModel.fromJson(jsonDecode(const Utf8Decoder().convert(resp.bodyBytes)));
       return user;
     }
@@ -47,7 +46,6 @@ class UserDataSourceImpl extends UserDataSource{
           'Content-type':'application/json; charset=utf-8'
     },body:json.encode(data));
     if(resp.statusCode==200){
-      print(resp.body);
       final UserModel user=UserModel.fromJson(jsonDecode(const Utf8Decoder().convert(resp.bodyBytes)));
       return user;
     }else if(resp.statusCode==404){

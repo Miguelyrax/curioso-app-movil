@@ -18,7 +18,6 @@ class PerfilScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text('Bienvenido',
               style:Theme.of(context)
@@ -37,13 +36,13 @@ class PerfilScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               )
         ),
-        const SizedBox(height: 8,),
+        const SizedBox(height: 16,),
         Text('Aquí podras encontrar los datos relacionados a tu perfil.',
               style:Theme.of(context)
               .textTheme
-              .headline6!.copyWith(color: CuriosityColors.gray)
+              .headline5!.copyWith(color: CuriosityColors.gray)
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(height: 64,),
         RowPerfil(
           title: data.name,
           danger: false,

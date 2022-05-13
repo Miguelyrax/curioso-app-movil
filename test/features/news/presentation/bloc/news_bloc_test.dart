@@ -21,7 +21,7 @@ void main() {
     mockGetNewsGeneral = MockGetNewsGeneral();
     mockGetNewsSymbol = MockGetNewsSymbol();
     bloc = NewsBloc(
-      getNewsGeneral: mockGetNewsGeneral,
+      // getNewsGeneral: mockGetNewsGeneral,
       getNewsSymbol: mockGetNewsSymbol
     );
   });

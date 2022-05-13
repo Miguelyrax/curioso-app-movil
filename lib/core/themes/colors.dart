@@ -18,6 +18,7 @@ class CuriosityColors {
   static const Color  dark2         = Color(0xff1A212B);
   static const Color  sunsetOrange  = Color(0xffFF5651);
   static const Color  smokeyGrey    = Color(0xff6B7076);
+  static const Color  plate         = Color(0xff1F374E);
   static LinearGradient get gradientDefaultChart  => _getGradientChart(crystalblue);
   static LinearGradient _getGradientChart( Color ? color ) {
     return LinearGradient(

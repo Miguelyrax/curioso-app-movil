@@ -47,7 +47,7 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
                 child: Row(
                   children: [
                     Expanded(
-                      child:Text(widget.title,style: TextStyle(color:isSelected?const Color(0xff1CBD88): Color(0xffE0E0E0)),)
+                      child:Text(widget.title,style: TextStyle(color:isSelected?const Color(0xff1CBD88):const Color(0xffE0E0E0)),)
                     ),
                     const SizedBox(width: 5,),
                     Stack(

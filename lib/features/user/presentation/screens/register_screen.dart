@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/themes/colors.dart';
+import '../../../../core/ui/custom_appbar.dart';
 import '../../../../routes.dart';
 import '../widgets/custom_field.dart';
 
@@ -31,7 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController ctrlUsuario = TextEditingController();
   final TextEditingController ctrlConfirmPassword = TextEditingController();
   final GlobalKey<FormState> _key= GlobalKey<FormState>();
-  List<bool> _validatorControl = [false, false, false, false];
+  final List<bool> _validatorControl = [false, false, false, false];
   @override
   void initState() {
     focusEmail=FocusNode()..addListener(_listereEmail);
@@ -111,9 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
         child: Scaffold(
           backgroundColor: CuriosityColors.dark,
-          appBar: AppBar(
-            backgroundColor: CuriosityColors.blackbeige,
-          ),
+          appBar: customAppbar(context),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -232,23 +231,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 63,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
+                          backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+                            if (states.contains(MaterialState.disabled)) {
+                              return CuriosityColors.graychetau; // Disabled color
+                            }
+                            return CuriosityColors.orangered; // Regular color
+                            }
+                          )
                         ),
                         onPressed:!isValid?null: (){
                           if(validateForm()){
                             blocProvider.add(OnUserRegister(email: ctrlEmail.text, password: ctrlPassword.text, name: ctrlUsuario.text));
                           }
                       }, child: const Text('Crear cuenta')),
-              ),
-              const SizedBox(
+                ),
+                const SizedBox(
                   height: 16,
                 ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.pop(context);
-                  AppNavigator.push(Routes.auth);
-                },
-                child: SizedBox(
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                    AppNavigator.push(Routes.auth);
+                  },
+                  child: SizedBox(
                     width: double.infinity,
                     child: Text(
                       '¿Ya tienes una cuenta?',
@@ -260,7 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         )
                     )
                   ),
-              ),
+                ),
               ],
                 ),
             ),
@@ -269,6 +274,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       
     );
   }
+
+
 
   bool validateForm(){
     return _key.currentState?.validate()??false;

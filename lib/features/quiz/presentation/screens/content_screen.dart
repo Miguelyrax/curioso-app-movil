@@ -51,7 +51,7 @@ class _ContentScreenState extends State<ContentScreen> {
             const SizedBox(height: 4,),
             SizedBox(
               width:double.infinity,
-              child: Text('0${indice+1}/0${questions.length}',textAlign: TextAlign.end,style: TextStyle(color: Color(0xff1CBD88)),),
+              child: Text('0${indice+1}/0${questions.length}',textAlign: TextAlign.end,style: const TextStyle(color: Color(0xff1CBD88)),),
             ),
             const SizedBox(height: 16,),
             Flexible(
@@ -78,7 +78,7 @@ class _ContentScreenState extends State<ContentScreen> {
                             groupValue: widget.state.answer,
                             onChanged: (Answer? value) { 
                               final map={
-                                "${state.questions[index].id}":state.questions[index].answer[i].id
+                                state.questions[index].id:state.questions[index].answer[i].id
                               };
                               blocProvider.add(OnAnswerSelected(answer:state.questions[index].answer[i],data: map));
                             },

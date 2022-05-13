@@ -12,7 +12,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final Register register;
   UserBloc(this.login, this.register) : super(UserInitial()) {
     on<UserEvent>((event, emit) {
-      // TODO: implement event handler
     });
     on<OnUserLoaded>((event,emit)async{
       emit(UserLoading());

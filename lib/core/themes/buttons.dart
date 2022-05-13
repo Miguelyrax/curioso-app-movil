@@ -19,7 +19,7 @@ class CuriosityCustomButtons {
       }),
       backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
         if (states.contains(MaterialState.disabled)) {
-          return CuriosityColors.dark; // Disabled color
+          return CuriosityColors.graychetau; // Disabled color
         }
         return CuriosityColors.beige; // Regular color
       }),

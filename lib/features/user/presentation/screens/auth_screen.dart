@@ -1,8 +1,11 @@
 import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
+import 'package:curioso_app/features/user/presentation/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/themes/colors.dart';
+import '../../../../core/ui/custom_appbar.dart';
+import '../../../../core/usecases/validator.dart';
 import '../../../../routes.dart';
 
 
@@ -15,9 +18,43 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  late FocusNode focusEmail;
+  late FocusNode focusPassword;
+  final List<bool> _validatorControl = [false, false];
+  final GlobalKey<FormFieldState> fieldKeyEmail= GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> fieldKeyPassword= GlobalKey<FormFieldState>();
   final TextEditingController ctrlEmail = TextEditingController();
   final TextEditingController ctrlPassword = TextEditingController();
   final GlobalKey<FormState> _key= GlobalKey<FormState>();
+  @override
+  void initState() {
+    focusEmail=FocusNode()..addListener(_listenerEmail);
+    focusPassword=FocusNode()..addListener(_listenerPassword);
+    super.initState();
+    
+  }
+
+  @override
+  void dispose() {
+    focusEmail.removeListener(_listenerEmail);
+    focusPassword.removeListener(_listenerPassword);
+    focusEmail.dispose();
+    focusPassword.dispose();
+    super.dispose();
+  }
+
+  void _listenerPassword() {
+    if(!focusEmail.hasFocus){
+      fieldKeyEmail.currentState?.validate();
+    }
+   }
+
+  void _listenerEmail() {
+    if(!focusPassword.hasFocus){
+      fieldKeyPassword.currentState?.validate();
+    }
+   }
+   bool isEnable = false;
   @override
   Widget build(BuildContext context) {
     final blocProvider=BlocProvider.of<UserBloc>(context,listen: false);
@@ -25,18 +62,32 @@ class _AuthScreenState extends State<AuthScreen> {
       listener: (context,state) {
         if(state is UserHasData){
           Navigator.pop(context);
+          isEnable=false;
+          setState(() {
+            
+          });
+        }
+        if(state is UserError){
+          isEnable=true;
+          setState(() {
+            
+          });
         }
       },
         child: Scaffold(
           backgroundColor: CuriosityColors.dark,
-          appBar: AppBar(
-            backgroundColor: CuriosityColors.blackbeige,
-          ),
+          appBar: customAppbar(context),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _key,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+              onChanged: ()async{
+                await Future.delayed(const Duration(milliseconds:100));
+                isEnable = _validatorControl.every((e) => e==true);
+                setState(() {
+                  
+                });
+              },
               child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,40 +105,40 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                Text(
-                  'Email',
-                  style: Theme.of(context).textTheme.headline4!.copyWith(),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                TextFormField(
+                CustomInput(
+                  fieldKey: fieldKeyEmail,
+                  focusNode: focusEmail,
                   controller: ctrlEmail,
-                  validator: (value){
-                    if(value?.isEmpty??true){
-                      return 'Ingrese email';
+                  label: 'Email',
+                  placeholderText: 'Email',
+                  keyboardType: TextInputType.emailAddress,
+                  validator:(value){
+                    final result=Validator().emailValidator(value);
+                    if(result==null){
+                       _validatorControl[0]=true;
+                      return result;
                     }else{
-                      return null;
+                       _validatorControl[0]=false;
+                       return result;
                     }
                   },
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                Text(
-                  'Password',
-                  style: Theme.of(context).textTheme.headline4!.copyWith(),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                TextFormField(
+                CustomInput(
+                  label: 'Password',
+                  fieldKey: fieldKeyPassword,
+                  focusNode: focusPassword,
                   obscureText: true,
                   controller: ctrlPassword,
+                  placeholderText: '*******',
                   validator: (value){
                     if(value?.isEmpty??true){
+                      _validatorControl[1]=false;
                       return 'Ingrese password';
                     }else{
+                      _validatorControl[1]=true;
                       return null;
                     }
                   },
@@ -110,21 +161,22 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                BlocBuilder<UserBloc, UserState>(
-                  builder: (context, state) {
-                    return SizedBox(
-                      height: 63,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed:state is UserLoading?null: () {
-                            if(validateForm()){
-                            blocProvider.add(OnUserLoaded(
-                                email: ctrlEmail.text, password: ctrlPassword.text));
-                            }
-                          },
-                          child:Text(state is UserLoading?'Cargando...':'Iniciar sesión')),
-                    );
-                  },
+                SizedBox(
+                  height: 63,
+                  width: double.infinity,
+                  child: 
+                  ElevatedButton(
+                      onPressed:!isEnable?null: () {
+                        if(validateForm()){
+                            blocProvider.add(
+                              OnUserLoaded(
+                                email: ctrlEmail.text, password: ctrlPassword.text
+                              )
+                            );
+                          }
+                        },
+                      child:const Text('Iniciar sesión')
+                  ),
                 ),
                 const SizedBox(
                   height: 16,
@@ -138,7 +190,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         onPressed: (){
                           Navigator.pop(context);
-                    AppNavigator.push(Routes.register);
+                          AppNavigator.push(Routes.register);
                       }, child: const Text('Hazte una cuenta')),
               )
               ],

@@ -10,7 +10,7 @@ class CuriosityInputs {
   );
 
   static final OutlineInputBorder _customBorder = OutlineInputBorder(
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: CuriosityColors.riverBed,
         width: 1,
       ),
@@ -30,11 +30,11 @@ class CuriosityInputs {
             )
         ),
         errorBorder: _customBorder.copyWith(
-            borderSide: BorderSide(
+            borderSide:const BorderSide(
               color: CuriosityColors.sunsetOrange
             )
         ),
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           color: CuriosityColors.sunsetOrange
         ),
         contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0)

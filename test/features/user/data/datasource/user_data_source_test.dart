@@ -10,11 +10,13 @@ import 'package:http/http.dart' as http;
 import '../../../../fixture/fixture_reader.dart';
 
 class MockHttpClient extends Mock implements http.Client{}
+ class FakeUri extends Fake implements Uri {}
 void main() {
   late MockHttpClient mockHttpClient;
   late UserDataSourceImpl datasource;
 
   setUp(() {
+    registerFallbackValue(FakeUri());
     mockHttpClient = MockHttpClient();
     datasource = UserDataSourceImpl(mockHttpClient);
   });
@@ -28,13 +30,7 @@ void main() {
     test(
       "should perform a POST login request on a URL",
       () async {
-        when(()=>mockHttpClient.post(
-          url,
-          headers: headers,
-          body:{
-            'email':'miguel@albanez.com',
-            'password':'123456',
-          })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
+        when(()=>mockHttpClient.post(any(), body: any(named: 'body'))).thenAnswer((_) async => http.Response(fixture('user.json'),200)
         );
         await datasource.login('miguel@albanez.com', '123456');
         verifyNever(()=>mockHttpClient.post(url,headers:headers));
@@ -60,15 +56,9 @@ void main() {
     test(
       "should throw a serverException when the response code is 500",
       () async {
-        when(()=>mockHttpClient.post(
-          url,
-          headers: headers,
-          body:{
-            'email':'miguel@albanez.com',
-            'password':'123456',
-          })).thenAnswer((_) async => http.Response('Server error',500));
+        when(()=>mockHttpClient.post(any(), body: any(named: 'body'))).thenAnswer((_) async => http.Response('Server error',500));
           final call=datasource.login('miguel@albanez.com', '123456');
-          expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
+          expect(()async=>await call, throwsA(isA<ServerException>()));
       },
     );
 

@@ -14,6 +14,7 @@ class InstrumentosScreen extends StatefulWidget {
 class _InstrumentosScreenState extends State<InstrumentosScreen> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(

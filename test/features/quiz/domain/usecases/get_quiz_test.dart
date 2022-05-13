@@ -1,7 +1,7 @@
 
 
 import 'package:curioso_app/core/usecases/usecase.dart';
-import 'package:curioso_app/features/quiz/domain/entities/answer.dart' as Ans;
+import 'package:curioso_app/features/quiz/domain/entities/answer.dart' as ans;
 import 'package:curioso_app/features/quiz/domain/entities/question.dart';
 import 'package:curioso_app/features/quiz/domain/entities/quiz.dart';
 import 'package:curioso_app/features/quiz/domain/repositories/quiz_repository.dart';
@@ -22,7 +22,7 @@ void main(){
     mockQuizRepository=MockQuizRepository();
     useCase=GetQuiz(mockQuizRepository);
   });
-  const answer=Ans.Answer(
+  const answer=ans.Answer(
     id: '1',
     description:'Limitada, tengo poca experiencia en inversiones'
   );

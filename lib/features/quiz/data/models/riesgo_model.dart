@@ -22,6 +22,7 @@ class RiesgoModel extends Riesgo {
         icon: json["icon"],
     );
 
+    @override
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,

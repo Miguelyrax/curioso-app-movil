@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:curioso_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
 class RowPerfil extends StatefulWidget {
   const RowPerfil({
     Key? key,

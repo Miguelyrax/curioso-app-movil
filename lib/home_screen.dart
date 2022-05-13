@@ -2,6 +2,7 @@ import 'package:curioso_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'core/ui/bottom_navigation_bar.dart';
 import 'features/instruments/presentation/screens/instrumentos_screen.dart';
+import 'features/news/presentation/screens/news_screen.dart';
 import 'features/user/presentation/screens/login_screen.dart';
 
 
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   LoginScreen(),
                   const InstrumentosScreen(),
+                  const NewsScreen()
                 ],
               ),
             ),

@@ -22,9 +22,7 @@ class NewsDataSourceImpl extends NewsDatasource{
     });
     if (resp.statusCode == 200) {
       List<NewsModel> lista=[];
-      print(resp.body);
       final List<dynamic> data =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
-      print(data);
       for (var element in data) { 
         Map<String,dynamic> map = element;
         lista.add(NewsModel.fromJson(map));
@@ -43,9 +41,7 @@ class NewsDataSourceImpl extends NewsDatasource{
     });
     if (resp.statusCode == 200) {
       List<NewsModel> lista=[];
-      print(resp.body);
       final List<dynamic> data =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
-      print(data);
       for (var element in data) { 
         Map<String,dynamic> map = element;
         lista.add(NewsModel.fromJson(map));

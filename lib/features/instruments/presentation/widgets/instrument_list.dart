@@ -26,7 +26,7 @@ class _InstrumentListState extends State<InstrumentList> {
   @override
   Widget build(BuildContext context) {
     final detailBloc=BlocProvider.of<DetailBloc>(context,listen: false);
-    final HistoricalBloc=BlocProvider.of<HistoricaldataBloc>(context,listen: false);
+    final historicalBloc=BlocProvider.of<HistoricaldataBloc>(context,listen: false);
     return BlocBuilder<InstrumentBloc, InstrumentState>(
       builder: (context, state) {
         if(state is InstrumentLoading){
@@ -52,7 +52,7 @@ class _InstrumentListState extends State<InstrumentList> {
                 return GestureDetector(
                   onTap: (){
                     detailBloc.add(OnDetailLoaded(state.instruments[index].symbol));
-                    HistoricalBloc.add(OnHistoricalDataLoaded(state.instruments[index].symbol));
+                    historicalBloc.add(OnHistoricalDataLoaded(state.instruments[index].symbol));
                     AppNavigator.push(Routes.detail);
                   },
                   child: Container(

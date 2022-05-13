@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:async';
 
 class Utils {
-  static const _locale = 'en';
 
   double roundDouble(dynamic value, int places) {
     // double.parse(value.toStringAsFixed(places));

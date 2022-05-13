@@ -77,12 +77,11 @@ class MyPainter extends CustomPainter {
     ..strokeWidth=2;
 
      final path = Path();
-     path.moveTo(0, 20);
      path.quadraticBezierTo(size.width*.2, 0, size.width*.35, 0);
      path.quadraticBezierTo(size.width*.4, 0, size.width*.4, 20);
      path.arcToPoint(Offset(size.width*.6, 20),radius: const Radius.circular(10.0),clockwise: false);
      path.quadraticBezierTo(size.width*.6, 0, size.width*.65, 0);
-     path.quadraticBezierTo(size.width*.8, 0, size.width, 20);
+     path.quadraticBezierTo(size.width, 0, size.width, 0);
      path.lineTo(size.width, size.height);
      path.lineTo(0, size.height);
      path.close();

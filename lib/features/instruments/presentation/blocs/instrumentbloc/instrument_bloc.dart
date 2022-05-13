@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:curioso_app/core/usecases/usecase.dart';
-import 'package:curioso_app/features/instruments/domain/usecases/getInstrument.dart';
+import 'package:curioso_app/features/instruments/domain/usecases/get_instrument.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/instrument.dart';
