@@ -30,3 +30,5 @@ class OnUserRegister extends UserEvent{
     }
   );
 }
+
+class OnUserRenew extends UserEvent{}

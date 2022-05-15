@@ -1,8 +1,10 @@
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:curioso_app/core/usecases/usecase.dart';
 import 'package:curioso_app/features/user/domain/entities/user.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
 import 'package:curioso_app/features/user/domain/usecases/register.dart';
+import 'package:curioso_app/features/user/domain/usecases/renew.dart';
 import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,15 +12,18 @@ import 'package:mocktail/mocktail.dart';
 
 class MockLogin extends Mock implements Login{}
 class MockRegister extends Mock implements Register{}
+class MockRenew extends Mock implements Renew{}
 void main() {
   late MockLogin mockLogin;
   late MockRegister mockRegister;
+  late MockRenew mockRenew;
   late UserBloc bloc;
 
   setUp(() {
     mockLogin = MockLogin();
     mockRegister = MockRegister();
-    bloc = UserBloc(mockLogin,mockRegister);
+    mockRenew = MockRenew();
+    bloc = UserBloc(mockLogin,mockRegister,mockRenew);
   });
 
   test(
@@ -62,6 +67,37 @@ void main() {
       ],
       verify: (UserBloc uBloc){
        verify(()=>mockLogin.execute(userParams));
+      }
+      
+      );
+
+  });
+  group(
+    'renew', (){
+      test(
+        "should get data from usecase renew",
+        () async {
+          when(()=>mockRenew.execute(NoParams()))
+          .thenAnswer((_) async => const Right(data));
+          bloc.add( OnUserRenew());
+          await untilCalled(()=>mockRenew.execute(NoParams()));
+          verify(()=>mockRenew.execute(NoParams()));
+        },
+      );
+
+      blocTest('should emit [loading,has data] when data from renew is gotten successfully',
+      build: (){
+        when(()=>mockRenew.execute(NoParams())).thenAnswer((_) async=> const Right(data));
+        return bloc;
+      },
+      act: (UserBloc uBloc)=>uBloc.add(OnUserRenew()),
+      wait: const Duration(milliseconds: 500),
+      expect: ()=>[
+        UserLoading(),
+        const UserHasData(data)
+      ],
+      verify: (UserBloc uBloc){
+       verify(()=>mockRenew.execute(NoParams()));
       }
       
       );

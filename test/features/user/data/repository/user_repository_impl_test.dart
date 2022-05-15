@@ -41,4 +41,13 @@ void main() {
       expect(result, equals(const Right(data)));
     },
   );
+  test(
+    "should return data when the call to remote data source of renew is success",
+    () async {
+      when(()=>mockUserDataSource.renew()).thenAnswer((_) async => data);
+      final result = await repository.renew();
+      verify(()=>mockUserDataSource.renew());
+      expect(result, equals(const Right(data)));
+    },
+  );
 }

@@ -35,4 +35,18 @@ class UserRepositoryImpl extends UserRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, User>> renew() async{
+    try {
+      final result = await datasource.renew();
+      return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure('Error del servidor'));
+    }on SocketException{
+      return const Left(ConnectionFailure('Error de conexión'));
+    }on DatabaseFailure{
+      return const Left(DatabaseFailure('Error del servidor'));
+    }
+  }
+
 }

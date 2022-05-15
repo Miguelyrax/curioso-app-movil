@@ -22,7 +22,9 @@ import 'package:curioso_app/features/user/data/datasource/user_data_source.dart'
 import 'package:curioso_app/features/user/domain/repository/user_repository.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
 import 'package:curioso_app/features/user/domain/usecases/register.dart';
+import 'package:curioso_app/features/user/domain/usecases/renew.dart';
 import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
@@ -40,7 +42,7 @@ void init(){
   locator.registerFactory(() => HistoricaldataBloc(locator()));
   locator.registerFactory(() => NewsBloc(getNewsSymbol: locator()));
   locator.registerFactory(() => GeneralnewsBloc(getNewsGeneral: locator()));
-  locator.registerFactory(() => UserBloc(locator(),locator()));
+  locator.registerFactory(() => UserBloc(locator(),locator(),locator()));
 
   //usecase
   locator.registerLazySingleton(() => GetQuiz(locator()));
@@ -52,6 +54,7 @@ void init(){
   locator.registerLazySingleton(() => GetNewsSymbol(locator()));
   locator.registerLazySingleton(() => Login(locator()));
   locator.registerLazySingleton(() => Register(locator()));
+  locator.registerLazySingleton(() => Renew(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 
@@ -86,9 +89,10 @@ void init(){
     NewsDataSourceImpl(locator())
   );
   locator.registerLazySingleton<UserDataSource>(() => 
-    UserDataSourceImpl(locator())
+    UserDataSourceImpl(locator(),locator())
   );
 
   //external
   locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => const FlutterSecureStorage());
 }
