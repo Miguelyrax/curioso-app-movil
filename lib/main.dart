@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/themes/themes.dart';
 import 'features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
+import 'features/instruments/presentation/blocs/favourites/favourites_bloc.dart';
 import 'features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
 import 'features/news/presentation/bloc/general-news/generalnews_bloc.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_)=>di.locator<NewsBloc>()),
         BlocProvider(create: (_)=>di.locator<GeneralnewsBloc>()),
         BlocProvider(create: (_)=>di.locator<UserBloc>()),
+        BlocProvider(create: (_)=>di.locator<FavouritesBloc>()),
       ],
       child: MaterialApp(
         theme: ThemeData(

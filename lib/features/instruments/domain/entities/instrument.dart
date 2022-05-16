@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 
 class Instrument extends Equatable{
     const Instrument({
+        required this.id,
         required this.name,
         required this.symbol,
         required this.hasIntraday,
@@ -12,7 +13,7 @@ class Instrument extends Equatable{
         required this.country,
         required this.stockExchange,
     });
-
+    final String id;
     final String name;
     final String symbol;
     final bool hasIntraday;
@@ -22,6 +23,7 @@ class Instrument extends Equatable{
 
   @override
   List<Object?> get props => [
+  id,
   name,
   symbol,
   hasIntraday,

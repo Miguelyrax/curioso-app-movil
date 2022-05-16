@@ -5,6 +5,7 @@ import 'package:curioso_app/features/user/domain/usecases/login.dart';
 import 'package:curioso_app/features/user/domain/usecases/register.dart';
 import 'package:curioso_app/features/user/domain/usecases/renew.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -43,6 +44,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         (failure) => emit(UserError(failure.message)),
         (data) => emit(UserHasData(data))
       );
+    });
+    on<OnUserLogout>((event,emit)async{
+      emit(UserLoading());
+      const FlutterSecureStorage _storage=FlutterSecureStorage();
+      await _storage.deleteAll();
+      emit(UserInitial());
     });
 
   }

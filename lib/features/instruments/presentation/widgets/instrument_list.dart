@@ -1,3 +1,4 @@
+import 'package:curioso_app/features/instruments/domain/entities/instrument.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/themes/colors.dart';
 import '../../../../routes.dart';
 import '../blocs/instrumentbloc/instrument_bloc.dart';
+import 'card_widget.dart';
 
 class InstrumentList extends StatefulWidget {
   const InstrumentList({
@@ -55,51 +57,7 @@ class _InstrumentListState extends State<InstrumentList> {
                     historicalBloc.add(OnHistoricalDataLoaded(state.instruments[index].symbol));
                     AppNavigator.push(Routes.detail);
                   },
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: CuriosityColors.blackbeige
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(state.instruments[index].name,
-                                  style: Theme.of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: CuriosityColors.beige)
-                              ),
-                              Text(state.instruments[index].symbol,
-                                style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(color: CuriosityColors.gray)
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text('322,83',
-                                style: Theme.of(context).textTheme.headline5!
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: CardWidget(instrument: state.instruments[index],),
                 );
               }, childCount: state.instruments.length)
         );
@@ -110,3 +68,4 @@ class _InstrumentListState extends State<InstrumentList> {
     );
   }
 }
+

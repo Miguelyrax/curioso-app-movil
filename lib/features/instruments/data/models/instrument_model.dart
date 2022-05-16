@@ -4,6 +4,7 @@ import 'package:curioso_app/features/instruments/domain/entities/instrument.dart
 
 class InstrumentModel extends Instrument{
     const InstrumentModel({
+        required String id,
         required String name,
         required String symbol,
         required bool hasIntraday,
@@ -11,6 +12,7 @@ class InstrumentModel extends Instrument{
         required dynamic country,
         required StockExchangeModel stockExchange,
     }) : super(
+          id:id,
           name:name,
           symbol:symbol,
           hasIntraday:hasIntraday,
@@ -20,6 +22,7 @@ class InstrumentModel extends Instrument{
     );
 
     factory InstrumentModel.fromJson(Map<String, dynamic> json) => InstrumentModel(
+        id: json["id"]??json["_id"],
         name: json["name"],
         symbol: json["symbol"],
         hasIntraday: json["has_intraday"],

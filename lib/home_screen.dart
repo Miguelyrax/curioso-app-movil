@@ -1,8 +1,11 @@
 import 'package:curioso_app/core/themes/colors.dart';
+import 'package:curioso_app/core/ui/custom_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/ui/bottom_navigation_bar.dart';
 import 'features/instruments/presentation/screens/instrumentos_screen.dart';
 import 'features/news/presentation/screens/news_screen.dart';
+import 'features/user/presentation/bloc/user_bloc.dart';
 import 'features/user/presentation/screens/login_screen.dart';
 
 
@@ -22,8 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final userBloc = BlocProvider.of<UserBloc>(context,listen: true);
     return  SafeArea(
       child: Scaffold(
+        drawer:userBloc.state is UserHasData? const CustomDrawer():null,
         backgroundColor: CuriosityColors.dark,
         body: Stack(
           children: [
