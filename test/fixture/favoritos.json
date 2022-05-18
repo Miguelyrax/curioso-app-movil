@@ -1,0 +1,359 @@
+[
+    {
+        "favorito": {
+            "_id": "62814bb95fd560329705c149",
+            "name": "Microsoft Corporation",
+            "symbol": "MSFT",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6281540d54210008b99885bd"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbb5fd560329705c14b",
+            "name": "Apple Inc",
+            "symbol": "AAPL",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6281562cee22c301555e77ce"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbc5fd560329705c14d",
+            "name": "Amazon.com Inc",
+            "symbol": "AMZN",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282d73af463b59591d1feb5"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbc5fd560329705c14f",
+            "name": "Alphabet Inc - Class C",
+            "symbol": "GOOG",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282da4051514ef06b045509"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbc5fd560329705c155",
+            "name": "Meta Platforms Inc - Class A",
+            "symbol": "FB",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e68df5694b9bdb5107cd"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbd5fd560329705c165",
+            "name": "Mastercard Incorporated - Class A",
+            "symbol": "MA",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "New York Stock Exchange",
+                "acronym": "NYSE",
+                "mic": "XNYS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nyse.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e72ff5694b9bdb5107e4"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbe5fd560329705c16f",
+            "name": "Roche Holding AG",
+            "symbol": "RHHVF",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "OTC Markets",
+                "acronym": "",
+                "mic": "OTCM",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.otcmarkets.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e73ff5694b9bdb5107ec"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbf5fd560329705c177",
+            "name": "Home Depot Inc",
+            "symbol": "HD",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "New York Stock Exchange",
+                "acronym": "NYSE",
+                "mic": "XNYS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nyse.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e77df5694b9bdb5107f9"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbf5fd560329705c17b",
+            "name": "Coca-Cola Company",
+            "symbol": "KO",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "New York Stock Exchange",
+                "acronym": "NYSE",
+                "mic": "XNYS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nyse.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e7c4f5694b9bdb510808"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbc5fd560329705c151",
+            "name": "Alphabet Inc - Class A",
+            "symbol": "GOOGL",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e8e3f5694b9bdb510826"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbc5fd560329705c157",
+            "name": "BERKSHIRE HATHAWAY INC",
+            "symbol": "BRK.B",
+            "has_intraday": false,
+            "has_eod": false,
+            "country": null,
+            "stock_exchange": {
+                "name": "New York Stock Exchange",
+                "acronym": "NYSE",
+                "mic": "XNYS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nyse.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e9adf5694b9bdb510835"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbd5fd560329705c15b",
+            "name": "Vodafone Group plc",
+            "symbol": "VOD",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e9bcf5694b9bdb510842"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbe5fd560329705c167",
+            "name": "Procter & Gamble Company",
+            "symbol": "PG",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "New York Stock Exchange",
+                "acronym": "NYSE",
+                "mic": "XNYS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nyse.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e9c7f5694b9bdb51084a"
+    },
+    {
+        "favorito": {
+            "_id": "62814bc65fd560329705c1d9",
+            "name": "Broadcom Inc",
+            "symbol": "AVGO",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282e9d8f5694b9bdb51084f"
+    },
+    {
+        "favorito": {
+            "_id": "62814bc05fd560329705c18d",
+            "name": "PepsiCo Inc",
+            "symbol": "PEP",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "NASDAQ Stock Exchange",
+                "acronym": "NASDAQ",
+                "mic": "XNAS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nasdaq.com"
+            },
+            "__v": 0
+        },
+        "id": "6282ea46f5694b9bdb510854"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbd5fd560329705c15f",
+            "name": "JPMorgan Chase & Company",
+            "symbol": "JPM",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "New York Stock Exchange",
+                "acronym": "NYSE",
+                "mic": "XNYS",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.nyse.com"
+            },
+            "__v": 0
+        },
+        "id": "62830ef77e812dcb4bf122a3"
+    },
+    {
+        "favorito": {
+            "_id": "62814bbe5fd560329705c16d",
+            "name": "Roche Holding AG",
+            "symbol": "RHHBF",
+            "has_intraday": false,
+            "has_eod": true,
+            "country": null,
+            "stock_exchange": {
+                "name": "OTC Markets",
+                "acronym": "",
+                "mic": "OTCM",
+                "country": "USA",
+                "country_code": "US",
+                "city": "New York",
+                "website": "www.otcmarkets.com"
+            },
+            "__v": 0
+        },
+        "id": "6283a3017e812dcb4bf1232b"
+    }
+]

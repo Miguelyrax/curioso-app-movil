@@ -1,0 +1,21 @@
+{
+    "favorito": {
+        "_id": "62814bb95fd560329705c149",
+        "name": "Microsoft Corporation",
+        "symbol": "MSFT",
+        "has_intraday": false,
+        "has_eod": true,
+        "country": null,
+        "stock_exchange": {
+            "name": "NASDAQ Stock Exchange",
+            "acronym": "NASDAQ",
+            "mic": "XNAS",
+            "country": "USA",
+            "country_code": "US",
+            "city": "New York",
+            "website": "www.nasdaq.com"
+        },
+        "__v": 0
+    },
+    "id": "6281540d54210008b99885bd"
+}

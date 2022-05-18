@@ -1,5 +1,4 @@
 
-
 import 'package:curioso_app/core/error/failure.dart';
 import 'package:curioso_app/features/instruments/domain/entities/detail_instrument.dart';
 import 'package:curioso_app/features/instruments/domain/entities/favourites.dart';

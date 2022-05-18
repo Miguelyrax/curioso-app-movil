@@ -74,16 +74,15 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
 
   @override
   Future<List<FavouritesModel>> getFavourites() async{
-    List<FavouritesModel> favoritos=[];
+    
     final token=await storage.read(key: 'token');
     final url = Uri.parse('${Constants.baseURL}/api/favorito/');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json',
       'x-token':token.toString()
     });
-    print(resp.statusCode);
-    print(resp.body);
     if (resp.statusCode == 200) {
+      List<FavouritesModel> favoritos=[];
       final List<dynamic> data =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
       for (var favorito in data) { 
       Map<String,dynamic> map = favorito;
@@ -105,7 +104,6 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
       'Content-Type':'application/json',
       'x-token':token.toString()
     });
-    print(resp.statusCode);
     if (resp.statusCode == 200) {
       final Map<String,dynamic> map =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
       final FavouritesModel detail=FavouritesModel.fromJson(map);
