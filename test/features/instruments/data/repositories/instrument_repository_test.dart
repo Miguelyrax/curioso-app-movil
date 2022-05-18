@@ -189,4 +189,51 @@ void main() {
       },
     );
   });
+
+  group('Instruments', (){
+    const data =  [InstrumentModel(
+      id: '62814bb95fd560329705c149',
+      name: 'Microsoft Corporation',
+      symbol: 'MSFT',
+      hasIntraday: false,
+      hasEod: true,
+      country: null,
+      stockExchange: StockExchangeModel(
+        acronym: 'NASDAQ',
+        city: 'New York',
+        country: 'USA',
+        countryCode: 'US',
+        mic: 'XNAS',
+        name: 'NASDAQ Stock Exchange',
+        website: 'www.nasdaq.com',
+        
+      )
+    )];
+    test(
+      "should the call of remote data source is sucess",
+      () async {
+        when(mockDataSource.getInstruments)
+        .thenAnswer((_) async => data);
+        final result = await repository.getInstruments();
+        verify(mockDataSource.getInstruments);
+        expect(result, equals(const Right(data)));
+      },
+    );
+    test(
+      "should return server failure when the call to remote datasource is unsuccessful",
+      () async {
+        when(mockDataSource.getInstruments).thenThrow(ServerException());
+        final result = await repository.getInstruments();
+        expect(result, equals(const Left(ServerFailure('Error del servidor'))));
+      },
+    );
+    test(
+      "should return a connection failure when the device has no internet",
+      () async {
+        when(mockDataSource.getInstruments).thenThrow(const SocketException('Failed to connect to the network'));
+        final result = await repository.getInstruments();
+        expect(result, equals(const Left(ConnectionFailure('Failed to connect to the network'))));
+      },
+    );
+  });
 }

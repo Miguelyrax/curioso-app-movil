@@ -17,7 +17,7 @@ void main() {
   const symbol = 'APPL';
   const data = HistorialData(c: [], h: [], l: [], o: [], s: '123', t: [], v: []);
   test(
-    "should return the ride side from usecase",
+    "should get usecase from repository",
     () async {
       when(()=>mockInstrumentRepository.getHistoricalData(symbol))
       .thenAnswer((_) async => const Right(data));

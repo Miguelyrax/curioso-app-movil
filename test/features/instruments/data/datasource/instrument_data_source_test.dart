@@ -5,6 +5,7 @@ import 'package:curioso_app/features/instruments/data/datasource/instrument_remo
 import 'package:curioso_app/features/instruments/data/models/detail_model.dart';
 import 'package:curioso_app/features/instruments/data/models/favourites_model.dart';
 import 'package:curioso_app/features/instruments/data/models/historical_data_model.dart';
+import 'package:curioso_app/features/instruments/data/models/instrument_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -181,6 +182,43 @@ void main() {
         .thenAnswer((_) async => http.Response('Error',500));
         final call = datasource.getHistoricalData(symbol);
         expect(()async=>await call,throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
+
+  group('Instruments', (){
+    List<InstrumentModel> lista=[];
+    final url= Uri.parse('${Constants.baseURL}/api/instrument/');
+    void setUpMockHttpClient()=>when(()=>mockHttpClient.get(url,headers: headers))
+        .thenAnswer((_) async => http.Response(fixture('instruments.json'),200));
+        final List<dynamic> resp = json.decode(fixture('instruments.json'));
+        for (var instrument in resp) { 
+          Map<String, dynamic> map=instrument;
+          lista.add(InstrumentModel.fromJson(map));
+        }
+    test(
+      "should  perform a Get instrument on a url",
+      () async {
+        setUpMockHttpClient();
+        await datasource.getInstruments();
+        verify(()=>mockHttpClient.get(url,headers: headers));
+      },
+    );
+    test(
+      "should return instrument data when response status is 200",
+      () async {
+        setUpMockHttpClient();
+        final result = await datasource.getInstruments();
+        expect(result, equals(lista));
+      },
+    );
+    test(
+      "should return server failure when the response status is 500 or other",
+      () async {
+        when(()=>mockHttpClient.get(url,headers: headers))
+        .thenAnswer((_) async => http.Response('Error',500));
+        final call = datasource.getInstruments();
+        expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
       },
     );
   });

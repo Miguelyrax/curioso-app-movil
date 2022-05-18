@@ -1,4 +1,5 @@
 import 'package:curioso_app/features/instruments/data/models/historical_data_model.dart';
+import 'package:curioso_app/features/instruments/domain/entities/historical_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -9,9 +10,9 @@ void main() {
   });
 
   test(
-    "should be a subclass of HistorialDataModel",
+    "should be a subclass of HistorialData",
     () async {
-      expect(historialDataModel, isA<HistorialDataModel>());
+      expect(historialDataModel, isA<HistorialData>());
     },
   );
 }

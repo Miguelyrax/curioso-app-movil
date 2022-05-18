@@ -1,4 +1,5 @@
 import 'package:curioso_app/features/instruments/data/models/detail_model.dart';
+import 'package:curioso_app/features/instruments/domain/entities/detail_instrument.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -23,9 +24,9 @@ void main() {
   });
 
   test(
-    "should be a subclass of DetailModel",
+    "should be a subclass of Detail",
     () async {
-      expect(model, isA<DetailModel>());
+      expect(model, isA<Detail>());
     },
   );
 }

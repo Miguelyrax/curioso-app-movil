@@ -19,7 +19,7 @@ void main() {
   const data = 'asd';
 
   test(
-    "should get the right side of repository",
+    "should get usecase from repository",
     () async {
       when(()=>mockInstrumentRepository.postFavourite(data))
       .thenAnswer((_) async => const Right(dataModel));

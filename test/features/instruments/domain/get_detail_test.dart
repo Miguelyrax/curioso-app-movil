@@ -30,7 +30,7 @@ void main() {
     weburl: '123'
   );
   test(
-    "should get the ride side from usecase getDetail",
+    "should get usecase from repository",
     () async {
       when(()=>mockInstrumentRepository.getDetailInstrument(symbol))
       .thenAnswer((_) async =>  Right(data));

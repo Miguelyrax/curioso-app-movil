@@ -21,7 +21,7 @@ void main() {
 
 
   test(
-    "should get the right side of usecase",
+    "should get usecase from repository",
     () async {
       when(()=>mockInstrumentRepository.getFavourites())
       .thenAnswer((_) async =>  Right(data));
