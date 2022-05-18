@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:curioso_app/core/constants/constants.dart';
 import 'package:curioso_app/core/error/exception.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/data/models/user_model.dart';
@@ -25,38 +26,55 @@ void main() {
     datasource = UserDataSourceImpl(mockHttpClient,mockStorage);
   });
   final UserModel user=UserModel.fromJson(jsonDecode(fixture('user.json')));
-  final url=Uri.parse('http://localhost:8080/api/auth/');
-  final urlRegister=Uri.parse('http://localhost:8080/api/auth/register');
-  final urlRenew=Uri.parse('http://localhost:8080/api/auth/renew');
+  final url=Uri.parse('${Constants.baseURL}/api/auth/');
+  final urlRegister=Uri.parse('${Constants.baseURL}/api/auth/register');
+  final urlRenew=Uri.parse('${Constants.baseURL}/api/auth/renew');
   final headers={
-      'Content-type':'application/json; charset=utf-8',
+      'Content-type':'application/json',
   };
+  const token='123';
   final headersRenew={
       'Content-type':'application/json',
-      'x-token':'token'
+      'x-token':token
   };
+  final body = {
+    'email':'miguel@albanez.com',
+    'password':'123456',
+  };
+  final bodyRegister = {
+    'email':'miguel@albanez.com',
+    'password':'123456',
+    'name':'123'
+  };
+  void setUpMockStorage()=>when(()=>mockStorage.write(key: 'token', value: user.token))
+        .thenAnswer((_) async => Future<void>.value()
+  );
+  void setUpMockStorageRenews()=>when(()=>mockStorage.read(key: 'token'))
+        .thenAnswer((_) async => token
+  );
+  void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers, body:json.encode(body)))
+        .thenAnswer((_) async => http.Response(fixture('user.json'),200)
+  );
+  void setUpMockHttpClientRegister()=>when(()=>mockHttpClient.post(urlRegister,headers: headers, body:json.encode(bodyRegister)))
+        .thenAnswer((_) async => http.Response(fixture('user.json'),200)
+  );
   group('login', () {
     test(
       "should perform a POST login request on a URL",
       () async {
-        when(()=>mockHttpClient.post(any(), body: any(named: 'body'))).thenAnswer((_) async => http.Response(fixture('user.json'),200)
-        );
+        setUpMockHttpClient();
+        setUpMockStorage();
         await datasource.login('miguel@albanez.com', '123456');
-        verifyNever(()=>mockHttpClient.post(url,headers:headers));
 
+        verify(()=>mockHttpClient.post(url,headers:headers, body:json.encode(body)));
+        verify(()=>mockStorage.write(key: 'token', value: user.token));
       },
     );
     test(
       "should perform a POST login request on a URL are equal",
       () async {
-        when(()=>mockHttpClient.post(
-          url,
-          headers: headers,
-          body:{
-            'email':'miguel@albanez.com',
-            'password':'123456',
-          })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
-        );
+        setUpMockHttpClient();
+        setUpMockStorage();
         final result = await datasource.login('miguel@albanez.com', '123456');
         expect(result, equals(user));
 
@@ -65,7 +83,7 @@ void main() {
     test(
       "should throw a serverException when the response code is 500",
       () async {
-        when(()=>mockHttpClient.post(any(), body: any(named: 'body'))).thenAnswer((_) async => http.Response('Server error',500));
+        when(()=>mockHttpClient.post(url,headers: headers, body:json.encode(body))).thenAnswer((_) async => http.Response('Server error',500));
           final call=datasource.login('miguel@albanez.com', '123456');
           expect(()async=>await call, throwsA(isA<ServerException>()));
       },
@@ -77,32 +95,18 @@ void main() {
     test(
       "should perform a POST register request on a URL",
       () async {
-        when(()=>mockHttpClient.post(
-          urlRegister,
-          headers: headers,
-          body:{
-            'email':'miguel@albanez.com',
-            'password':'123456',
-            'name':'123'
-          })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
-        );
+        setUpMockHttpClientRegister();
+        setUpMockStorage();
         await datasource.register('miguel@albanez.com', '123456','123');
-        verifyNever(()=>mockHttpClient.post(urlRegister,headers:headers));
+        verify(()=>mockHttpClient.post(urlRegister,headers:headers,body:json.encode(bodyRegister)));
 
       },
     );
     test(
       "should perform a POST register request on a URL are equal",
       () async {
-        when(()=>mockHttpClient.post(
-          urlRegister,
-          headers: headers,
-          body:{
-            'email':'miguel@albanez.com',
-            'password':'123456',
-            'name':'123',
-          })).thenAnswer((_) async => http.Response(fixture('user.json'),200)
-        );
+        setUpMockHttpClientRegister();
+        setUpMockStorage();
         final result = await datasource.register('miguel@albanez.com', '123456', '123');
         expect(result, equals(user));
 
@@ -111,16 +115,10 @@ void main() {
     test(
       "should throw a serverException when the response code is 500 of register",
       () async {
-        when(()=>mockHttpClient.post(
-          urlRegister,
-          headers: headers,
-          body:{
-            'email':'miguel@albanez.com',
-            'password':'123456',
-            'name':'123'
-          })).thenAnswer((_) async => http.Response('Server error',500));
-          final call=datasource.register('miguel@albanez.com', '123456','123');
-          expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
+        when(()=>mockHttpClient.post(urlRegister,headers: headers, body:json.encode(bodyRegister)))
+        .thenAnswer((_) async => http.Response('Server error',500));
+        final call=datasource.register('miguel@albanez.com', '123456','123');
+        expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
       },
     );
 
@@ -129,22 +127,27 @@ void main() {
     test(
       "should perform a GET renew request on a URL",
       () async {
+        setUpMockStorageRenews();
         when(()=>mockHttpClient.get(
           urlRenew,
-          headers: headersRenew,)).thenAnswer((_) async => http.Response(fixture('user.json'),200)
+          headers: headersRenew,))
+          .thenAnswer((_) async => http.Response(fixture('user.json'),200)
         );
+        setUpMockStorage();
         await datasource.renew();
-        verifyNever(()=>mockHttpClient.get(urlRenew,headers:headersRenew));
+        verify(()=>mockHttpClient.get(urlRenew,headers:headersRenew));
 
       },
     );
     test(
       "should perform a GET renew request on a URL are equal",
       () async {
+        setUpMockStorageRenews();
         when(()=>mockHttpClient.get(
           urlRenew,
           headers: headersRenew,)).thenAnswer((_) async => http.Response(fixture('user.json'),200)
         );
+        setUpMockStorage();
         final result = await datasource.renew();
         expect(result, equals(user));
 
@@ -153,6 +156,7 @@ void main() {
     test(
       "should throw a serverException when the response code is 500 of renew",
       () async {
+        setUpMockStorageRenews();
         when(()=>mockHttpClient.get(
           urlRenew,
           headers: headersRenew,)).thenAnswer((_) async => http.Response('Server error',500));

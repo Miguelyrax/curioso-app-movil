@@ -1,5 +1,6 @@
 import 'package:curioso_app/core/ui/loadin_screen.dart';
 import 'package:curioso_app/features/instruments/presentation/screens/detail_instrument_screen.dart';
+import 'package:curioso_app/features/quiz/presentation/screens/quiz_screen.dart';
 import 'package:curioso_app/features/user/presentation/screens/auth_screen.dart';
 import 'package:curioso_app/features/user/presentation/screens/register_screen.dart';
 import 'package:curioso_app/features/user/presentation/views/perfil_view.dart';
@@ -10,7 +11,7 @@ import 'core/extension/fade_page_route.dart';
 import 'core/extension/slide_transtition_route.dart';
 
 
-enum Routes { splash, home ,detail, auth, register, profile}
+enum Routes { splash, home ,detail, auth, register, profile, survey}
 
 class _Paths {
   static const String splash = '/';
@@ -19,6 +20,7 @@ class _Paths {
   static const String auth = '/auth';
   static const String register = '/register';
   static const String profile = '/profile';
+  static const String survey = '/survey';
 
 
   static const Map<Routes, String> _pathMap = {
@@ -28,6 +30,7 @@ class _Paths {
     Routes.auth: _Paths.auth,
     Routes.register: _Paths.register,
     Routes.profile: _Paths.profile,
+    Routes.survey: _Paths.survey,
   };
 
   static String of(Routes route) => _pathMap[route] ?? splash;
@@ -47,7 +50,9 @@ class AppNavigator {
       case _Paths.register:
         return SlideTransitionRoute(page: const RegisterScreen(),offset: const Offset(0,2));
       case _Paths.profile:
-        return SlideTransitionRoute(page:  PerfilScreen(),offset: const Offset(0,2));
+        return SlideTransitionRoute(page: const PerfilScreen(),offset: const Offset(2,0));
+      case _Paths.survey:
+        return SlideTransitionRoute(page: const QuizScreen(),offset: const Offset(2,0));
       default:
         return FadeRoute(page:const HomeScreen());
     }

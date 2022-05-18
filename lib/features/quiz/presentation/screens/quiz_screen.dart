@@ -1,3 +1,4 @@
+import 'package:curioso_app/core/themes/colors.dart';
 import 'package:curioso_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:curioso_app/features/quiz/presentation/screens/perfil_inversionista_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,17 +24,11 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:CuriosityColors.dark,
       appBar: AppBar(
-        backgroundColor:const Color(0xff111326),
+        backgroundColor:CuriosityColors.dark,
         elevation: 0,
-        actions: const[
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Icon(Icons.more_horiz,size: 30,),
-          )
-        ],
       ),
-      backgroundColor: const Color(0xff111326),
       body: BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
         if(state is QuizLoading){

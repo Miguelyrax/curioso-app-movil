@@ -8,3 +8,8 @@ abstract class FavouritesEvent extends Equatable {
 }
 
 class OnFavouritesLoaded extends FavouritesEvent{}
+class OnFavouriteAdd extends FavouritesEvent{
+  final String id;
+
+  const OnFavouriteAdd(this.id);
+}

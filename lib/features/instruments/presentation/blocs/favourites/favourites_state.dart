@@ -17,5 +17,13 @@ class FavouritesError extends FavouritesState {
 class FavouritesHasData extends FavouritesState {
   final List<Favourites> favoritos;
 
-  const FavouritesHasData(this.favoritos);
+  FavouritesHasData copyWith({
+    List<Favourites>? favoritos
+  })=>FavouritesHasData(
+    favoritos:favoritos??this.favoritos
+  );
+
+  const FavouritesHasData({required this.favoritos});
+  @override
+  List<Object> get props => [favoritos];
 }

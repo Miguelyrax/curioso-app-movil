@@ -70,6 +70,7 @@ class PerfilScreen extends StatelessWidget {
                 danger: false,
                 onPressed: (){},
               ),
+              const Spacer(),
               const SizedBox(height: 32,),
               SizedBox(
                       width: double.infinity,
@@ -79,10 +80,9 @@ class PerfilScreen extends StatelessWidget {
                           backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
                         ),
                         onPressed: (){
-                    AppNavigator.push(Routes.register);
+                    AppNavigator.push(Routes.survey);
                       }, child: const Text('Cambiar perfil')),
               ),
-              const SizedBox(height: 100,),
             ],
           ),
         ),

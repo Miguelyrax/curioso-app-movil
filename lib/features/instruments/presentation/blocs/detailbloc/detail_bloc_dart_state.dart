@@ -16,6 +16,7 @@ class DetailError extends DetailState {
 }
 class DetailHasData extends DetailState {
   final Detail detail;
+  final String id;
 
-  const DetailHasData(this.detail);
+  const DetailHasData(this.detail,this.id);
 }

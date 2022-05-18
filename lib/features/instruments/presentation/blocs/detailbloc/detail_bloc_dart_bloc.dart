@@ -4,6 +4,8 @@ import 'package:curioso_app/features/instruments/domain/entities/detail_instrume
 import 'package:curioso_app/features/instruments/domain/usecases/get_detail.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../domain/entities/instrument.dart';
+
 part 'detail_bloc_dart_event.dart';
 part 'detail_bloc_dart_state.dart';
 
@@ -14,10 +16,10 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
     });
     on<OnDetailLoaded>((event,emit)async{
       emit(DetailLoading());
-      final result=await _getDetail.execute(Params(symbol: event.symbol));
+      final result=await _getDetail.execute(Params(symbol: event.instrument.symbol));
       result.fold(
         (failure) => emit(const DetailError(message: 'Error al cargar detalle')),
-        (data) => emit(DetailHasData(data))
+        (data) => emit(DetailHasData(data,event.instrument.id))
       );
     });
   }

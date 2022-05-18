@@ -1,4 +1,5 @@
 import 'package:curioso_app/core/themes/colors.dart';
+import 'package:curioso_app/features/instruments/presentation/blocs/favourites/favourites_bloc.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,14 +17,21 @@ class DetailInstrumentScreen extends StatelessWidget {
       color: CuriosityColors.dark,
       child: BlocBuilder<DetailBloc, DetailState>(
         builder: (context, state) {
-          if(state is DetailLoading){
-            return const Center(child: SizedBox(child: CircularProgressIndicator(color: CuriosityColors.crystalblue,),));
-          }
-          else if(state is DetailError){
-            return Center(child: Text(state.message),);
-          }else if(state is DetailHasData){
-            
-            return DetailInstrumentView(stateDetail: state,);
+          if (state is DetailLoading) {
+            return const Center(
+                child: SizedBox(
+              child: CircularProgressIndicator(
+                color: CuriosityColors.crystalblue,
+              ),
+            ));
+          } else if (state is DetailError) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else if (state is DetailHasData) {
+            return DetailInstrumentView(
+              stateDetail: state,
+            );
           }
           return const SizedBox();
         },
@@ -33,22 +41,53 @@ class DetailInstrumentScreen extends StatelessWidget {
 }
 
 class DetailInstrumentView extends StatelessWidget {
-  const DetailInstrumentView({Key? key, required this.stateDetail}) : super(key: key);
+  const DetailInstrumentView({Key? key, required this.stateDetail})
+      : super(key: key);
   final DetailHasData stateDetail;
   @override
   Widget build(BuildContext context) {
+    final favouriteBloc = BlocProvider.of<FavouritesBloc>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: CuriosityColors.dark,
+          actions: [
+            BlocBuilder<FavouritesBloc, FavouritesState>(
+              builder: (context, state) {
+                if(state is FavouritesHasData){
+                  final isFavourite=state.favoritos.where((f) => f.instrument.id==stateDetail.id).isNotEmpty;
+                return GestureDetector(
+                  onTap:isFavourite?null: () async {
+                    favouriteBloc.add(OnFavouriteAdd(stateDetail.id));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Icon(
+                      isFavourite?Icons.favorite_rounded
+                                 :Icons.favorite_outline,
+                      color: isFavourite?CuriosityColors.orangered
+                                         :CuriosityColors.white,),
+                  ),
+                );
+                }else if(state is FavouritesInitial){
+                  print('lanzado');
+                  favouriteBloc.add(OnFavouritesLoaded());
+                  return const SizedBox();
+                }
+                else{
+                  return const SizedBox();
+                }
+              },
+            )
+          ],
         ),
         backgroundColor: CuriosityColors.dark,
         body: BlocBuilder<HistoricaldataBloc, HistoricaldataState>(
           builder: (context, state) {
             if (state is HistoricaldataILoading) {
-                return const CircularProgressIndicator(
-                  color: CuriosityColors.crystalblue,
-                );
+              return const CircularProgressIndicator(
+                color: CuriosityColors.crystalblue,
+              );
             }
             if (state is HistoricaldataError) {
               return SizedBox(
@@ -57,8 +96,11 @@ class DetailInstrumentView extends StatelessWidget {
                 ),
               );
             }
-            if(state is HistoricaldataHasData){
-              return ViewDetail(stateDetail: stateDetail, stateHistorical: state,);
+            if (state is HistoricaldataHasData) {
+              return ViewDetail(
+                stateDetail: stateDetail,
+                stateHistorical: state,
+              );
             }
             return const SizedBox(
               child: Center(
@@ -76,7 +118,7 @@ class ViewDetail extends StatefulWidget {
   const ViewDetail({
     Key? key,
     required this.stateHistorical,
-    required  this.stateDetail,
+    required this.stateDetail,
   }) : super(key: key);
 
   final HistoricaldataHasData stateHistorical;
@@ -89,14 +131,15 @@ class ViewDetail extends StatefulWidget {
 class _ViewDetailState extends State<ViewDetail> {
   @override
   void initState() {
-    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { 
+    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
     //   showmodal(context);
     // });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-      final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Padding(
@@ -108,34 +151,34 @@ class _ViewDetailState extends State<ViewDetail> {
               const SizedBox(
                 width: double.infinity,
               ),
-              Chart(stateHistorical:widget.stateHistorical),
+              Chart(stateHistorical: widget.stateHistorical),
               const SizedBox(
                 height: 32,
               ),
               RowDetail(
                 title: 'Pais',
-                description: widget.stateDetail.detail.country ,
+                description: widget.stateDetail.detail.country,
               ),
               const SizedBox(
                 height: 16,
               ),
               RowDetail(
                 title: 'Currency',
-                description: widget.stateDetail.detail.currency ,
+                description: widget.stateDetail.detail.currency,
               ),
               const SizedBox(
                 height: 16,
               ),
               RowDetail(
                 title: 'Nombre',
-                description: widget.stateDetail.detail.name ,
+                description: widget.stateDetail.detail.name,
               ),
               const SizedBox(
                 height: 16,
               ),
               RowDetail(
                 title: 'Exchange',
-                description: widget.stateDetail.detail.exchange ,
+                description: widget.stateDetail.detail.exchange,
               ),
               const SizedBox(
                 height: 16,
@@ -147,11 +190,13 @@ class _ViewDetailState extends State<ViewDetail> {
               const SizedBox(
                 height: 16,
               ),
-              
             ],
           ),
         ),
-        ModalDraggable(width: w,symbol:widget.stateDetail.detail.ticker ,)
+        ModalDraggable(
+          width: w,
+          symbol: widget.stateDetail.detail.ticker,
+        )
       ],
     );
   }

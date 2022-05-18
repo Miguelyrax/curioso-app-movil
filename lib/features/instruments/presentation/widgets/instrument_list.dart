@@ -53,7 +53,7 @@ class _InstrumentListState extends State<InstrumentList> {
               (context, index) {
                 return GestureDetector(
                   onTap: (){
-                    detailBloc.add(OnDetailLoaded(state.instruments[index].symbol));
+                    detailBloc.add(OnDetailLoaded(state.instruments[index]));
                     historicalBloc.add(OnHistoricalDataLoaded(state.instruments[index].symbol));
                     AppNavigator.push(Routes.detail);
                   },

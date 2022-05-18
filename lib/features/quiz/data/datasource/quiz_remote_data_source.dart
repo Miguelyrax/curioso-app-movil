@@ -5,6 +5,7 @@ import 'package:curioso_app/features/quiz/data/models/quiz_model.dart';
 import 'package:curioso_app/features/quiz/data/models/riesgo_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/constants/constants.dart';
 import '../../../../core/error/exception.dart';
 abstract class QuizRemoteDataSource{
   Future<QuizModel> getQuiz();
@@ -17,7 +18,7 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
   QuizRemoteDataSourceImpl(this.client);
   @override
   Future<QuizModel> getQuiz() async{
-    final url = Uri.parse('http://localhost:8080/api/survey');
+    final url = Uri.parse('${Constants.baseURL}/api/survey');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json'
     });
@@ -30,7 +31,7 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
   }
   @override
   Future<RiesgoModel> getProfile(Map<String,dynamic> data) async{
-    final url = Uri.parse('http://localhost:8080/api/survey');
+    final url = Uri.parse('${Constants.baseURL}/api/survey');
     final resp= await client.put(url,headers: {
       'Content-Type':'application/json'
     },

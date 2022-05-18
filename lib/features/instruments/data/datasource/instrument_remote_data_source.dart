@@ -7,6 +7,7 @@ import 'package:curioso_app/features/instruments/data/models/instrument_model.da
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/constants/constants.dart';
 import '../../../../core/error/exception.dart';
 
 abstract class InstrumentRemoteDataSource{
@@ -14,6 +15,7 @@ abstract class InstrumentRemoteDataSource{
   Future<HistorialDataModel> getHistoricalData(String symbol);
   Future<DetailModel> getDetailInstrument(String symbol);
   Future<List<FavouritesModel>> getFavourites();
+  Future<FavouritesModel> postFavourites(String id);
 }
 
 class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
@@ -23,7 +25,7 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
   InstrumentRemoteDataSourceImpl(this.client, this.storage);
   @override
   Future<List<InstrumentModel>> getInstruments() async{
-    final url = Uri.parse('http://localhost:8080/api/instrument/');
+    final url = Uri.parse('${Constants.baseURL}/api/instrument/');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json'
     });
@@ -41,7 +43,7 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
   }
   @override
   Future<HistorialDataModel> getHistoricalData(String symbol) async{
-    final url = Uri.parse('http://localhost:8080/api/instrument/historicalData/$symbol/D');
+    final url = Uri.parse('${Constants.baseURL}/api/instrument/historicalData/$symbol/D');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json'
     });
@@ -56,7 +58,7 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
   }
   @override
   Future<DetailModel> getDetailInstrument(String symbol) async{
-    final url = Uri.parse('http://localhost:8080/api/instrument/detailInstrument/$symbol');
+    final url = Uri.parse('${Constants.baseURL}/api/instrument/detailInstrument/$symbol');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json'
     });
@@ -74,7 +76,7 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
   Future<List<FavouritesModel>> getFavourites() async{
     List<FavouritesModel> favoritos=[];
     final token=await storage.read(key: 'token');
-    final url = Uri.parse('http://localhost:8080/api/favorito/');
+    final url = Uri.parse('${Constants.baseURL}/api/favorito/');
     final resp= await client.get(url,headers: {
       'Content-Type':'application/json',
       'x-token':token.toString()
@@ -90,6 +92,24 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
 
       }
       return favoritos;
+    } else {
+     throw ServerException();
+    }
+  }
+
+  @override
+  Future<FavouritesModel> postFavourites(String id) async{
+    final token=await storage.read(key: 'token');
+    final url = Uri.parse('${Constants.baseURL}/api/favorito/$id');
+    final resp= await client.post(url,headers: {
+      'Content-Type':'application/json',
+      'x-token':token.toString()
+    });
+    print(resp.statusCode);
+    if (resp.statusCode == 200) {
+      final Map<String,dynamic> map =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
+      final FavouritesModel detail=FavouritesModel.fromJson(map);
+      return detail;
     } else {
      throw ServerException();
     }

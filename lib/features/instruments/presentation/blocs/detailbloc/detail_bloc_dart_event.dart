@@ -8,7 +8,7 @@ abstract class DetailEvent extends Equatable {
 }
 
 class OnDetailLoaded extends DetailEvent{
-  final String symbol;
+  final Instrument instrument;
 
-  const OnDetailLoaded(this.symbol);
+  const OnDetailLoaded(this.instrument);
 }

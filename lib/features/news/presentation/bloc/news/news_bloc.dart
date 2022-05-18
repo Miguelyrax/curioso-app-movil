@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:curioso_app/core/usecases/usecase.dart';
-import 'package:curioso_app/features/news/domain/usecases/get_news_general.dart';
 import 'package:curioso_app/features/news/domain/usecases/get_news_symbol.dart';
 import 'package:equatable/equatable.dart';
 

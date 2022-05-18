@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:curioso_app/features/news/data/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/constants/constants.dart';
 import '../../../../core/error/exception.dart';
 
 abstract class NewsDatasource{
@@ -16,9 +17,9 @@ class NewsDataSourceImpl extends NewsDatasource{
   NewsDataSourceImpl(this.client);
   @override
   Future<List<NewsModel>> getNewsGeneral() async{
-    final url = Uri.parse('http://localhost:8080/api/instrument/newsGeneral');
+    final url = Uri.parse('${Constants.baseURL}/api/instrument/newsGeneral');
     final resp= await client.get(url,headers: {
-      'Content-type':'application/json; charset=utf-8'
+      'Content-type':'application/json'
     });
     if (resp.statusCode == 200) {
       List<NewsModel> lista=[];
@@ -35,9 +36,9 @@ class NewsDataSourceImpl extends NewsDatasource{
 
   @override
   Future<List<NewsModel>> getNewsSymbol(String symbol) async{
-    final url = Uri.parse('http://localhost:8080/api/instrument/newsSymbol/$symbol');
+    final url = Uri.parse('${Constants.baseURL}/api/instrument/newsSymbol/$symbol');
     final resp= await client.get(url,headers: {
-      'Content-type':'application/json; charset=utf-8'
+      'Content-type':'application/json'
     });
     if (resp.statusCode == 200) {
       List<NewsModel> lista=[];

@@ -1,3 +1,4 @@
+import 'package:curioso_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 class CustomRadio<T> extends StatefulWidget {
   const CustomRadio({
@@ -25,6 +26,11 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
     animation=Tween<double>(begin: 0.0,end:1.0).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInCubic));
     super.initState();
   }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -40,14 +46,24 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
       onTap: ()=>widget.onChanged(widget.value),
       child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16,vertical:12 ),
+                margin: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color:isSelected?const Color(0xff1CBD88): Colors.white.withOpacity(.6))
+
+                  color:isSelected? CuriosityColors.orangered.withOpacity(.3):CuriosityColors.dark,
+                  border: Border.all(color:isSelected?CuriosityColors.orangered: CuriosityColors.gray)
                 ),
                 child: Row(
                   children: [
                     Expanded(
-                      child:Text(widget.title,style: TextStyle(color:isSelected?const Color(0xff1CBD88):const Color(0xffE0E0E0)),)
+                      child:Text(
+                        widget.title,style: Theme.of(context).textTheme.headline5!
+                        .copyWith(
+                          color:isSelected
+                          ?CuriosityColors.white
+                          :CuriosityColors.gray
+                        ),
+                      )
                     ),
                     const SizedBox(width: 5,),
                     Stack(
@@ -57,7 +73,7 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
                           height: 18,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            border: Border.all(color:Colors.white.withOpacity(.6))
+                            border: Border.all(color:CuriosityColors.gray)
                           ),
                         ),
                         AnimatedBuilder(
@@ -73,9 +89,9 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
                             height: 18,
                             decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: const Color(0xff1CBD88)
+                            color: CuriosityColors.orangered
                           ),
-                            child: const Icon(Icons.check,color: Colors.white,size: 12,)
+                            child: const Icon(Icons.check,color: CuriosityColors.dark,size: 12,)
                           ),
                         )
                       ],

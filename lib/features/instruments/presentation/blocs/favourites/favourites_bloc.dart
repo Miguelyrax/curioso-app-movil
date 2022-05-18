@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:curioso_app/core/usecases/usecase.dart';
 import 'package:curioso_app/features/instruments/domain/entities/favourites.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_favourites.dart';
+import 'package:curioso_app/features/instruments/domain/usecases/post_favourite.dart';
 import 'package:equatable/equatable.dart';
 
 part 'favourites_event.dart';
@@ -9,7 +10,8 @@ part 'favourites_state.dart';
 
 class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   final GetFavourites favoritos;
-  FavouritesBloc(this.favoritos) : super(FavouritesInitial()) {
+  final PostFavourite favouriteAdd;
+  FavouritesBloc(this.favoritos, this.favouriteAdd) : super(FavouritesInitial()) {
     on<FavouritesEvent>((event, emit) {
     });
     on<OnFavouritesLoaded>((event,emit)async{
@@ -17,8 +19,20 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       final result = await favoritos.execute(NoParams());
       result.fold(
         (failure) => emit(const FavouritesError('Error al cargar favoritos')),
-        (data) => emit(FavouritesHasData(data))
+        (data) => emit(FavouritesHasData(favoritos: data))
       );
+    });
+    on<OnFavouriteAdd>((event,emit)async{
+      final result = await favouriteAdd.execute(ParamsFavourite(event.id));
+      if(state is FavouritesHasData){
+        final stateA = state as FavouritesHasData;
+        result.fold(
+          (failure) => emit(const FavouritesError('Error al cargar favoritos')),
+          (data) => emit(stateA.copyWith(favoritos: [data,...stateA.favoritos]))
+        );
+      }else{
+        emit(const FavouritesError('Error al cargar favoritos'));
+      }
     });
   }
 }

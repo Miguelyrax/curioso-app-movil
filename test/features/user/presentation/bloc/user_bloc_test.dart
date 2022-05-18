@@ -105,14 +105,30 @@ void main() {
   });
   group('register', 
   (){
-    final userParamsRegister=UserParams(email: 'miguel@albanez.com', password: '123456');
+    final userParamsRegister=UserParams(email: 'miguel@albanez.com', password: '123456',name: '123');
     test(
-      "should get data from login",
+      "should get data from register",
       () async {
         when(()=>mockRegister.execute(userParamsRegister)).thenAnswer((invocation) async => const Right(data));
         bloc.add(const OnUserRegister(email: 'miguel@albanez.com', password: '123456',name: '123'));
         await untilCalled(()=>mockRegister.execute(userParamsRegister));
         verify(()=>mockRegister.execute(userParamsRegister));
+      },
+    );
+    blocTest(
+      'emits [UserLoading,UserHasData] when data from renew is gotten successfully',
+      build: () {
+        when(()=>mockRegister.execute(userParamsRegister))
+        .thenAnswer((_) async => const Right(data));
+        return bloc;
+      },
+      act: (UserBloc blocc) => blocc.add(const OnUserRegister(email: 'miguel@albanez.com', password: '123456',name: '123')),
+      expect: () => [
+        UserLoading(),
+        const UserHasData(data)
+      ],
+      verify: (_) async {
+      verify(() => mockRegister.execute(userParamsRegister));
       },
     );
   });

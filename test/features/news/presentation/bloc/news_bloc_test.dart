@@ -13,15 +13,12 @@ class MockGetNewsSymbol extends Mock implements GetNewsSymbol{}
 
 
 void main() {
-  late MockGetNewsGeneral mockGetNewsGeneral;
   late MockGetNewsSymbol mockGetNewsSymbol;
   late NewsBloc bloc;
 
   setUp(() {
-    mockGetNewsGeneral = MockGetNewsGeneral();
     mockGetNewsSymbol = MockGetNewsSymbol();
     bloc = NewsBloc(
-      // getNewsGeneral: mockGetNewsGeneral,
       getNewsSymbol: mockGetNewsSymbol
     );
   });
@@ -48,16 +45,6 @@ void main() {
     )
   ];
   test(
-    "should get data from usecase GetNewsGeneral",
-    () async {
-      when(()=>mockGetNewsGeneral.execute(NoParams()))
-      .thenAnswer((_) async => const Right(data));
-      bloc.add(NewsLoaded());
-      await untilCalled(()=>mockGetNewsGeneral.execute(NoParams()));
-      verify(()=>mockGetNewsGeneral.execute(NoParams()));
-    },
-  );
-  test(
     "should get data from usecase GetNewsSymbol",
     () async {
       when(()=>mockGetNewsSymbol.execute(const Params(symbol: symbol)))
@@ -66,24 +53,6 @@ void main() {
       await untilCalled(()=>mockGetNewsSymbol.execute(const Params(symbol: symbol)));
       verify(()=>mockGetNewsSymbol.execute(const Params(symbol: symbol)));
     },
-  );
-  blocTest(
-    "should emit [loading,has data] when data from getNewsGeneral is gotten successfully",
-    build:(){
-      when(()=>mockGetNewsGeneral.execute(NoParams()))
-      .thenAnswer((_) async => const Right(data));
-      return bloc;
-    },
-    act:(NewsBloc blocc)=>blocc.add(NewsLoaded()),
-    wait: const Duration(milliseconds:500),
-    expect: ()=>[
-       NewsLoading(),
-      const NewsHasData(data)
-    ],
-    verify: (NewsBloc blocc){
-       verify(()=>mockGetNewsGeneral.execute(NoParams()));
-    }
-    
   );
   blocTest(
     "should emit [loading,has data] when data from getNewsSymbol is gotten successfully",
