@@ -4,6 +4,7 @@ import 'package:curioso_app/core/error/exception.dart';
 import 'package:curioso_app/features/instruments/data/datasource/instrument_remote_data_source.dart';
 import 'package:curioso_app/features/instruments/data/models/detail_model.dart';
 import 'package:curioso_app/features/instruments/data/models/favourites_model.dart';
+import 'package:curioso_app/features/instruments/data/models/historical_data_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -148,6 +149,38 @@ void main() {
         .thenAnswer((_) async => http.Response('Error',500));
         final call =  datasource.postFavourites(id);
         expect(()async=>call, throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
+
+  group('Historical Data', (){
+    final url= Uri.parse('${Constants.baseURL}/api/instrument/historicalData/$symbol/D');
+    void setUpMockHttpClient()=>when(()=>mockHttpClient.get(url,headers: headers))
+        .thenAnswer((_) async => http.Response(fixture('historical.json'),200));
+    final historical = HistorialDataModel.fromJson(json.decode(fixture('historical.json')));
+    test(
+      "should perform a get historical data on a url",
+      () async {
+        setUpMockHttpClient();
+        await datasource.getHistoricalData(symbol);
+        verify(()=>mockHttpClient.get(url,headers: headers));
+      },
+    );
+    test(
+      "should return historical data when the response status is 200",
+      () async {
+        setUpMockHttpClient();
+        final result = await datasource.getHistoricalData(symbol);
+        expect(result, equals(historical));
+      },
+    );
+    test(
+      "should return server failure when the response status is 500 or other",
+      () async {
+        when(()=>mockHttpClient.get(url,headers: headers))
+        .thenAnswer((_) async => http.Response('Error',500));
+        final call = datasource.getHistoricalData(symbol);
+        expect(()async=>await call,throwsA(const TypeMatcher<ServerException>()));
       },
     );
   });

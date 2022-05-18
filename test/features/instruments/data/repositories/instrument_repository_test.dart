@@ -5,6 +5,7 @@ import 'package:curioso_app/core/error/failure.dart';
 import 'package:curioso_app/features/instruments/data/datasource/instrument_remote_data_source.dart';
 import 'package:curioso_app/features/instruments/data/models/detail_model.dart';
 import 'package:curioso_app/features/instruments/data/models/favourites_model.dart';
+import 'package:curioso_app/features/instruments/data/models/historical_data_model.dart';
 import 'package:curioso_app/features/instruments/data/models/instrument_model.dart';
 import 'package:curioso_app/features/instruments/data/models/stock_exchange_model.dart';
 import 'package:curioso_app/features/instruments/data/repositories/instrument_repository_impl.dart';
@@ -22,6 +23,7 @@ void main() {
     mockDataSource = MockDataSource();
     repository = InstrumentRepositoryImpl(mockDataSource);
   });
+  const symbol = 'APPL';
   const dataModell= [FavouritesModel(
     id: '123',
     instrument: InstrumentModel(
@@ -124,7 +126,7 @@ void main() {
     ticker: '123',
     weburl: '123'
   );
-    const symbol = 'APPL';
+    
     test(
       "should return data when the call to remote data source is success",
       () async {
@@ -150,6 +152,39 @@ void main() {
         when(()=>mockDataSource.getDetailInstrument(symbol))
         .thenThrow(const SocketException(''));
         final result = await repository.getDetailInstrument(symbol);
+        expect(result, equals(const Left(ConnectionFailure('Failed to connect to the network'))));
+      },
+    );
+  });
+
+  group('Historical data', (){
+    const data = HistorialDataModel(c: [], h: [], l: [], o: [], s: '123', t: [], v: []);
+    test(
+      "should the call of remote data source is success",
+      () async {
+        when(()=>mockDataSource.getHistoricalData(symbol))
+        .thenAnswer((_) async => data);
+        final result = await repository.getHistoricalData(symbol);
+        verify(()=>mockDataSource.getHistoricalData(symbol));
+        expect(result, equals(const Right(data)));
+      },
+    );
+    test(
+      "should return ServerFailure when the call to remote data source is unsuccessful",
+      () async {
+        when(()=>mockDataSource.getHistoricalData(symbol))
+        .thenThrow(ServerException());
+        final result = await repository.getHistoricalData(symbol);
+        expect(result, equals(const Left(ServerFailure('Error del servidor'))));
+      },
+    );
+
+    test(
+      "should return connection failure when the device has no internet",
+      () async {
+        when(()=>mockDataSource.getHistoricalData(symbol))
+        .thenThrow(const SocketException('Failed to connect to the network'));
+        final result = await repository.getHistoricalData(symbol);
         expect(result, equals(const Left(ConnectionFailure('Failed to connect to the network'))));
       },
     );
