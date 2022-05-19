@@ -77,124 +77,127 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Scaffold(
           backgroundColor: CuriosityColors.dark,
           appBar: customAppbar(context),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _key,
-              onChanged: ()async{
-                await Future.delayed(const Duration(milliseconds:100));
-                isEnable = _validatorControl.every((e) => e==true);
-                setState(() {
-                  
-                });
-              },
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    'Login',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(fontWeight: FontWeight.bold),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _key,
+                onChanged: ()async{
+                  await Future.delayed(const Duration(milliseconds:100));
+                  isEnable = _validatorControl.every((e) => e==true);
+                  setState(() {
+                    
+                  });
+                },
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                CustomInput(
-                  fieldKey: fieldKeyEmail,
-                  focusNode: focusEmail,
-                  controller: ctrlEmail,
-                  label: 'Email',
-                  placeholderText: 'Email',
-                  keyboardType: TextInputType.emailAddress,
-                  validator:(value){
-                    final result=Validator().emailValidator(value);
-                    if(result==null){
-                       _validatorControl[0]=true;
-                      return result;
-                    }else{
-                       _validatorControl[0]=false;
-                       return result;
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                CustomInput(
-                  label: 'Password',
-                  fieldKey: fieldKeyPassword,
-                  focusNode: focusPassword,
-                  obscureText: true,
-                  controller: ctrlPassword,
-                  placeholderText: '*******',
-                  validator: (value){
-                    if(value?.isEmpty??true){
-                      _validatorControl[1]=false;
-                      return 'Ingrese password';
-                    }else{
-                      _validatorControl[1]=true;
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                 SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    '¿Olvidaste tu contraseña?',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                      .textTheme.headline6!
-                      .copyWith(
-                        color:CuriosityColors.orangered
-                      )
-                  )
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                SizedBox(
-                  height: 63,
-                  width: double.infinity,
-                  child: 
-                  ElevatedButton(
-                      onPressed:!isEnable?null: () {
-                        if(validateForm()){
-                            blocProvider.add(
-                              OnUserLoaded(
-                                email: ctrlEmail.text, password: ctrlPassword.text
-                              )
-                            );
-                          }
-                        },
-                      child:const Text('Iniciar sesión')
+                  const SizedBox(
+                    height: 32,
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SizedBox(
-                      width: double.infinity,
-                      height: 63,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
-                        ),
-                        onPressed: (){
-                          Navigator.pop(context);
-                          AppNavigator.push(Routes.register);
-                      }, child: const Text('Hazte una cuenta')),
-              )
-              ],
-                ),
+                  CustomInput(
+                    fieldKey: fieldKeyEmail,
+                    focusNode: focusEmail,
+                    controller: ctrlEmail,
+                    label: 'Email',
+                    placeholderText: 'Email',
+                    keyboardType: TextInputType.emailAddress,
+                    validator:(value){
+                      final result=Validator().emailValidator(value);
+                      if(result==null){
+                         _validatorControl[0]=true;
+                        return result;
+                      }else{
+                         _validatorControl[0]=false;
+                         return result;
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CustomInput(
+                    label: 'Password',
+                    fieldKey: fieldKeyPassword,
+                    focusNode: focusPassword,
+                    obscureText: true,
+                    controller: ctrlPassword,
+                    placeholderText: '*******',
+                    validator: (value){
+                      if(value?.isEmpty??true){
+                        _validatorControl[1]=false;
+                        return 'Ingrese password';
+                      }else{
+                        _validatorControl[1]=true;
+                        return null;
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                   SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      '¿Olvidaste tu contraseña?',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                        .textTheme.headline6!
+                        .copyWith(
+                          color:CuriosityColors.orangered
+                        )
+                    )
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  SizedBox(
+                    height: 63,
+                    width: double.infinity,
+                    child: 
+                    ElevatedButton(
+                        onPressed:!isEnable?null: () {
+                          if(validateForm()){
+                              blocProvider.add(
+                                OnUserLoaded(
+                                  email: ctrlEmail.text, password: ctrlPassword.text
+                                )
+                              );
+                            }
+                          },
+                        child:const Text('Iniciar sesión')
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                        width: double.infinity,
+                        height: 63,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
+                          ),
+                          onPressed: (){
+                            Navigator.pop(context);
+                            AppNavigator.push(Routes.register);
+                        }, child: const Text('Hazte una cuenta')),
+                )
+                ],
+                  ),
+              ),
             ),
           ),
    )

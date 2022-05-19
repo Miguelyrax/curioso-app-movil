@@ -45,7 +45,7 @@ class CardWidget extends StatelessWidget {
               ],
             ),
           ),
-          dragHandle?ReorderableDragStartListener(index:index!,child: const Icon(Icons.drag_handle,color: CuriosityColors.white,)):
+          dragHandle?ReorderableDragStartListener(index:index!,child: const IconButton(onPressed: null,icon: const Icon(Icons.menu,color: CuriosityColors.white,))):
           Expanded(
             child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

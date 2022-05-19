@@ -28,29 +28,21 @@ class _HomeScreenState extends State<HomeScreen> {
     final userBloc = BlocProvider.of<UserBloc>(context,listen: true);
     return  SafeArea(
       child: Scaffold(
+        extendBody: true,
+        bottomNavigationBar: CustomBottomNavigatorBar(pageController: _controller,),
         drawer:userBloc.state is UserHasData? const CustomDrawer():null,
         backgroundColor: CuriosityColors.dark,
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _controller,
-                children: [
-                  LoginScreen(),
-                  const InstrumentosScreen(),
-                  const NewsScreen()
-                ],
-              ),
-            ),
-            Positioned(
-             bottom: 0,
-             child: CustomBottomNavigatorBar(
-               pageController:_controller
-            )
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _controller,
+            children: [
+              LoginScreen(),
+              const InstrumentosScreen(),
+              const NewsScreen()
+            ],
+          ),
         ),
        ),
     );

@@ -55,9 +55,10 @@ class _FavouriteViewState extends State<FavouriteView> with AutomaticKeepAliveCl
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   onReorder: (int oldIndex, int newIndex) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       if (oldIndex < newIndex) {
-                      HapticFeedback.vibrate();
+                      
                         newIndex -= 1;
                       }
                       final Favourites item = _items.removeAt(oldIndex);
@@ -80,7 +81,10 @@ class _FavouriteViewState extends State<FavouriteView> with AutomaticKeepAliveCl
                 return const SizedBox();
               }
             },
-          )
+          ),
+          const SizedBox(
+            height: 100,
+          ),
         ],
       ),
     );

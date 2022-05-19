@@ -1,6 +1,7 @@
 import 'package:curioso_app/core/themes/colors.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/favourites/favourites_bloc.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
+import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/detailbloc/detail_bloc_dart_bloc.dart';
@@ -50,7 +51,29 @@ class DetailInstrumentView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: CuriosityColors.dark,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                      width: 32,
+                      height: 32,
+                      image: NetworkImage(stateDetail.detail.logo)
+                    ),
+                    const SizedBox(width: 16,),
+              Flexible(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Text(stateDetail.detail.name,style: Theme.of(context).textTheme.headline5,)),
+              ),
+                    const SizedBox(width: 30,),
+            ],
+          ),
+          leading: IconButton(
+            onPressed: ()=>AppNavigator.pop(),
+            icon:const Icon(Icons.arrow_back_ios,color: Colors.white,)),
           actions: [
             BlocBuilder<FavouritesBloc, FavouritesState>(
               builder: (context, state) {
@@ -70,7 +93,6 @@ class DetailInstrumentView extends StatelessWidget {
                   ),
                 );
                 }else if(state is FavouritesInitial){
-                  print('lanzado');
                   favouriteBloc.add(OnFavouritesLoaded());
                   return const SizedBox();
                 }
@@ -144,53 +166,87 @@ class _ViewDetailState extends State<ViewDetail> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: double.infinity,
-              ),
-              Chart(stateHistorical: widget.stateHistorical),
-              const SizedBox(
-                height: 32,
-              ),
-              RowDetail(
-                title: 'Pais',
-                description: widget.stateDetail.detail.country,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              RowDetail(
-                title: 'Currency',
-                description: widget.stateDetail.detail.currency,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              RowDetail(
-                title: 'Nombre',
-                description: widget.stateDetail.detail.name,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              RowDetail(
-                title: 'Exchange',
-                description: widget.stateDetail.detail.exchange,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const RowDetail(
-                title: 'Logo',
-                description: 'US',
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: double.infinity,
+                ),
+                Chart(stateHistorical: widget.stateHistorical),
+                const SizedBox(
+                  height: 32,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                RowDetail(
+                  title: 'Name',
+                  description: widget.stateDetail.detail.name,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                RowDetail(
+                  title: 'Currency',
+                  description: widget.stateDetail.detail.currency,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                RowDetail(
+                  title: 'Country',
+                  description: widget.stateDetail.detail.country,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                RowDetail(
+                  title: 'Exchange',
+                  description: widget.stateDetail.detail.exchange,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                RowDetail(
+                  title: 'Industry',
+                  description: widget.stateDetail.detail.finnhubIndustry,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text('WebSite',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6!
+                              .copyWith(color: CuriosityColors.gray)
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: (){
+                        AppNavigator.push(Routes.web,widget.stateDetail.detail.weburl);
+                      },
+                      child: Text(widget.stateDetail.detail.weburl,
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context)
+                          .textTheme.headline6!
+                          .copyWith(
+                            color: CuriosityColors.beige
+                          )
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 200,
+                ),
+              ],
+            ),
           ),
         ),
         ModalDraggable(

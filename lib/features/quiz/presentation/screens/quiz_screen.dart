@@ -4,6 +4,7 @@ import 'package:curioso_app/features/quiz/presentation/screens/perfil_inversioni
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../routes.dart';
 import 'content_screen.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -27,7 +28,10 @@ class _QuizScreenState extends State<QuizScreen> {
       backgroundColor:CuriosityColors.dark,
       appBar: AppBar(
         backgroundColor:CuriosityColors.dark,
-        elevation: 0,
+        elevation: 0, 
+        leading: IconButton(
+            onPressed: ()=>AppNavigator.pop(),
+            icon:const Icon(Icons.arrow_back_ios,color: Colors.white,)),
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {

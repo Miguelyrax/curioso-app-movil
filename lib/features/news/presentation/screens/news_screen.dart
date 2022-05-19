@@ -1,5 +1,5 @@
 import 'package:curioso_app/features/news/presentation/bloc/general-news/generalnews_bloc.dart';
-import 'package:curioso_app/features/news/presentation/bloc/news/news_bloc.dart';
+import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -83,74 +83,79 @@ class New extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 32),
-      child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16, vertical: 4
-          ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(200),
-              color: CuriosityColors.plate),
-          child: Text(
-            noticia.category,style: Theme.of(context)
-            .textTheme
-            .headline6!
-            .copyWith(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: CuriosityColors.beige
+    return GestureDetector(
+      onTap: (){
+        AppNavigator.push(Routes.web,noticia.url);
+      },
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 32),
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16, vertical: 4
             ),
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-             Image(
-                width: 102,
-                height: 102,
-                fit: BoxFit.contain,
-                image: NetworkImage(
-                    noticia.image
-                )
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(200),
+                color: CuriosityColors.plate),
+            child: Text(
+              noticia.category,style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: CuriosityColors.beige
               ),
-            const SizedBox(
-              width: 16,
             ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(noticia.headline,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style:Theme.of(context)
-                        .textTheme
-                        .headline3!
-                        .copyWith(
-                          fontWeight: FontWeight.bold,
-                        )
-                  ),
-                  Text(
-                    noticia.summary,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Image(
+                  width: 102,
+                  height: 102,
+                  fit: BoxFit.contain,
+                  image: NetworkImage(
+                      noticia.image
+                  )
+                ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(noticia.headline,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style:
-                          Theme.of(context).textTheme.headline6!
-                  ),
-                ],
-              ),
-            )
-          ],
-        )
-      ],
-    ),
-  );
+                    style:Theme.of(context)
+                          .textTheme
+                          .headline3!
+                          .copyWith(
+                            fontWeight: FontWeight.bold,
+                          )
+                    ),
+                    Text(
+                      noticia.summary,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                            Theme.of(context).textTheme.headline6!
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+      ),
+    );
   }
 }

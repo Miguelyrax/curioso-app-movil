@@ -9,7 +9,7 @@ AppBar customAppbar(BuildContext context) {
             onPressed: (){
               Navigator.pop(context);
             },
-            icon:const Icon(Icons.clear)
+            icon:const Icon(Icons.clear,color: Colors.white,)
           ),
         );
   }

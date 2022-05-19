@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 
 import 'core/extension/fade_page_route.dart';
 import 'core/extension/slide_transtition_route.dart';
+import 'features/news/presentation/screens/web_view_screen.dart';
 
 
-enum Routes { splash, home ,detail, auth, register, profile, survey}
+enum Routes { splash, home ,detail, auth, register, profile, survey, web}
 
 class _Paths {
   static const String splash = '/';
@@ -21,6 +22,7 @@ class _Paths {
   static const String register = '/register';
   static const String profile = '/profile';
   static const String survey = '/survey';
+  static const String web = '/web';
 
 
   static const Map<Routes, String> _pathMap = {
@@ -31,6 +33,7 @@ class _Paths {
     Routes.register: _Paths.register,
     Routes.profile: _Paths.profile,
     Routes.survey: _Paths.survey,
+    Routes.web: _Paths.web,
   };
 
   static String of(Routes route) => _pathMap[route] ?? splash;
@@ -53,6 +56,8 @@ class AppNavigator {
         return SlideTransitionRoute(page: const PerfilScreen(),offset: const Offset(2,0));
       case _Paths.survey:
         return SlideTransitionRoute(page: const QuizScreen(),offset: const Offset(2,0));
+      case _Paths.web:
+        return SlideTransitionRoute(page:  WebViewScreen(url: settings.arguments as String,),offset: const Offset(2,0));
       default:
         return FadeRoute(page:const HomeScreen());
     }

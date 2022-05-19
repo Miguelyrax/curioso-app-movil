@@ -1,5 +1,4 @@
 import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
-import 'package:curioso_app/features/user/presentation/views/perfil_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +18,7 @@ class LoginScreen extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if(state is UserHasData){
-          return FavouriteView();
+          return const FavouriteView();
         }else{
           return const LoginView();
         }

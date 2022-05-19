@@ -3,6 +3,8 @@ import 'package:curioso_app/features/news/presentation/bloc/news/news_bloc.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../routes.dart';
+
 // Class responsible for generating the modal page when clicked on a type
 class ModalDraggable extends StatelessWidget {
   const ModalDraggable({
@@ -121,25 +123,30 @@ class _ModalContentsState extends State<ModalContents> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (_,index){
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(state.news[index].category,
-                          style: Theme.of(context).textTheme.headline3!
-                          .copyWith(fontSize: 12, color: CuriosityColors.gray)
-                        ),
-                        const SizedBox(height: 4,),
-                        Text(state.news[index].headline,
-                          style: Theme.of(context).textTheme.headline5!
-                        ),
-                        const SizedBox(height: 4,),
-                        Text(state.news[index].summary,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headline3!
-                          .copyWith(fontSize: 12, color: CuriosityColors.gray)
-                        ),
-                      ],
+                    return GestureDetector(
+                      onTap: (){
+                        AppNavigator.push(Routes.web,state.news[index].url);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(state.news[index].category,
+                            style: Theme.of(context).textTheme.headline3!
+                            .copyWith(fontSize: 12, color: CuriosityColors.gray)
+                          ),
+                          const SizedBox(height: 4,),
+                          Text(state.news[index].headline,
+                            style: Theme.of(context).textTheme.headline5!
+                          ),
+                          const SizedBox(height: 4,),
+                          Text(state.news[index].summary,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headline3!
+                            .copyWith(fontSize: 12, color: CuriosityColors.gray)
+                          ),
+                        ],
+                      ),
                     );
                   });
               }
