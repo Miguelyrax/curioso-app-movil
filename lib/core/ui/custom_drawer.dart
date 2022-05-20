@@ -52,15 +52,6 @@ class CustomDrawer extends StatelessWidget {
                     )
               ),
             ),
-            const SizedBox(height: 16,),
-            Text('Configuraciones',
-                  style:Theme.of(context)
-                  .textTheme
-                  .headline2!
-                  .copyWith(
-                    fontWeight: FontWeight.bold,
-                  )
-            ),
             const Spacer(),
             GestureDetector(
               onTap: (){

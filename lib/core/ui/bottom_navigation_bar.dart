@@ -1,6 +1,7 @@
 import 'package:curioso_app/core/themes/colors.dart';
 import 'package:curioso_app/core/ui/custom_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/user/presentation/bloc/user_bloc.dart';
@@ -46,6 +47,7 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
                         index==0?Icons.favorite_rounded:Icons.favorite_outline,
                       ),
                       onChanged: (int? value){
+                        HapticFeedback.lightImpact();
                           index=value!;
                           widget.pageController.animateToPage(value,
                           duration: Constants.duration, curve: Constants.cubic);
@@ -61,6 +63,7 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
                             Icons.person,
                           ),
                           onChanged: (int? value){
+                            HapticFeedback.lightImpact();
                               index=value!;
                               widget.pageController.animateToPage(value,
                               duration: Constants.duration, curve: Constants.cubic);
@@ -73,6 +76,7 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
           
           GestureDetector(
             onTap: () {
+              HapticFeedback.lightImpact();
                 index = 1;
                 widget.pageController.animateToPage(1,
                     duration: Constants.duration, curve: Constants.cubic);
@@ -98,6 +102,7 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
                 Icons.newspaper,
               ),
               onChanged: (int? value){
+                HapticFeedback.lightImpact();
                   index=value!;
                   widget.pageController.animateToPage(value,
                   duration: Constants.duration, curve: Constants.cubic);

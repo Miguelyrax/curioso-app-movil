@@ -73,7 +73,7 @@ class _CustomInputState extends State<CustomInput> {
                 .copyWith(color: CuriosityColors.gray),
             textAlign: TextAlign.start),
         const SizedBox(
-          height: 16,
+          height: 4,
         ),
         Focus(
           child: Listener(

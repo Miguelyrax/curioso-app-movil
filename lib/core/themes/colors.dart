@@ -7,6 +7,8 @@ class CuriosityColors {
   static const Color graychetau     = Color(0xff1A212B);
   static const Color gray           = Color(0xff9B9B9B);
   static const Color beige          = Color(0xffFFE9C5);
+  static const Color surface        = Color(0xff231B07);
+  static const Color yellow         = Color(0xffFFDA15);
   static const Color aquagreen      = Color(0xffB4F2E1);
   static const Color orangered      = Color(0xffFA9191);
   static const Color red            = Color(0xffFF5651);

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:curioso_app/core/themes/colors.dart';
 import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
+          textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: CuriosityColors.beige,
+        selectionColor: CuriosityColors.beige,
+        selectionHandleColor: CuriosityColors.beige,
+     ),
           useMaterial3: true,
           appBarTheme: const AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle.dark,

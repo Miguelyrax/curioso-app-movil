@@ -11,8 +11,8 @@ class CuriosityInputs {
 
   static final OutlineInputBorder _customBorder = OutlineInputBorder(
       borderSide: const BorderSide(
-        color: CuriosityColors.riverBed,
-        width: 1,
+        color: CuriosityColors.dark2,
+        width: 0,
       ),
       borderRadius: BorderRadius.circular(8),
     );
@@ -26,16 +26,13 @@ class CuriosityInputs {
         enabledBorder: _customBorder,
         focusedBorder: _customBorder.copyWith(
             borderSide:const BorderSide(
-              color: CuriosityColors.crystalblue,
+              color: CuriosityColors.dark2,
             )
         ),
-        errorBorder: _customBorder.copyWith(
-            borderSide:const BorderSide(
-              color: CuriosityColors.sunsetOrange
-            )
-        ),
+        focusedErrorBorder: _customBorder,
+        errorBorder: _customBorder,
         errorStyle: const TextStyle(
-          color: CuriosityColors.sunsetOrange
+          color: CuriosityColors.orangered
         ),
         contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0)
 
