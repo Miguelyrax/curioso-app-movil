@@ -43,14 +43,11 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
                 return CustomItem<int?>(
                       gruopValue: index,
                       value: 0,
-                      icon: Icon(
-                        index==0?Icons.favorite_rounded:Icons.favorite_outline,
-                      ),
+                      icon: index==0?Icons.favorite_rounded:Icons.favorite_outline,
                       onChanged: (int? value){
                         HapticFeedback.lightImpact();
                           index=value!;
-                          widget.pageController.animateToPage(value,
-                          duration: Constants.duration, curve: Constants.cubic);
+                          widget.pageController.jumpToPage(value);
                           setState(() {
                           });
                       },
@@ -59,14 +56,11 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
                 return CustomItem<int?>(
                           gruopValue: index,
                           value: 0,
-                          icon:const Icon(
-                            Icons.person,
-                          ),
+                          icon:Icons.person,
                           onChanged: (int? value){
                             HapticFeedback.lightImpact();
                               index=value!;
-                              widget.pageController.animateToPage(value,
-                              duration: Constants.duration, curve: Constants.cubic);
+                              widget.pageController.jumpToPage(value);
                               setState(() {});
                           },
                       ); 
@@ -78,8 +72,7 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
             onTap: () {
               HapticFeedback.lightImpact();
                 index = 1;
-                widget.pageController.animateToPage(1,
-                    duration: Constants.duration, curve: Constants.cubic);
+                widget.pageController.jumpToPage(1);
                 setState(() {});
               },
             child: Container(
@@ -98,14 +91,11 @@ class _CustomBottomNavigatorBarState extends State<CustomBottomNavigatorBar> wit
           CustomItem<int?>(
               gruopValue: index,
               value: 2,
-              icon: const Icon(
-                Icons.newspaper,
-              ),
+              icon: Icons.newspaper,
               onChanged: (int? value){
                 HapticFeedback.lightImpact();
                   index=value!;
-                  widget.pageController.animateToPage(value,
-                  duration: Constants.duration, curve: Constants.cubic);
+                  widget.pageController.jumpToPage(value);
                   setState(() {
                   });
               },

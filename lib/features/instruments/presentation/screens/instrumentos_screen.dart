@@ -71,7 +71,7 @@ class _InstrumentosScreenState extends State<InstrumentosScreen> with AutomaticK
         ),
         const InstrumentList(),
         const SliverToBoxAdapter(
-          child: SizedBox(height: 100,),
+          child: SizedBox(height: 100,)
         )
       ],
     );

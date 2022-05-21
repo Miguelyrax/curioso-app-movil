@@ -48,7 +48,6 @@ class _PerfilScreenState extends State<PerfilScreen> with SingleTickerProviderSt
     ctrlCorreo.text=data.email;
     super.initState();
   }
-  bool _edit=false;
   @override
   Widget build(BuildContext context) {
     final textStyle=Theme.of(context) .textTheme.headline3;
@@ -56,152 +55,150 @@ class _PerfilScreenState extends State<PerfilScreen> with SingleTickerProviderSt
       child: Scaffold(
         appBar: customAppbar(context),
         backgroundColor:CuriosityColors.dark,
-        body: Form(
-          key: _key,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context,Widget? child) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Bienvenido',
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline1!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: CuriosityColors.beige
-                          )
-                    ),
-                    Text(data.name,
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline1!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                          )
-                    ),
-                    const SizedBox(height: 16,),
-                    Text('Aquí podras encontrar los datos relacionados a tu perfil.',
-                          style:Theme.of(context)
-                          .textTheme
-                          .headline5!.copyWith(color: CuriosityColors.gray)
-                    ),
-                    const SizedBox(height: 16,),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text('Perfil del inversionista', style:textStyle)
-                        ),
-                        Text(
-                          'Balanceado',
-                          style:Theme.of(context).textTheme.headline3!
-                          .copyWith(
-                            color: CuriosityColors.beige
+        body: SingleChildScrollView(
+          child: Form(
+            key: _key,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context,Widget? child) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Bienvenido',
+                            style:Theme.of(context)
+                            .textTheme
+                            .headline1!
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: CuriosityColors.beige
+                            )
+                      ),
+                      Text(data.name,
+                            style:Theme.of(context)
+                            .textTheme
+                            .headline1!
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                            )
+                      ),
+                      const SizedBox(height: 16,),
+                      Text('Aquí podras encontrar los datos relacionados a tu perfil.',
+                            style:Theme.of(context)
+                            .textTheme
+                            .headline5!.copyWith(color: CuriosityColors.gray)
+                      ),
+                      const SizedBox(height: 16,),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text('Perfil del inversionista', style:textStyle)
                           ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 64,),
-                    RowPerfil(onPressed: (value){
-                      _edit=value;
-                      if(value){
-                        _controller.forward();
-                      }else{
-                        _controller.reverse();
-                      }
-                      setState(() {
-                        
-                      });
-                    },alignment: Alignment.centerRight,),
-                    const SizedBox(height: 32,),
-
-                    SizeTransition(
-                      sizeFactor:_animation ,
-                      axisAlignment: 1,
-                      child: Text(data.name, style:textStyle)
-                    ),
-                    SizeTransition(
-                      sizeFactor:_animationPositioned ,
-                      axisAlignment: -1,
-                      child: CustomInput(
-                        controller: ctrlName,
-                        label: 'Name',
-                        validator: (value){
-                          if(value!=null && value.isNotEmpty){
-                            return null;
-                          }else{
-                            return '';
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16,),
-                    SizeTransition(
-                      sizeFactor:_animation ,
-                      axisAlignment: 1,
-                      child: Text(data.email, style:textStyle)
-                    ),
-                    SizeTransition(
-                      sizeFactor:_animationPositioned ,
-                      axisAlignment: -1,
-                      child: CustomInput(
-                        enabled: false,
-                        controller: ctrlCorreo,
-                        label: 'Email',
-                        validator: (value){
-                          if(value!=null && value.isNotEmpty){
-                            return null;
-                          }else{
-                            return '';
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text('Password', style:textStyle)
-                        ),
-                        SizeTransition(
-                      sizeFactor:_animationPositioned ,
-                      axisAlignment: 1,
-                          child: TextButton(
-                            onPressed: (){},
-                            child: Text('Cambiar password',
+                          Text(
+                            'Balanceado',
                             style:Theme.of(context).textTheme.headline3!
                             .copyWith(
-                              color: CuriosityColors.orangered
-                            ),)
+                              color: CuriosityColors.beige
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 64,),
+                      RowPerfil(onPressed: (value){
+                        if(value){
+                          _controller.forward();
+                        }else{
+                          _controller.reverse();
+                        }
+                        setState(() {
+                          
+                        });
+                      },alignment: Alignment.centerRight,),
+                      const SizedBox(height: 32,),
+                
+                      SizeTransition(
+                        sizeFactor:_animation ,
+                        axisAlignment: 1,
+                        child: Text(data.name, style:textStyle)
+                      ),
+                      SizeTransition(
+                        sizeFactor:_animationPositioned ,
+                        axisAlignment: -1,
+                        child: CustomInput(
+                          controller: ctrlName,
+                          label: 'Name',
+                          validator: (value){
+                            if(value!=null && value.isNotEmpty){
+                              return null;
+                            }else{
+                              return '';
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16,),
+                      SizeTransition(
+                        sizeFactor:_animation ,
+                        axisAlignment: 1,
+                        child: Text(data.email, style:textStyle)
+                      ),
+                      SizeTransition(
+                        sizeFactor:_animationPositioned ,
+                        axisAlignment: -1,
+                        child: CustomInput(
+                          enabled: false,
+                          controller: ctrlCorreo,
+                          label: 'Email',
+                          validator: (value){
+                            if(value!=null && value.isNotEmpty){
+                              return null;
+                            }else{
+                              return '';
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text('Password', style:textStyle)
                           ),
-                        )
-                        
-
-                      ],
-                    ),
-                    
-                    const Spacer(),
-                    const SizedBox(height: 32,),
-                    SizedBox(
-                            width: double.infinity,
-                            height: 63,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
-                              ),
-                              onPressed: (){
-                          AppNavigator.push(Routes.survey);
-                            }, child: const Text('Cambiar perfil')),
-                    ),
-                  ],
-                ),
-              );
-            }
+                          SizeTransition(
+                        sizeFactor:_animationPositioned ,
+                        axisAlignment: 1,
+                            child: TextButton(
+                              onPressed: (){},
+                              child: Text('Cambiar password',
+                              style:Theme.of(context).textTheme.headline3!
+                              .copyWith(
+                                color: CuriosityColors.orangered
+                              ),)
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 32,),
+                      SizedBox(
+                              width: double.infinity,
+                              height: 63,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
+                                ),
+                                onPressed: (){
+                            AppNavigator.push(Routes.survey);
+                              }, child: const Text('Cambiar perfil')),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            ),
           ),
         ),
       ),

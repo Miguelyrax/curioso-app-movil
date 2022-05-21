@@ -1,4 +1,4 @@
-import 'package:curioso_app/features/instruments/domain/entities/instrument.dart';
+
 import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/detail_bloc_dart_bloc.dart';
 import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class InstrumentList extends StatefulWidget {
   State<InstrumentList> createState() => _InstrumentListState();
 }
 
-class _InstrumentListState extends State<InstrumentList> {
+class _InstrumentListState extends State<InstrumentList> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     final blocProvider=BlocProvider.of<InstrumentBloc>(context,listen: false);
@@ -27,6 +27,7 @@ class _InstrumentListState extends State<InstrumentList> {
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final detailBloc=BlocProvider.of<DetailBloc>(context,listen: false);
     final historicalBloc=BlocProvider.of<HistoricaldataBloc>(context,listen: false);
     return BlocBuilder<InstrumentBloc, InstrumentState>(
@@ -39,7 +40,7 @@ class _InstrumentListState extends State<InstrumentList> {
               child: CircularProgressIndicator(
                 color: CuriosityColors.aquagreen,
               ),
-            )
+            ),
           );
         }
         else if(state is InstrumentError){
@@ -49,8 +50,8 @@ class _InstrumentListState extends State<InstrumentList> {
         }
         else if (state is InstrumentHasData){
         return SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
+          delegate: SliverChildBuilderDelegate(
+            (_,index){
                 return GestureDetector(
                   onTap: (){
                     detailBloc.add(OnDetailLoaded(state.instruments[index]));
@@ -59,13 +60,18 @@ class _InstrumentListState extends State<InstrumentList> {
                   },
                   child: CardWidget(instrument: state.instruments[index],),
                 );
-              }, childCount: state.instruments.length)
+            },
+          childCount: state.instruments.length
+          )
         );
         }else{
-          return const SliverToBoxAdapter();
+          return const SliverToBoxAdapter(child: SizedBox());
         }
       },
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
 

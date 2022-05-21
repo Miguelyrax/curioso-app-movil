@@ -4,14 +4,19 @@ import '../../../../core/themes/colors.dart';
 import '../../../../routes.dart';
 
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
 
+class _LoginViewState extends State<LoginView> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    print('aqca');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -90,4 +95,8 @@ class LoginView extends StatelessWidget {
       ],
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

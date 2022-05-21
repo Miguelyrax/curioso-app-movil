@@ -21,6 +21,7 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
   late AnimationController _controller;
   late Animation<double> animation;
   late Animation<Color?> animationColor;
+  late Animation<Color?> animationTextColor;
   late Animation<Color?> animationColorBorder;
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
     animation=Tween<double>(begin: 0.0,end:1.0).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInCubic));
     animationColor=ColorTween(begin: CuriosityColors.dark,end:CuriosityColors.surface).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInCubic));
     animationColorBorder=ColorTween(begin: CuriosityColors.gray,end:CuriosityColors.beige).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInCubic));
+    animationTextColor=ColorTween(begin: CuriosityColors.gray,end:CuriosityColors.white).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInCubic));
     super.initState();
   }
   @override
@@ -66,9 +68,7 @@ class _CustomRadioState<T> extends State<CustomRadio<T>> with SingleTickerProvid
                           child:Text(
                             widget.title,style: Theme.of(context).textTheme.headline5!
                             .copyWith(
-                              color:isSelected
-                              ?CuriosityColors.white
-                              :CuriosityColors.gray
+                              color:animationTextColor.value
                             ),
                           )
                         ),
