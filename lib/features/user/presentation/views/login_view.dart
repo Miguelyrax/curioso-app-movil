@@ -16,7 +16,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    print('aqca');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,

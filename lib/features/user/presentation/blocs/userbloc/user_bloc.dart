@@ -1,7 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:curioso_app/core/usecases/usecase.dart';
+import 'package:curioso_app/features/quiz/domain/entities/riesgo.dart';
+import 'package:curioso_app/features/user/data/models/user_model.dart';
 import 'package:curioso_app/features/user/domain/entities/user.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
+import 'package:curioso_app/features/user/domain/usecases/put_profile.dart';
 import 'package:curioso_app/features/user/domain/usecases/register.dart';
 import 'package:curioso_app/features/user/domain/usecases/renew.dart';
 import 'package:equatable/equatable.dart';
@@ -14,7 +17,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final Login login;
   final Register register;
   final Renew renew;
-  UserBloc(this.login, this.register,this.renew) : super(UserInitial()) {
+  final PutProfile putProfile;
+  UserBloc(this.login, this.register,this.renew, this.putProfile) : super(UserInitial()) {
     on<UserEvent>((event, emit) {
     });
     on<OnUserLoaded>((event,emit)async{
@@ -38,6 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       );
     });
     on<OnUserRenew>((event,emit)async{
+      print('renew');
       emit(UserLoading());
       final result = await renew.execute(NoParams());
       result.fold(
@@ -50,6 +55,31 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       const FlutterSecureStorage _storage=FlutterSecureStorage();
       await _storage.deleteAll();
       emit(UserInitial());
+    });
+    on<OnUserChangeProfile>((event,emit)async{
+      late User oldUser;
+      if(state is UserHasData){
+        oldUser = state.props[0] as User;
+      }else{
+       return  emit(const UserError('Error'));
+      }
+      emit(UserLoading());
+      User newUser = User(
+        name: oldUser.name,
+        email: oldUser.email,
+        token: oldUser.token,
+        status: oldUser.status,
+        profile: event.profile
+      );
+      print(newUser.profile);
+      print('aqui3');
+      final result = await putProfile.execute(UserParamsProfile(id: event.profile.id));
+      print('aqui4');
+      print(result.isRight());
+      result.fold(
+        (failure) => emit(UserHasData(oldUser)),
+        (data) => emit(UserHasData(newUser))
+      );
     });
 
   }

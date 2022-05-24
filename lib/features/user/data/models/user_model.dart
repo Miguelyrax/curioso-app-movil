@@ -1,18 +1,21 @@
 
 
+import 'package:curioso_app/features/quiz/data/models/riesgo_model.dart';
 import 'package:curioso_app/features/user/domain/entities/user.dart';
 
 class UserModel extends User{
-    const UserModel({
+     const UserModel({
         required String name,
         required String email,
         required String token,
         required bool status,
+        RiesgoModel? profile,
     }) : super(
         name:name,
         email:email,
         token:token,
-        status:status
+        status:status,
+        profile:profile
     );
 
 
@@ -21,6 +24,7 @@ class UserModel extends User{
         email: json["email"],
         token: json["token"],
         status: json["status"],
+        profile:json["profile"]==null?null: RiesgoModel.fromJson(json["profile"]),
     );
 
     Map<String, dynamic> toJson() => {

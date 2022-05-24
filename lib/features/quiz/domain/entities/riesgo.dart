@@ -12,20 +12,7 @@ class Riesgo extends Equatable{
     final String name;
     final String description;
     final dynamic icon;
-
-    factory Riesgo.fromJson(Map<String, dynamic> json) => Riesgo(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        icon: json["icon"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "icon": icon,
-    };
+    
     @override
     List<Object?> get props => [
         id,

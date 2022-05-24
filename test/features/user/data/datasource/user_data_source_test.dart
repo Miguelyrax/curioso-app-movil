@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:curioso_app/core/constants/constants.dart';
 import 'package:curioso_app/core/error/exception.dart';
+import 'package:curioso_app/core/error/failure.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/data/models/user_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -165,6 +166,109 @@ void main() {
       },
     );
 
+  });
+  group('group name', () {
+      const id ='123';
+      final data = json.encode( {"ok":true});
+      final url=Uri.parse('${Constants.baseURL}/api/survey/$id');
+      void setUpMockProfile()=>when(()=>mockHttpClient.put(url,headers: headersRenew))
+        .thenAnswer((_) async => http.Response(data,200));
+    test(
+      "should perfom PUT changeprofile on a url",
+      () async {
+        setUpMockStorageRenews();
+        setUpMockProfile();
+        await datasource.changeProfile(id);
+        verify(()=>mockHttpClient.put(url,headers: headersRenew));
+      },
+    );
+    test(
+      "should return data when the response status is 200",
+      () async {
+        setUpMockStorageRenews();
+        setUpMockProfile();
+        final result = await datasource.changeProfile(id);
+        expect(result,equals(true));
+      },
+    );
+    test(
+      "should return ServerException when the response status is 500 or other",
+      () async {
+        setUpMockStorageRenews();
+        when(()=>mockHttpClient.put(url,headers: headersRenew))
+        .thenAnswer((_) async => http.Response('Error',500));
+        final call =  datasource.changeProfile(id);
+        expect(()async=>await call,throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
+
+  group('recovery password', () {
+    const email ='123';
+    const code =123;
+    final url = Uri.parse('${Constants.baseURL}/api/auth/send/recovery');
+    final dataResp = json.encode({'ok':true});
+    void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers))
+        .thenAnswer((_) async => http.Response(dataResp,200));
+    test(
+      "should perfomr Post on a url",
+      () async {
+        setUpMockHttpClient();
+        await datasource.recoveryPassword(email, code);
+        verify(()=>mockHttpClient.post(url,headers: headers));
+      },
+    );
+    test(
+      "should return data when the response status is 200",
+      () async {
+        setUpMockHttpClient();
+        final result = await datasource.recoveryPassword(email, code);
+        expect(result, equals(true));
+      },
+    );
+
+    test(
+      "should return ServerExeption when the response status is 500 or other",
+      () async {
+        when(()=>mockHttpClient.post(url,headers: headers))
+        .thenAnswer((invocation) async=> http.Response('Error',500));
+        final call = datasource.recoveryPassword(email, code);
+        expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));  
+      },
+    );
+  });
+    group('send email', () {
+    const email ='123';
+    final url = Uri.parse('${Constants.baseURL}/api/auth/send');
+    final dataResp = json.encode({'ok':true});
+    void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers))
+        .thenAnswer((_) async => http.Response(dataResp,200));
+    test(
+      "should perfomr Post on a url",
+      () async {
+        setUpMockHttpClient();
+        await datasource.sendEmail(email);
+        verify(()=>mockHttpClient.post(url,headers: headers));
+      },
+    );
+    test(
+      "should return data when the response status is 200",
+      () async {
+        setUpMockHttpClient();
+        final result = await datasource.sendEmail(email);
+        expect(result, equals(true));
+      },
+    );
+
+    test(
+      "should return ServerExeption when the response status is 500 or other",
+      () async {
+        when(()=>mockHttpClient.post(url,headers: headers))
+        .thenAnswer((invocation) async=> http.Response('Error',500));
+        final call = datasource.sendEmail(email);
+        expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));  
+      },
+    );
   });
   
 }

@@ -1,8 +1,9 @@
-import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
+
 import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/user/presentation/blocs/userbloc/user_bloc.dart';
 import '../themes/colors.dart';
 
 
@@ -41,6 +42,7 @@ class CustomDrawer extends StatelessWidget {
             const SizedBox(height: 64,),
             GestureDetector(
               onTap: (){
+                AppNavigator.pop();
                 AppNavigator.push(Routes.profile);
               },
               child: Text('Perfil',

@@ -33,3 +33,8 @@ class OnUserRegister extends UserEvent{
 
 class OnUserRenew extends UserEvent{}
 class OnUserLogout extends UserEvent{}
+class OnUserChangeProfile extends UserEvent{
+  final Riesgo profile;
+
+  const OnUserChangeProfile(this.profile);
+}

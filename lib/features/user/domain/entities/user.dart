@@ -1,5 +1,6 @@
 
 
+import 'package:curioso_app/features/quiz/domain/entities/riesgo.dart';
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable{
@@ -8,12 +9,14 @@ class User extends Equatable{
         required this.email,
         required this.token,
         required this.status,
+        this.profile,
     });
 
     final String name;
     final String email;
     final String token;
     final bool status;
+    final Riesgo? profile;
 
   @override
   List<Object?> get props => [
@@ -23,17 +26,4 @@ class User extends Equatable{
     status,
   ];
 
-    // factory User.fromJson(Map<String, dynamic> json) => User(
-    //     name: json["name"],
-    //     email: json["email"],
-    //     token: json["token"],
-    //     status: json["status"],
-    // );
-
-    // Map<String, dynamic> toJson() => {
-    //     "name": name,
-    //     "email": email,
-    //     "token": token,
-    //     "status": status,
-    // };
 }

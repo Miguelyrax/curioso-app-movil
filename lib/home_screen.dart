@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/ui/bottom_navigation_bar.dart';
 import 'features/instruments/presentation/screens/instrumentos_screen.dart';
 import 'features/news/presentation/screens/news_screen.dart';
-import 'features/user/presentation/bloc/user_bloc.dart';
+import 'features/user/presentation/blocs/userbloc/user_bloc.dart';
 import 'features/user/presentation/screens/login_screen.dart';
 
 

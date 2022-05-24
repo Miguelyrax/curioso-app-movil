@@ -24,9 +24,12 @@ import 'package:curioso_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/domain/repository/user_repository.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
+import 'package:curioso_app/features/user/domain/usecases/post_recovery_password.dart';
+import 'package:curioso_app/features/user/domain/usecases/post_send_email.dart';
+import 'package:curioso_app/features/user/domain/usecases/put_profile.dart';
 import 'package:curioso_app/features/user/domain/usecases/register.dart';
 import 'package:curioso_app/features/user/domain/usecases/renew.dart';
-import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
+import 'package:curioso_app/features/user/presentation/blocs/recoverybloc/recovery_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +38,7 @@ import 'features/instruments/data/repositories/instrument_repository_impl.dart';
 import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.dart';
 import 'features/news/presentation/bloc/general-news/generalnews_bloc.dart';
 import 'features/user/data/repository/user_repository_impl.dart';
+import 'features/user/presentation/blocs/userbloc/user_bloc.dart';
 final locator = GetIt.instance;
 
 void init(){
@@ -45,8 +49,9 @@ void init(){
   locator.registerFactory(() => HistoricaldataBloc(locator()));
   locator.registerFactory(() => NewsBloc(getNewsSymbol: locator()));
   locator.registerFactory(() => GeneralnewsBloc(getNewsGeneral: locator()));
-  locator.registerFactory(() => UserBloc(locator(),locator(),locator()));
+  locator.registerFactory(() => UserBloc(locator(),locator(),locator(),locator()));
   locator.registerFactory(() => FavouritesBloc(locator(),locator()));
+  locator.registerFactory(() => RecoveryBloc(locator(),locator()));
 
   //usecase
   locator.registerLazySingleton(() => GetQuiz(locator()));
@@ -61,6 +66,9 @@ void init(){
   locator.registerLazySingleton(() => Renew(locator()));
   locator.registerLazySingleton(() => GetFavourites(locator()));
   locator.registerLazySingleton(() => PostFavourite(locator()));
+  locator.registerLazySingleton(() => PutProfile(locator()));
+  locator.registerLazySingleton(() => PostRecoveryPassword(locator()));
+  locator.registerLazySingleton(() => PostSendEmail(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 

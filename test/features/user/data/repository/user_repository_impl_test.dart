@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:curioso_app/core/error/exception.dart';
+import 'package:curioso_app/core/error/failure.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/data/models/user_model.dart';
 import 'package:curioso_app/features/user/data/repository/user_repository_impl.dart';
@@ -50,4 +53,99 @@ void main() {
       expect(result, equals(const Right(data)));
     },
   );
+  
+
+  group('profie', () {
+    test(
+      "should return data when the call to datasource is sucess",
+      () async {
+        when(()=>mockUserDataSource.changeProfile('123'))
+        .thenAnswer((_) async => true);
+        final result = await repository.changeProfile('123');
+        verify(()=>mockUserDataSource.changeProfile('123'));
+        expect(result, equals(const Right(true)));
+      },
+    );
+    test(
+      "should return Server Failure when the remote datasource is unsuccessful",
+      () async {
+        when(()=>mockUserDataSource.changeProfile('123'))
+        .thenThrow(ServerException());
+        final result = await repository.changeProfile('123');
+        expect(result, const Left(ServerFailure('Error del servidor'))) ;
+      },
+    );
+    test(
+      "should return connection failure when the device has no data",
+      () async {
+        when(()=>mockUserDataSource.changeProfile('123'))
+        .thenThrow(const SocketException(''));
+        final result = await repository.changeProfile('123');
+        expect(result, const Left(ConnectionFailure('Error de conexión'))) ;
+      },
+    );
+  });
+  group('recovery password', () {
+    const email ='123';
+    const code =123;
+    test(
+      "should return data when the call of datasource is sucess",
+      () async {
+        when(()=>mockUserDataSource.recoveryPassword(email, code))
+        .thenAnswer((_) async => true);
+        final result = await repository.recoveryPassword(email, code);
+        verify(()=>mockUserDataSource.recoveryPassword(email, code));
+        expect(result, const Right(true));
+      },
+    );
+    test(
+      "should return Server Failure when the call to remote datasource is unsuccessful",
+      () async {
+        when(()=>mockUserDataSource.recoveryPassword(email, code))
+        .thenThrow(ServerException());
+        final result = await repository.recoveryPassword(email, code);
+        expect(result, const Left( ServerFailure('Error del servidor')));
+      },
+    );
+    test(
+      "should return connection failure when the device has no internet",
+      () async {
+        when(()=>mockUserDataSource.recoveryPassword(email, code))
+        .thenThrow(const SocketException(''));
+        final result = await repository.recoveryPassword(email, code);
+        expect(result, const Left( ConnectionFailure('Error de conexión')));
+      },
+    );
+  });
+  group('send email', () {
+    const email ='123';
+    test(
+      "should return data when the call of datasource is sucess",
+      () async {
+        when(()=>mockUserDataSource.sendEmail(email))
+        .thenAnswer((_) async => true);
+        final result = await repository.sendEmail(email);
+        verify(()=>mockUserDataSource.sendEmail(email));
+        expect(result, const Right(true));
+      },
+    );
+    test(
+      "should return Server Failure when the call to remote datasource is unsuccessful",
+      () async {
+        when(()=>mockUserDataSource.sendEmail(email))
+        .thenThrow(ServerException());
+        final result = await repository.sendEmail(email);
+        expect(result, const Left( ServerFailure('Error del servidor')));
+      },
+    );
+    test(
+      "should return connection failure when the device has no internet",
+      () async {
+        when(()=>mockUserDataSource.sendEmail(email))
+        .thenThrow(const SocketException(''));
+        final result = await repository.sendEmail(email);
+        expect(result, const Left( ConnectionFailure('Error de conexión')));
+      },
+    );
+  });
 }

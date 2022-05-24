@@ -18,4 +18,6 @@ class UserHasData extends UserState {
   final User user;
 
   const UserHasData(this.user);
+  @override
+  List<Object> get props => [user];
 }

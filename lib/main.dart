@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:curioso_app/core/themes/colors.dart';
 import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,8 @@ import 'features/instruments/presentation/blocs/instrumentbloc/instrument_bloc.d
 import 'features/news/presentation/bloc/general-news/generalnews_bloc.dart';
 import 'features/news/presentation/bloc/news/news_bloc.dart';
 import 'features/quiz/presentation/bloc/quiz_bloc.dart';
-import 'features/user/presentation/bloc/user_bloc.dart';
+import 'features/user/presentation/blocs/recoverybloc/recovery_bloc.dart';
+import 'features/user/presentation/blocs/userbloc/user_bloc.dart';
 import 'injection.dart' as di;
 void main() {
   di.init();
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_)=>di.locator<GeneralnewsBloc>()),
         BlocProvider(create: (_)=>di.locator<UserBloc>()),
         BlocProvider(create: (_)=>di.locator<FavouritesBloc>()),
+        BlocProvider(create: (_)=>di.locator<RecoveryBloc>()),
       ],
       child: MaterialApp(
         theme: ThemeData(

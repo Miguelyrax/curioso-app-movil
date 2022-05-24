@@ -1,4 +1,4 @@
-import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
+
 import 'package:curioso_app/features/user/presentation/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +7,7 @@ import '../../../../core/themes/colors.dart';
 import '../../../../core/ui/custom_appbar.dart';
 import '../../../../core/usecases/validator.dart';
 import '../../../../routes.dart';
+import '../blocs/userbloc/user_bloc.dart';
 
 
 class AuthScreen extends StatefulWidget {
@@ -150,14 +151,19 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                    SizedBox(
                     width: double.infinity,
-                    child: Text(
-                      '¿Olvidaste tu contraseña?',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                        .textTheme.headline6!
-                        .copyWith(
-                          color:CuriosityColors.orangered
-                        )
+                    child: GestureDetector(
+                      onTap: (){
+                        AppNavigator.push(Routes.recovery);
+                      },
+                      child: Text(
+                        '¿Olvidaste tu contraseña?',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                          .textTheme.headline6!
+                          .copyWith(
+                            color:CuriosityColors.orangered
+                          )
+                      ),
                     )
                   ),
                   const SizedBox(

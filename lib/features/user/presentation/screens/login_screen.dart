@@ -1,8 +1,9 @@
-import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../instruments/presentation/views/favourites_view.dart';
+import '../blocs/userbloc/user_bloc.dart';
 import '../views/login_view.dart';
 
 

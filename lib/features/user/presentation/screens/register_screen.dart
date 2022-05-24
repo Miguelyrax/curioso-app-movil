@@ -1,12 +1,12 @@
 import 'package:curioso_app/core/ui/custom_snackbar.dart';
 import 'package:curioso_app/core/usecases/validator.dart';
-import 'package:curioso_app/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/themes/colors.dart';
 import '../../../../core/ui/custom_appbar.dart';
 import '../../../../routes.dart';
+import '../blocs/userbloc/user_bloc.dart';
 import '../widgets/custom_field.dart';
 
 
