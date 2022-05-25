@@ -1,16 +1,22 @@
 import 'dart:math';
 
 import 'package:curioso_app/core/themes/colors.dart';
+import 'package:curioso_app/features/user/presentation/blocs/userbloc/user_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RowPerfil extends StatefulWidget {
   const RowPerfil({
     Key? key,
     required this.onPressed,
     required this.alignment,
+    required this.enable,
+    required this.onPressedSave,
   }) : super(key: key);
   final Function onPressed;
+  final Function onPressedSave;
   final AlignmentGeometry alignment;
+  final bool enable;
 
   @override
   State<RowPerfil> createState() => _RowPerfilState();
@@ -55,7 +61,7 @@ class _RowPerfilState extends State<RowPerfil> with SingleTickerProviderStateMix
         Expanded(
           child: Text('Editar',style: Theme.of(context) .textTheme.headline3,),
         ),
-        Container(
+        SizedBox(
           width: 100,
           child: Stack(
             alignment: Alignment.centerRight,
@@ -66,13 +72,13 @@ class _RowPerfilState extends State<RowPerfil> with SingleTickerProviderStateMix
                   return AnimatedPositioned(
                     right: _animationPositioned.value,
                     child: GestureDetector(
-                      onTap: _change,
+                      onTap:!widget.enable?null: ()=>_change(save: true),
                       child: Container(
                       height: 31,
                       width: 31,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: CuriosityColors.aquagreen,
+                        color:!widget.enable?CuriosityColors.gray: CuriosityColors.aquagreen,
                       ),
                       child: const Icon(Icons.save),
                                       ),
@@ -91,13 +97,16 @@ class _RowPerfilState extends State<RowPerfil> with SingleTickerProviderStateMix
     );
   }
 
-  void _change(){
+  void _change({bool save=false})async{
     _isOpen=!_isOpen;
     widget.onPressed(_isOpen);
     if(_isOpen){
-    _controller.forward();
+    await _controller.forward();
     }else{
-      _controller.reverse();
+     await _controller.reverse();
+    }
+    if(save){
+       widget.onPressedSave(_isOpen);
     }
   }
 }

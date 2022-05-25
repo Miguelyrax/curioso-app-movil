@@ -24,6 +24,7 @@ import 'package:curioso_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/domain/repository/user_repository.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
+import 'package:curioso_app/features/user/domain/usecases/post_edit_user.dart';
 import 'package:curioso_app/features/user/domain/usecases/post_recovery_password.dart';
 import 'package:curioso_app/features/user/domain/usecases/post_send_email.dart';
 import 'package:curioso_app/features/user/domain/usecases/put_profile.dart';
@@ -49,7 +50,7 @@ void init(){
   locator.registerFactory(() => HistoricaldataBloc(locator()));
   locator.registerFactory(() => NewsBloc(getNewsSymbol: locator()));
   locator.registerFactory(() => GeneralnewsBloc(getNewsGeneral: locator()));
-  locator.registerFactory(() => UserBloc(locator(),locator(),locator(),locator()));
+  locator.registerFactory(() => UserBloc(locator(),locator(),locator(),locator(),locator()));
   locator.registerFactory(() => FavouritesBloc(locator(),locator()));
   locator.registerFactory(() => RecoveryBloc(locator(),locator()));
 
@@ -69,6 +70,7 @@ void init(){
   locator.registerLazySingleton(() => PutProfile(locator()));
   locator.registerLazySingleton(() => PostRecoveryPassword(locator()));
   locator.registerLazySingleton(() => PostSendEmail(locator()));
+  locator.registerLazySingleton(() => PostEditUser(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 

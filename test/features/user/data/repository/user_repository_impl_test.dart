@@ -148,4 +148,37 @@ void main() {
       },
     );
   });
+
+  group('edit user', () {
+    const name = '123';
+    const password = '123';
+    test(
+      "should return data when the call to datasource is success",
+      () async {
+        when(()=>mockUserDataSource.editUser(name, password))
+        .thenAnswer((_) async => true);
+        final result = await repository.editUser(name, password);
+        verify(()=>mockUserDataSource.editUser(name, password));
+        expect(result, const Right(true));
+      },
+    );
+    test(
+      "should return ServerFaiulure when the call to datasource is unsuccessful",
+      () async {
+        when(()=>mockUserDataSource.editUser(name, password))
+        .thenThrow(ServerException());
+        final result = await repository.editUser(name, password);
+        expect(result, const Left(ServerFailure('Error del servidor')));
+      },
+    );
+    test(
+      "should return connection failure when the device has no internet",
+      () async {
+        when(()=>mockUserDataSource.editUser(name, password))
+        .thenThrow(const SocketException(''));
+        final result = await repository.editUser(name, password);
+        expect(result, const Left(ConnectionFailure('Error de conexión')));
+      },
+    );
+  });
 }

@@ -12,6 +12,7 @@ class OnSendEmail extends RecoveryEvent{
 
   const OnSendEmail(this.email);
 }
+class OnRecoveryInitial extends RecoveryEvent{}
 class OnRecoveryEmail extends RecoveryEvent{
   final String email;
   final int code;

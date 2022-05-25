@@ -13,19 +13,19 @@ class Login extends UseCase<User,UserParams>{
   Login(this.repository);
   @override
   Future<Either<Failure, User>> execute(UserParams params) async{
-    return  repository.login(params.email,params.password); 
+    return  repository.login(params.email!,params.password); 
   }
 
 }
 
 class UserParams extends Equatable{
-  final String email;
+  final String? email;
   final String password;
   final String? name;
 
   UserParams(
     {
-    required this.email, 
+    this.email, 
     this.name, 
     required this.password
     }

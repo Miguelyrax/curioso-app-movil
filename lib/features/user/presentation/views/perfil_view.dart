@@ -20,6 +20,7 @@ class _PerfilScreenState extends State<PerfilScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController ctrlName = TextEditingController();
   final TextEditingController ctrlCorreo = TextEditingController();
+  final TextEditingController ctrlPassword = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -37,9 +38,10 @@ class _PerfilScreenState extends State<PerfilScreen>
     ctrlCorreo.text = userBloc.user.email;
     super.initState();
   }
-
+  bool enabled=false;
   @override
   Widget build(BuildContext context) {
+    final userBloc = BlocProvider.of<UserBloc>(context);
     
     final textStyle = Theme.of(context).textTheme.headline3;
     return SafeArea(
@@ -57,6 +59,12 @@ class _PerfilScreenState extends State<PerfilScreen>
               child: Form(
                 key: _key,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: (){
+                  enabled=validate();
+                  setState(() {
+                    
+                  });
+                },
                 child: AnimatedBuilder(
                     animation: _controller,
                     builder: (context, Widget? child) {
@@ -111,6 +119,16 @@ class _PerfilScreenState extends State<PerfilScreen>
                               height: 64,
                             ),
                             RowPerfil(
+                              onPressedSave: (value){
+                                userBloc.add(
+                                  OnUserEdit(
+                                    password: ctrlPassword.text,
+                                    name: ctrlName.text
+                                  )
+                                );
+                                ctrlPassword.text='';
+                              },
+                              enable: enabled,
                               onPressed: (value) {
                                 if (value) {
                                   _controller.forward();
@@ -138,7 +156,7 @@ class _PerfilScreenState extends State<PerfilScreen>
                                   if (value != null && value.isNotEmpty) {
                                     return null;
                                   } else {
-                                    return '';
+                                    return 'Ingrese nombre';
                                   }
                                 },
                               ),
@@ -169,27 +187,25 @@ class _PerfilScreenState extends State<PerfilScreen>
                             const SizedBox(
                               height: 16,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                    child: Text('Password', style: textStyle)),
-                                SizeTransition(
-                                  sizeFactor: _animationPositioned,
-                                  axisAlignment: 1,
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Cambiar password',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .copyWith(
-                                                color:
-                                                    CuriosityColors.orangered),
-                                      )),
-                                )
-                              ],
+                            SizeTransition(
+                                sizeFactor: _animation,
+                                axisAlignment: 0,
+                                child: Text('Password', style: textStyle)),
+                            SizeTransition(
+                              sizeFactor: _animationPositioned,
+                              axisAlignment: -1,
+                              child: CustomInput(
+                                obscureText: true,
+                                controller: ctrlPassword,
+                                label: 'Password',
+                                validator: (value) {
+                                  if (value != null && value.isNotEmpty && value.length>3) {
+                                    return null;
+                                  } else {
+                                    return 'El password debe tener mas de 3 caracteres';
+                                  }
+                                },
+                              ),
                             ),
                             const SizedBox(
                               height: 32,
@@ -217,5 +233,8 @@ class _PerfilScreenState extends State<PerfilScreen>
         ),
       ),
     );
+  }
+  bool validate(){
+    return _key.currentState?.validate()??false;
   }
 }

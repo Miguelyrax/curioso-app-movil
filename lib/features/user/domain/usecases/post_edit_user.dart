@@ -1,20 +1,16 @@
-
-
 import 'package:curioso_app/core/error/failure.dart';
 import 'package:curioso_app/core/usecases/usecase.dart';
-import 'package:curioso_app/features/user/domain/entities/user.dart';
 import 'package:curioso_app/features/user/domain/repository/user_repository.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
 import 'package:dartz/dartz.dart';
 
-class Register extends UseCase<User,UserParams>{
+class PostEditUser extends UseCase<bool,UserParams>{
   final UserRepository repository;
 
-  Register(this.repository);
+  PostEditUser(this.repository);
   @override
-  Future<Either<Failure, User>> execute(UserParams params) {
-    return repository.register(params.email!, params.password, params.name!);
+  Future<Either<Failure, bool>> execute(UserParams params) {
+    return repository.editUser(params.name!, params.password);
   }
 
 }
-

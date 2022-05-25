@@ -5,6 +5,7 @@ import 'package:curioso_app/core/error/exception.dart';
 import 'package:curioso_app/core/error/failure.dart';
 import 'package:curioso_app/features/user/data/datasource/user_data_source.dart';
 import 'package:curioso_app/features/user/data/models/user_model.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -267,6 +268,37 @@ void main() {
         .thenAnswer((invocation) async=> http.Response('Error',500));
         final call = datasource.sendEmail(email);
         expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));  
+      },
+    );
+  });
+  group('edit user', () {
+    const name = '123';
+    const password = '123';
+    final data = json.encode({"ok":true});
+    final cuerpo = json.encode({
+      "name":name,
+      "password":password
+    });
+    final url = Uri.parse('${Constants.baseURL}/api/user/');
+    void setUpMockHttp()=>when(()=>mockHttpClient.put(url,headers: headersRenew,body: cuerpo))
+    .thenAnswer((_)async=>http.Response(data,200));
+    test(
+      "should return data when the response status is 200",
+      () async {
+        setUpMockStorageRenews();
+        setUpMockHttp();
+        final result = await datasource.editUser(name, password);
+        expect(result, equals(true));
+      },
+    );
+    test(
+      "should return serverexception when the response status is 500 or other",
+      () async {
+        setUpMockStorageRenews();
+        when(()=>mockHttpClient.put(url,headers: headersRenew,body: cuerpo))
+        .thenAnswer((_)async=>http.Response('Error',500));
+        final call = datasource.editUser(name, password);
+        expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
       },
     );
   });

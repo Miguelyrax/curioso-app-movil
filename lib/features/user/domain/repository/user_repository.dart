@@ -10,6 +10,7 @@ abstract class UserRepository{
   Future<Either<Failure,bool>> changeProfile(String id);
   Future<Either<Failure,bool>> sendEmail(String email);
   Future<Either<Failure,bool>> recoveryPassword(String email,int code);
+  Future<Either<Failure,bool>> editUser(String name,String password);
 }
 
 

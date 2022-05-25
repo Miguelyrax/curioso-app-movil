@@ -1,4 +1,5 @@
 import 'package:curioso_app/features/user/presentation/widgets/custom_field.dart';
+import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +17,14 @@ class RecoveryScreen extends StatefulWidget {
 
 class _RecoveryScreenState extends State<RecoveryScreen> {
   final TextEditingController _ctrlEmail = TextEditingController();
+  @override
+  void initState() {
+    final recoveryBloc = BlocProvider.of<RecoveryBloc>(context);
+    recoveryBloc.add(OnRecoveryInitial());
+    _ctrlEmail.text='miguel_albanez_96@hotmail.com';
+    super.initState();
+    
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,8 +68,41 @@ class SuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Enviamos una contraseña temporal a tu cuenta de email',
+          style: Theme.of(context)
+              .textTheme
+              .headline2!
+              .copyWith(
+                fontWeight: FontWeight.bold,
+                color: CuriosityColors.beige
+              ),
+        ),
+        const SizedBox(height: 16,),
+        Text(
+          'Debes ingresar esta al momento de loguearte y cambiar tu contraseña desde el menú de configuraciones del usuario',
+          style: Theme.of(context)
+              .textTheme
+              .headline5!
+              .copyWith(
+                color: CuriosityColors.gray
+              ),
+        ),
+        const Spacer(),
+        SizedBox(
+          width: double.infinity,
+          height: 63,
+          child: ElevatedButton(
+            onPressed: (){
+              AppNavigator.pop();
+            },
+            child: const Text('Ir al login')
+          ),
+        )
+      ],
     );
   }
 }
@@ -76,10 +118,30 @@ class CodeView extends StatefulWidget {
 }
 
 class _CodeViewState extends State<CodeView> {
+  late FocusNode _ctrlOneFocus;
+  late FocusNode _ctrlTwoFocus;
+  late FocusNode _ctrlThreeFocus;
+  late FocusNode _ctrlFourFocus;
   final TextEditingController _ctrlOne = TextEditingController();
   final TextEditingController _ctrlTwo = TextEditingController();
   final TextEditingController _ctrlThree = TextEditingController();
   final TextEditingController _ctrlFour = TextEditingController();
+  @override
+  void initState() {
+    _ctrlOneFocus=FocusNode();
+    _ctrlTwoFocus=FocusNode();
+    _ctrlThreeFocus=FocusNode();
+    _ctrlFourFocus=FocusNode();
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _ctrlOneFocus.dispose();
+    _ctrlTwoFocus.dispose();
+    _ctrlThreeFocus.dispose();
+    _ctrlFourFocus.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final recoveryBloc = BlocProvider.of<RecoveryBloc>(context);
@@ -112,13 +174,13 @@ class _CodeViewState extends State<CodeView> {
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Row(
             children: [
-              _input(_ctrlOne),
+              _input(_ctrlOne,_ctrlOneFocus,_ctrlTwoFocus,_ctrlOneFocus),
               const SizedBox(width: 16,),
-              _input(_ctrlTwo),
+              _input(_ctrlTwo,_ctrlTwoFocus,_ctrlThreeFocus,_ctrlOneFocus),
               const SizedBox(width: 16,),
-              _input(_ctrlThree),
+              _input(_ctrlThree,_ctrlThreeFocus,_ctrlFourFocus,_ctrlTwoFocus),
               const SizedBox(width: 16,),
-              _input(_ctrlFour),
+              _input(_ctrlFour,_ctrlFourFocus,_ctrlFourFocus,_ctrlThreeFocus),
             ],
           ),
         ),
@@ -139,27 +201,35 @@ class _CodeViewState extends State<CodeView> {
     );;
   }
 
-  Expanded _input(TextEditingController controller) {
+  Expanded _input(TextEditingController controller, FocusNode focus,FocusNode nextFocus,FocusNode previusFocus) {
     return Expanded(
-      child: CustomInput(
-        maxLenght: 1,
-                hideErrors: true,
-                  controller: controller,
-                  label: '',
-                  keyboardType: TextInputType.number,
-                  onChangedField: (value){
-                  setState(() {
-                    
-                  });
-                  },
-                  validator:(value){
-                    if(value!=null|| value!.isNotEmpty){
-                      return null;
-                    }else{
-                        return '';
-                    }
-                  },
-                ),
+      child: TextFormField(
+        focusNode: focus,
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
+        obscureText: true,
+        autofocus: true,
+        textAlign: TextAlign.center,
+        obscuringCharacter: '*',
+          controller: controller,
+          keyboardType: TextInputType.number,
+          onChanged: (v){
+            print(v);
+            if(v.isEmpty){
+              print('empty');
+              FocusScope.of(context).requestFocus(previusFocus);
+            }else{
+                FocusScope.of(context).requestFocus(nextFocus);
+            }
+              },
+          validator:(value){
+            if(value!=null|| value!.isNotEmpty){
+              return null;
+            }else{
+                return '';
+            }
+          },
+        ),
     );
   }
 }

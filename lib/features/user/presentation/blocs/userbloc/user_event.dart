@@ -30,6 +30,17 @@ class OnUserRegister extends UserEvent{
     }
   );
 }
+class OnUserEdit extends UserEvent{
+  final String password;
+  final String name;
+
+  const OnUserEdit(
+    {
+    required this.password,
+    required this.name,
+    }
+  );
+}
 
 class OnUserRenew extends UserEvent{}
 class OnUserLogout extends UserEvent{}

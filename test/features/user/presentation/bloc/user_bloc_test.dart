@@ -4,6 +4,7 @@ import 'package:curioso_app/core/usecases/usecase.dart';
 import 'package:curioso_app/features/quiz/domain/entities/riesgo.dart';
 import 'package:curioso_app/features/user/domain/entities/user.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
+import 'package:curioso_app/features/user/domain/usecases/post_edit_user.dart';
 import 'package:curioso_app/features/user/domain/usecases/put_profile.dart';
 import 'package:curioso_app/features/user/domain/usecases/register.dart';
 import 'package:curioso_app/features/user/domain/usecases/renew.dart';
@@ -16,11 +17,13 @@ class MockLogin extends Mock implements Login{}
 class MockRegister extends Mock implements Register{}
 class MockRenew extends Mock implements Renew{}
 class MockPutProfile extends Mock implements PutProfile{}
+class MockPostEditUser extends Mock implements PostEditUser{}
 void main() {
   late MockLogin mockLogin;
   late MockRegister mockRegister;
   late MockRenew mockRenew;
   late MockPutProfile mockPutProfile;
+  late PostEditUser postEditUser;
   late UserBloc bloc;
 
   setUp(() {
@@ -28,7 +31,8 @@ void main() {
     mockRegister = MockRegister();
     mockRenew = MockRenew();
     mockPutProfile = MockPutProfile();
-    bloc = UserBloc(mockLogin,mockRegister,mockRenew,mockPutProfile);
+    postEditUser = MockPostEditUser();
+    bloc = UserBloc(mockLogin,mockRegister,mockRenew,mockPutProfile,postEditUser);
   });
 
   test(

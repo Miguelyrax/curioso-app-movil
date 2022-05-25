@@ -14,6 +14,7 @@ abstract class UserDataSource{
   Future<bool> changeProfile(String id);
   Future<bool> sendEmail(String email);
   Future<bool> recoveryPassword(String email,int code);
+  Future<bool> editUser(String name,String password);
 }
 
 class UserDataSourceImpl extends UserDataSource{
@@ -130,6 +131,29 @@ class UserDataSourceImpl extends UserDataSource{
           'Content-type':'application/json',
     },
     body: json.encode(data));
+    if(resp.statusCode==200){
+      return true;
+    }else{
+      throw ServerException();
+    }
+  }
+  
+  @override
+  Future<bool> editUser(String name, String password)async{
+    final String? tokenLocal = await storage.read(key: 'token');
+    final data = {
+      "name":name,
+      "password":password
+    };
+    final url = Uri.parse('${Constants.baseURL}/api/user/');
+    final resp=await client.put(url,headers: {
+          'Content-type':'application/json',
+          'x-token':tokenLocal.toString()
+    },
+    body: json.encode(data));
+    print(url);
+    print(resp.statusCode);
+    print(resp.body);
     if(resp.statusCode==200){
       return true;
     }else{

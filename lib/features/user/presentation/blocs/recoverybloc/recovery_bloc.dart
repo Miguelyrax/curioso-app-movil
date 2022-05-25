@@ -12,6 +12,9 @@ class RecoveryBloc extends Bloc<RecoveryEvent, RecoveryState> {
   RecoveryBloc(this.postRecoveryPassword, this.postSendEmail) : super(RecoveryInitial()) {
     on<RecoveryEvent>((event, emit) {
     });
+    on<OnRecoveryInitial>((event, emit) {
+      emit(RecoveryInitial());
+    });
     on<OnRecoveryEmail>((event,emit)async {
       emit(RecoveryLoaded());
       final result = await postRecoveryPassword
@@ -20,7 +23,7 @@ class RecoveryBloc extends Bloc<RecoveryEvent, RecoveryState> {
       );
       result.fold(
         (failure) => emit(RecoveryError(failure.message)),
-        (data) => emit(RecoveryEndLoaded()),
+        (data) => emit(RecoverySendSuccess()),
       );
     });
     on<OnSendEmail>((event,emit)async {

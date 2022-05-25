@@ -91,5 +91,19 @@ class UserRepositoryImpl extends UserRepository{
       return const Left(DatabaseFailure('Error del servidor'));
     }
   }
+  
+  @override
+  Future<Either<Failure, bool>> editUser(String name, String password)async{
+    try {
+      final result = await datasource.editUser(name,password);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure('Error del servidor'));
+    }on SocketException{
+      return const Left(ConnectionFailure('Error de conexión'));
+    }on DatabaseFailure{
+      return const Left(DatabaseFailure('Error del servidor'));
+    }
+  }
 
 }
