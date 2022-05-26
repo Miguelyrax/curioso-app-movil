@@ -16,6 +16,7 @@ abstract class InstrumentRemoteDataSource{
   Future<DetailModel> getDetailInstrument(String symbol);
   Future<List<FavouritesModel>> getFavourites();
   Future<FavouritesModel> postFavourites(String id);
+  Future<bool> deleteFavourite(String id);
 }
 
 class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
@@ -104,10 +105,28 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
       'Content-Type':'application/json',
       'x-token':token.toString()
     });
+    print(resp.statusCode);
+    print(id);
     if (resp.statusCode == 200) {
       final Map<String,dynamic> map =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
       final FavouritesModel detail=FavouritesModel.fromJson(map);
       return detail;
+    } else {
+     throw ServerException();
+    }
+  }
+  
+  @override
+  Future<bool> deleteFavourite(String id) async{
+    final token=await storage.read(key: 'token');
+    final url = Uri.parse('${Constants.baseURL}/api/favorito/$id');
+    final resp= await client.delete(url,headers: {
+      'Content-Type':'application/json',
+      'x-token':token.toString()
+    });
+    print(resp.statusCode);
+    if (resp.statusCode == 200) {
+      return true;
     } else {
      throw ServerException();
     }

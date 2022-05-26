@@ -13,3 +13,8 @@ class OnFavouriteAdd extends FavouritesEvent{
 
   const OnFavouriteAdd(this.id);
 }
+class OnFavouriteDelete extends FavouritesEvent{
+  final String id;
+
+  const OnFavouriteDelete(this.id);
+}

@@ -34,12 +34,13 @@ class _CustomItemState<T> extends State<CustomItem<T>> with SingleTickerProvider
   late Animation<Color?> _animationColor;
   @override
   void initState() {
-    _controller=AnimationController(vsync: this, duration: Constants.duration);
-    _animation=Tween<double>(begin: 1.2,end:1.0)
+    _controller=AnimationController(vsync: this, duration:Constants.duration);
+    _animation=Tween<double>(begin: 1,end:1.3)
     .animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeInCubic
+        curve: const ElasticInOutCurve(2),
+        reverseCurve: Curves.ease
       )
     );
     _animationColor=ColorTween(
@@ -48,7 +49,8 @@ class _CustomItemState<T> extends State<CustomItem<T>> with SingleTickerProvider
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeInCubic
+        curve: Curves.easeInCubic,
+        
       )
     );
     super.initState();
@@ -73,7 +75,7 @@ class _CustomItemState<T> extends State<CustomItem<T>> with SingleTickerProvider
         animation: _controller,
         builder: (context, Widget? child) {
           return Transform.scale(
-            scale: lerpDouble(1.1, 1.0, _animation.value),
+            scale: _animation.value,
             child: Icon(
               widget.icon,
               color: _animationColor.value,

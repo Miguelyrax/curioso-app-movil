@@ -1,6 +1,7 @@
 
 import 'package:curioso_app/features/instruments/data/datasource/instrument_remote_data_source.dart';
 import 'package:curioso_app/features/instruments/domain/repositories/instrument_repository.dart';
+import 'package:curioso_app/features/instruments/domain/usecases/delete_favourite.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_favourites.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_instrument.dart';
 import 'package:curioso_app/features/instruments/domain/usecases/get_detail.dart';
@@ -51,7 +52,7 @@ void init(){
   locator.registerFactory(() => NewsBloc(getNewsSymbol: locator()));
   locator.registerFactory(() => GeneralnewsBloc(getNewsGeneral: locator()));
   locator.registerFactory(() => UserBloc(locator(),locator(),locator(),locator(),locator()));
-  locator.registerFactory(() => FavouritesBloc(locator(),locator()));
+  locator.registerFactory(() => FavouritesBloc(locator(),locator(),locator()));
   locator.registerFactory(() => RecoveryBloc(locator(),locator()));
 
   //usecase
@@ -71,6 +72,7 @@ void init(){
   locator.registerLazySingleton(() => PostRecoveryPassword(locator()));
   locator.registerLazySingleton(() => PostSendEmail(locator()));
   locator.registerLazySingleton(() => PostEditUser(locator()));
+  locator.registerLazySingleton(() => DeleteFavourite(locator()));
 
   //Repository
   locator.registerLazySingleton<QuizRepository>(() => 

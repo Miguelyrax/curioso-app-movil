@@ -34,11 +34,13 @@ class _InstrumentListState extends State<InstrumentList> with AutomaticKeepAlive
       builder: (context, state) {
         if(state is InstrumentLoading){
           return const SliverToBoxAdapter(
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: CircularProgressIndicator(
-                color: CuriosityColors.aquagreen,
+            child: Center(
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(
+                  color: CuriosityColors.aquagreen,
+                ),
               ),
             ),
           );

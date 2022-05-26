@@ -236,4 +236,34 @@ void main() {
       },
     );
   });
+  group('delete favourite', () {
+    const id = '123';
+    test(
+      "should return data when the call to remote datasource is success",
+      () async {
+        when(()=>mockDataSource.deleteFavourite(id))
+        .thenAnswer((_) async => true);
+        final result = await repository.deleteFavourite(id);
+        expect(result, const Right(true));
+      },
+    );
+    test(
+      "should return ServerFailure when the call to remotedatasource is unsucessful",
+      () async {
+        when(()=>mockDataSource.deleteFavourite(id))
+        .thenThrow(ServerException());
+        final result = await repository.deleteFavourite(id);
+        expect(result, const Left(ServerFailure('Error del servidor')));
+      },
+    );
+    test(
+      "should return Connection Failure when the device has no internet",
+      () async {
+        when(()=>mockDataSource.deleteFavourite(id))
+        .thenThrow(const SocketException(''));
+        final result = await repository.deleteFavourite(id);
+        expect(result, const Left(ConnectionFailure('Failed to connect to the network')));
+      },
+    );
+  });
 }

@@ -222,4 +222,39 @@ void main() {
       },
     );
   });
+  group('delete favourite', () {
+    const id='123';
+    final data = json.encode({"ok":true});
+    final url = Uri.parse('${Constants.baseURL}/api/favorito/$id');
+    void setUpHttpClient()=>when(()=>mockHttpClient.delete(url,headers: headerToken))
+    .thenAnswer((_)async=>http.Response(data,200));
+    test(
+      "should perform Delete on a Url",
+      () async {
+        setUpMockStorage();
+        setUpHttpClient();
+        await datasource.deleteFavourite(id);
+        verify(()=>mockHttpClient.delete(url,headers: headerToken));
+      },
+    );
+    test(
+      "should return data when the reponse status is 200",
+      () async {
+        setUpMockStorage();
+        setUpHttpClient();
+        final result = await datasource.deleteFavourite(id);
+        expect(result, equals(true));
+      },
+    );
+    test(
+      "should return ServerExeption when reponse status is 500 or other",
+      () async {
+        setUpMockStorage();
+        when(()=>mockHttpClient.delete(url,headers: headerToken))
+        .thenAnswer((_)async=>http.Response('Error',500));
+        final call =  datasource.deleteFavourite(id);
+        expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
 }

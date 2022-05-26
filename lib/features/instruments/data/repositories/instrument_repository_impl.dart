@@ -74,4 +74,16 @@ class InstrumentRepositoryImpl extends InstrumentRepository{
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+  
+  @override
+  Future<Either<Failure, bool>> deleteFavourite(String id) async{
+    try {
+     final result= await dataSource.deleteFavourite(id);
+     return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure('Error del servidor'));
+    }on SocketException{
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }

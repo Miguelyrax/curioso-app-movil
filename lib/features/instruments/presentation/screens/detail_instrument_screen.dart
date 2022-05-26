@@ -80,7 +80,9 @@ class DetailInstrumentView extends StatelessWidget {
                 if(state is FavouritesHasData){
                   final isFavourite=state.favoritos.where((f) => f.instrument.id==stateDetail.id).isNotEmpty;
                 return GestureDetector(
-                  onTap:isFavourite?null: () async {
+                  onTap:isFavourite?() async {
+                    favouriteBloc.add(OnFavouriteDelete(stateDetail.id));
+                  }: () async {
                     favouriteBloc.add(OnFavouriteAdd(stateDetail.id));
                   },
                   child: Padding(

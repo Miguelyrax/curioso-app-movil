@@ -80,15 +80,16 @@ class _LoginViewState extends State<LoginView> with AutomaticKeepAliveClientMixi
         ),
         const SizedBox(height: 16,),
         SizedBox(
-                width: double.infinity,
-                height: 63,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
-                  ),
-                  onPressed: (){
+          width: double.infinity,
+          height: 63,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(CuriosityColors.orangered)
+            ),
+            onPressed: (){
               AppNavigator.push(Routes.register);
-                }, child: const Text('Hazte una cuenta')),
+            }, child: const Text('Hazte una cuenta')
+          ),
         ),
         const SizedBox(height: 100,),
       ],
@@ -96,6 +97,5 @@ class _LoginViewState extends State<LoginView> with AutomaticKeepAliveClientMixi
   }
   
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

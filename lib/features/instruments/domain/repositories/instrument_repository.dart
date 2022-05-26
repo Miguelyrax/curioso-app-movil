@@ -12,4 +12,5 @@ abstract class InstrumentRepository{
   Future<Either<Failure,Detail>> getDetailInstrument(String symbol);
   Future<Either<Failure,List<Favourites>>> getFavourites();
   Future<Either<Failure,Favourites>> postFavourite(String id);
+  Future<Either<Failure,bool>> deleteFavourite(String id);
 }
