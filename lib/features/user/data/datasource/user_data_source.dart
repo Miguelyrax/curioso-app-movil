@@ -73,7 +73,6 @@ class UserDataSourceImpl extends UserDataSource{
     });
     if(resp.statusCode==200){
       final UserModel user=UserModel.fromJson(jsonDecode(const Utf8Decoder().convert(resp.bodyBytes)));
-      print(user.profile);
       await storage.write(key: 'token', value: user.token);
       return user;
     }else if(resp.statusCode==401){
@@ -87,12 +86,10 @@ class UserDataSourceImpl extends UserDataSource{
   Future<bool> changeProfile(String id) async{
     final String? tokenLocal = await storage.read(key: 'token');
     final url = Uri.parse('${Constants.baseURL}/api/survey/$id');
-    print(url);
     final resp=await client.put(url,headers: {
           'Content-type':'application/json',
           'x-token': tokenLocal.toString()
     });
-    print(resp.statusCode);
     if(resp.statusCode==200){
       return true;
     }else{
@@ -111,9 +108,6 @@ class UserDataSourceImpl extends UserDataSource{
           'Content-type':'application/json',
     },
     body: json.encode(data));
-    print(url);
-    print(resp.statusCode);
-    print(resp.body);
     if(resp.statusCode==200){
       return true;
     }else{
@@ -151,9 +145,6 @@ class UserDataSourceImpl extends UserDataSource{
           'x-token':tokenLocal.toString()
     },
     body: json.encode(data));
-    print(url);
-    print(resp.statusCode);
-    print(resp.body);
     if(resp.statusCode==200){
       return true;
     }else{

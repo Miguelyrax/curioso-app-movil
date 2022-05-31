@@ -37,7 +37,6 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
     },
     body: jsonEncode(data));
     if (resp.statusCode == 200) {
-      print(resp.body);
       final RiesgoModel data = RiesgoModel.fromJson(json.decode(const Utf8Decoder().convert(resp.bodyBytes)));
       return data;
     } else {

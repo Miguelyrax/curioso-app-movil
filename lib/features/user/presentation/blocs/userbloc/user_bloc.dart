@@ -66,7 +66,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       );
     });
     on<OnUserRenew>((event,emit)async{
-      print('renew');
       emit(UserLoading());
       final result = await renew.execute(NoParams());
       result.fold(
@@ -95,11 +94,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         status: oldUser.status,
         profile: event.profile
       );
-      print(newUser.profile);
-      print('aqui3');
       final result = await putProfile.execute(UserParamsProfile(id: event.profile.id));
-      print('aqui4');
-      print(result.isRight());
       result.fold(
         (failure) => emit(UserHasData(oldUser)),
         (data) => emit(UserHasData(newUser))

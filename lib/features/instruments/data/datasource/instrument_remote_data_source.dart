@@ -105,8 +105,6 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
       'Content-Type':'application/json',
       'x-token':token.toString()
     });
-    print(resp.statusCode);
-    print(id);
     if (resp.statusCode == 200) {
       final Map<String,dynamic> map =json.decode(const Utf8Decoder().convert(resp.bodyBytes)) ;
       final FavouritesModel detail=FavouritesModel.fromJson(map);
@@ -124,7 +122,6 @@ class InstrumentRemoteDataSourceImpl extends InstrumentRemoteDataSource{
       'Content-Type':'application/json',
       'x-token':token.toString()
     });
-    print(resp.statusCode);
     if (resp.statusCode == 200) {
       return true;
     } else {

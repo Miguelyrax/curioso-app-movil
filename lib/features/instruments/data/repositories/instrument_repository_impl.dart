@@ -86,4 +86,5 @@ class InstrumentRepositoryImpl extends InstrumentRepository{
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+  
 }

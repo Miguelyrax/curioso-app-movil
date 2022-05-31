@@ -17,6 +17,11 @@ import 'features/user/presentation/blocs/userbloc/user_bloc.dart';
 import 'injection.dart' as di;
 void main() {
   di.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   runApp(const MyApp());
 }
 
