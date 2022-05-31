@@ -3,7 +3,6 @@ import 'package:curioso_app/features/instruments/presentation/blocs/detailbloc/d
 import 'package:curioso_app/features/instruments/presentation/blocs/historicaldatabloc/historicaldatabloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/themes/colors.dart';
 import '../../../../routes.dart';
 import '../blocs/instrumentbloc/instrument_bloc.dart';
@@ -11,8 +10,9 @@ import 'card_widget.dart';
 
 class InstrumentList extends StatefulWidget {
   const InstrumentList({
-    Key? key,
+    Key? key, required this.controller,
   }) : super(key: key);
+  final TextEditingController controller;
 
   @override
   State<InstrumentList> createState() => _InstrumentListState();
@@ -51,6 +51,7 @@ class _InstrumentListState extends State<InstrumentList> with AutomaticKeepAlive
           );
         }
         else if (state is InstrumentHasData){
+          final list = state.instruments.where((i) => i.name.toLowerCase().contains(widget.controller.text)).toList();
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (_,index){
@@ -60,10 +61,10 @@ class _InstrumentListState extends State<InstrumentList> with AutomaticKeepAlive
                     historicalBloc.add(OnHistoricalDataLoaded(state.instruments[index].symbol));
                     AppNavigator.push(Routes.detail);
                   },
-                  child: CardWidget(instrument: state.instruments[index],),
+                  child: CardWidget(instrument: list[index],),
                 );
             },
-          childCount: state.instruments.length
+          childCount: list.length
           )
         );
         }else{

@@ -96,6 +96,8 @@ class _CustomInputState extends State<CustomInput> {
                 prefixIcon: widget.prefix,
                 suffixIcon: (isObscure)
                     ? IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                         icon: (toogleObscure)
                             ? const Icon(Icons.lock)
                             : const Icon(Icons.lock_open),

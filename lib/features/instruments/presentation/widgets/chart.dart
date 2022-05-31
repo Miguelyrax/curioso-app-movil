@@ -14,7 +14,7 @@ class Chart extends StatelessWidget {
   List<SalesData> chartSalesData = [];
   final HistoricaldataHasData stateHistorical;
   final GlobalKey<_CustomTooltipState> _customTooltipState =
-      GlobalKey<_CustomTooltipState>();
+  GlobalKey<_CustomTooltipState>();
   final Utils utils=Utils();
   @override
   Widget build(BuildContext context) {
@@ -23,22 +23,18 @@ class Chart extends StatelessWidget {
      for (var i = 0; i < stateHistorical.historialData.t.length; i++) {
           DateTime date = DateTime.fromMillisecondsSinceEpoch(stateHistorical.historialData.t[i]*1000);
           double price = utils.checkDouble(stateHistorical.historialData.c[i]);
-
           if(minPrice > price) {
             minPrice = price;
           }
-
           if(maxPrice < price) {
             maxPrice = price;
           }
-
           if(price != 0.0) {
             chartSalesData.add(SalesData(date, price));
           }
         }
         double delMinPrice = minPrice * 0.01;
         minPrice = minPrice - delMinPrice;
-
         double delMaxPrice = maxPrice * 0.01;
         maxPrice = maxPrice + delMaxPrice;
     return LayoutBuilder(
@@ -51,30 +47,18 @@ class Chart extends StatelessWidget {
               .headline5!
               .copyWith(color: CuriosityColors.gray)),
             CustomTooltip(
-              key: _customTooltipState, maxWidth: constraints.maxWidth),
+              key: _customTooltipState, maxWidth: constraints.maxWidth
+            ),
+            _Grafico(
+              chartSalesData: chartSalesData,
+              constraints: constraints,
+              customTooltipState: _customTooltipState,
+              lineColor: CuriosityColors.aquagreen,
+              maxPrice: maxPrice,
+              minPrice: minPrice,
               
-              _Grafico(
-                chartSalesData: chartSalesData,
-                constraints: constraints,
-                customTooltipState: _customTooltipState,
-                lineColor: CuriosityColors.aquagreen,
-                maxPrice: maxPrice,
-                minPrice: minPrice,
-                
-                ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  7,
-                  (index) => Flexible(
-                    child: Text('1M',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .copyWith(color: CuriosityColors.gray)),
-                  ),
-                ),
               ),
+
           ],
         );
       }

@@ -50,7 +50,7 @@ class CardWidget extends StatelessWidget {
             child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('322,83',
+                Text(instrument.stockExchange.country,
                   style: Theme.of(context).textTheme.headline5!
                 ),
               ],

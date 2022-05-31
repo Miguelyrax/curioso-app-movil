@@ -12,6 +12,17 @@ class InstrumentosScreen extends StatefulWidget {
 }
 
 class _InstrumentosScreenState extends State<InstrumentosScreen> with AutomaticKeepAliveClientMixin{
+  late TextEditingController _controller;
+  @override
+  void initState() {
+    _controller=TextEditingController();
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -38,19 +49,17 @@ class _InstrumentosScreenState extends State<InstrumentosScreen> with AutomaticK
                   fontWeight: FontWeight.bold,
                 )
               ),
-              Text('1 de mayo',
-                style:Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: CuriosityColors.gray
-                )
-              ),
+
               const SizedBox(height: 8,),
               SizedBox(
                 height: 30,
                 child: TextFormField(
+                  onChanged: (value){
+                    setState(() {
+                      
+                    });
+                  },
+                  controller: _controller,
                   decoration:const InputDecoration(
                     hintText: 'Buscar'
                   ),
@@ -69,7 +78,9 @@ class _InstrumentosScreenState extends State<InstrumentosScreen> with AutomaticK
             ],
           ),
         ),
-        const InstrumentList(),
+        InstrumentList(
+          controller: _controller,
+        ),
         const SliverToBoxAdapter(
           child: SizedBox(height: 100,)
         )

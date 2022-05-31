@@ -50,5 +50,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
         emit(const FavouritesError('Error al eliminar favorito'));
       }
     });
+    on<OnFavouritesClear>((event,emit){
+      emit(FavouritesInitial());
+    });
   }
 }

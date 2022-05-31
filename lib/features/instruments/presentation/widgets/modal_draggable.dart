@@ -1,12 +1,9 @@
+import 'dart:ui';
 import 'package:curioso_app/core/themes/colors.dart';
-import 'package:curioso_app/features/news/presentation/bloc/news/news_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'modal_content_widget.dart';
 
-import '../../../../routes.dart';
-
-// Class responsible for generating the modal page when clicked on a type
-class ModalDraggable extends StatelessWidget {
+class ModalDraggable extends StatefulWidget {
   const ModalDraggable({
     Key? key,
     required this.width,
@@ -17,144 +14,102 @@ class ModalDraggable extends StatelessWidget {
   final String symbol;
 
   @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-        initialChildSize: 0.15,
-        minChildSize: 0.15,
-        maxChildSize: 0.92,
-        expand: true,
-        builder: (b, s) {
-          return Container(
-            decoration: const BoxDecoration(
-                color: CuriosityColors.blackbeige,
-                borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20))
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    margin:
-                        const EdgeInsets.only(top: 10, left: 150, right: 150),
-                    height: 5,
-                    width: 200,
-                    color: CuriosityColors.mirage,
-                  ),
-                ),
-                ModalContents(
-                  width: width,
-                  scroller: s,
-                  symbol: symbol,
-                ), 
-              ],
-            ),
-          );
-        });
-  }
+  State<ModalDraggable> createState() => _ModalDraggableState();
 }
 
-// Class responsible for creating the list present in the modal page consisting of various effects related to the selected type
-class ModalContents extends StatefulWidget {
-  const ModalContents({
-    Key? key,
-    required this.width,
-    required this.scroller,
-    required this.symbol,
-  }) : super(key: key);
-
-  final double width;
-  final ScrollController scroller;
-  final String symbol;
-
-  @override
-  _ModalContentsState createState() => _ModalContentsState();
-}
-
-class _ModalContentsState extends State<ModalContents> {
-
+class _ModalDraggableState extends State<ModalDraggable> with SingleTickerProviderStateMixin {
+  double maxHeight = 70;
+  double minHeight = 70;
+  double _currentSize=0.0;
+  late AnimationController _controller;
   @override
   void initState() {
-    final newsBloc = BlocProvider.of<NewsBloc>(context, listen: false);
-    newsBloc.add(NewsLoadedSymbol(widget.symbol));
+    _currentSize=minHeight;
+    _controller=AnimationController(vsync: this,duration: const Duration(milliseconds: 500));
+    
+    init();
+
     super.initState();
   }
-
+  Future init()async{
+    await _controller.forward();
+        
+  }
+  bool _open=false;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView(
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        controller: widget.scroller,
-        children: [
-          const SizedBox(height: 10),
-          Text('Noticias del instrumento',
-                style: Theme.of(context).textTheme.headline3!
-          ),
-          Text(widget.symbol,
-                style: Theme.of(context).textTheme.headline5!
-                .copyWith(color: CuriosityColors.gray)
-          ),
-          const SizedBox(height: 30),
-          BlocBuilder<NewsBloc, NewsState>(
-            builder: (context, state) {
-              if(state is NewsLoading){
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: CuriosityColors.crystalblue,
-                  ),
-                );
-              }
-              else if(state is NewsError){
-                return SizedBox(
-                  child: Text(state.message),
-                );
-              }
-              else if(state is NewsHasData){
-                return ListView.separated(
-                  separatorBuilder: (_,i){
-                    return const SizedBox(height: 20,);
-                  },
-                  itemCount: state.news.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (_,index){
-                    return GestureDetector(
-                      onTap: (){
-                        AppNavigator.push(Routes.web,state.news[index].url);
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(state.news[index].category,
-                            style: Theme.of(context).textTheme.headline3!
-                            .copyWith(fontSize: 12, color: CuriosityColors.gray)
-                          ),
-                          const SizedBox(height: 4,),
-                          Text(state.news[index].headline,
-                            style: Theme.of(context).textTheme.headline5!
-                          ),
-                          const SizedBox(height: 4,),
-                          Text(state.news[index].summary,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline3!
-                            .copyWith(fontSize: 12, color: CuriosityColors.gray)
-                          ),
-                        ],
+    
+    return 
+           GestureDetector(
+              onVerticalDragUpdate:(value){
+                maxHeight=MediaQuery.of(context).size.height-160;
+                setState(() {
+                final newHeight=_currentSize - value.delta.dy;
+                _controller.value=_currentSize;
+                _currentSize=newHeight.clamp(minHeight, maxHeight);
+                  
+                });
+              },
+              onVerticalDragEnd: (value){
+                if(_currentSize<maxHeight/3){
+                  _open=false;
+                  _controller.reverse();
+                }
+                else if(_currentSize<maxHeight/1.2){
+                  _open=false;
+                  _controller.forward(from: _currentSize/maxHeight);
+                  _currentSize=maxHeight/1.5;
+                }
+                
+                else if(_currentSize<maxHeight){
+                  _open=true;
+                  _controller.forward(from: _currentSize/maxHeight);
+                  _currentSize=maxHeight;
+                }
+              },
+             child: AnimatedBuilder(
+                       animation: _controller,
+                       builder: (context,Widget? child) {
+                       final value = const  ElasticInOutCurve(.7).transform(_controller.value);
+                 return Stack(
+                   children: [
+                     Positioned(
+                       bottom: 0,
+                         width: MediaQuery.of(context).size.width,
+                         height: lerpDouble(minHeight, _currentSize, value),
+                         child: Container(
+                         decoration: const BoxDecoration(
+                            color: CuriosityColors.blackbeige,
+                            borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                margin:
+                                const EdgeInsets.only(top: 10, left: 150, right: 150,bottom: 100),
+                                height: 5,
+                                width: 200,
+                                color: CuriosityColors.mirage,
+                              ),
+                            ),
+                            ModalContents(
+                              dragEnable: _open,
+                              width: widget.width,
+                              symbol: widget.symbol,
+                            ), 
+                          ],
+                        ),
                       ),
-                    );
-                  });
-              }
-              return Container();
-            },
-          )
-        ],
-      ),
-    );
+                     ),
+                   ],
+                 );
+               }
+             ),
+           );
   }
 }

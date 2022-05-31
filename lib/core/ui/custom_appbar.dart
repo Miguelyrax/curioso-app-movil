@@ -6,6 +6,8 @@ AppBar customAppbar(BuildContext context) {
     return AppBar(
           backgroundColor: CuriosityColors.dark,
           leading: IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: (){
               Navigator.pop(context);
             },

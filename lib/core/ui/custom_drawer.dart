@@ -1,4 +1,5 @@
 
+import 'package:curioso_app/features/instruments/presentation/blocs/favourites/favourites_bloc.dart';
 import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userBloc = BlocProvider.of<UserBloc>(context,listen: false);
+    final favouriteBloc = BlocProvider.of<FavouritesBloc>(context,listen: false);
     return Container( 
       color:CuriosityColors.dark,
       width: double.infinity,
@@ -58,6 +60,7 @@ class CustomDrawer extends StatelessWidget {
             GestureDetector(
               onTap: (){
                 userBloc.add(OnUserLogout());
+                favouriteBloc.add(OnFavouritesClear());
                 Navigator.pop(context);
               },
               child: Text('Cerrar sesión',

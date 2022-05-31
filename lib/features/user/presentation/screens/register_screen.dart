@@ -3,6 +3,7 @@ import 'package:curioso_app/core/usecases/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/extension/unfocus_widget.dart';
 import '../../../../core/themes/colors.dart';
 import '../../../../core/ui/custom_appbar.dart';
 import '../../../../routes.dart';
@@ -110,170 +111,174 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Navigator.pop(context);
         }
       },
-        child: Scaffold(
-          backgroundColor: CuriosityColors.dark,
-          appBar: customAppbar(context),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _key,
-                onChanged: () async{
-                  await Future.delayed(const Duration(milliseconds: 100));
-                  isValid=_validatorControl.every((e) => e==true);
-                   setState(() => {
-                });},
-                child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      'Register',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  CustomInput(
-                    fieldKey: fieldKeyUsuario,
-                    focusNode: focusUsuario,
-                    controller: ctrlUsuario,
-                    label: 'Usuario',
-                    placeholderText: 'Usuario',
-                    validator: (value){
-                      if(value?.isEmpty??true){
-                         _validatorControl[0]=false;
-                        return 'Ingrese usuario';
-                      }else {
-                         _validatorControl[0]=true;
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomInput(
-                    fieldKey: fieldKeyEmail,
-                    focusNode: focusEmail,
-                    controller: ctrlEmail,
-                    label: 'Email',
-                    placeholderText: 'Email',
-                    keyboardType: TextInputType.emailAddress,
-                    validator:(value){
-                      final result=Validator().emailValidator(value);
-                      if(result==null){
-                         _validatorControl[1]=true;
-                        return result;
-                      }else{
-                         _validatorControl[1]=false;
-                         return result;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomInput(
-                    fieldKey: fieldKeyPassword,
-                    focusNode: focusPassword,
-                    controller: ctrlPassword,
-                    label: 'Password',
-                    placeholderText: 'Password',
-                    validator: (value){
-                      if(value?.isEmpty??true){
-                         _validatorControl[2]=false;
-                        return 'Ingrese password';
-                      }else{
-                         _validatorControl[2]=true;
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomInput(
-                    fieldKey: fieldKeyConfirmPassword,
-                    focusNode: focusConfirmPassword,
-                    controller: ctrlConfirmPassword,
-                    label: 'ConfirmPassword',
-                    placeholderText: 'ConfirmPassword',
-                    validator: (value){
-                      if(value?.isEmpty??true){
-                         _validatorControl[3]=false;
-                        return 'Ingrese password';
-                      }else if(value!=ctrlPassword.text){
-                        _validatorControl[3]=false;
-                        return 'El password no coincide';
-                      }
-                      else{
-                         _validatorControl[3]=true;
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                   
-                  const SizedBox(
-                    height: 32,
-                  ),
-          
-                  SizedBox(
-                        width: double.infinity,
-                        height: 63,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return CuriosityColors.graychetau; // Disabled color
-                              }
-                              return CuriosityColors.orangered; // Regular color
-                              }
-                            )
-                          ),
-                          onPressed:!isValid?null: (){
-                            if(validateForm()){
-                              blocProvider.add(OnUserRegister(email: ctrlEmail.text, password: ctrlPassword.text, name: ctrlUsuario.text));
-                            }
-                        }, child: const Text('Crear cuenta')),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                      AppNavigator.push(Routes.auth);
-                    },
-                    child: SizedBox(
+        child: UnfocusWidget(
+          child: Scaffold(
+            backgroundColor: CuriosityColors.dark,
+            appBar: customAppbar(context),
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _key,
+                  onChanged: () async{
+                    await Future.delayed(const Duration(milliseconds: 100));
+                    isValid=_validatorControl.every((e) => e==true);
+                     setState(() => {
+                  });},
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
                       width: double.infinity,
                       child: Text(
-                        '¿Ya tienes una cuenta?',
+                        'Register',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
-                          .textTheme.headline6!
-                          .copyWith(
-                            color:CuriosityColors.aquagreen
-                          )
-                      )
+                            .textTheme
+                            .headline1!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
-                  ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    CustomInput(
+                      fieldKey: fieldKeyUsuario,
+                      focusNode: focusUsuario,
+                      controller: ctrlUsuario,
+                      label: 'Usuario',
+                      placeholderText: 'Usuario',
+                      validator: (value){
+                        if(value?.isEmpty??true){
+                           _validatorControl[0]=false;
+                          return 'Ingrese usuario';
+                        }else {
+                           _validatorControl[0]=true;
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    CustomInput(
+                      fieldKey: fieldKeyEmail,
+                      focusNode: focusEmail,
+                      controller: ctrlEmail,
+                      label: 'Email',
+                      placeholderText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
+                      validator:(value){
+                        final result=Validator().emailValidator(value);
+                        if(result==null){
+                           _validatorControl[1]=true;
+                          return result;
+                        }else{
+                           _validatorControl[1]=false;
+                           return result;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    CustomInput(
+                      fieldKey: fieldKeyPassword,
+                      focusNode: focusPassword,
+                      controller: ctrlPassword,
+                      label: 'Password',
+                      placeholderText: '*******',
+                      obscureText: true,
+                      validator: (value){
+                        if(value?.isEmpty??true){
+                           _validatorControl[2]=false;
+                          return 'Ingrese password';
+                        }else{
+                           _validatorControl[2]=true;
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    CustomInput(
+                      fieldKey: fieldKeyConfirmPassword,
+                      focusNode: focusConfirmPassword,
+                      controller: ctrlConfirmPassword,
+                      obscureText: true,
+                      label: 'Confirmar password',
+                      placeholderText: '*******',
+                      validator: (value){
+                        if(value?.isEmpty??true){
+                           _validatorControl[3]=false;
+                          return 'Ingrese password';
+                        }else if(value!=ctrlPassword.text){
+                          _validatorControl[3]=false;
+                          return 'El password no coincide';
+                        }
+                        else{
+                           _validatorControl[3]=true;
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                     
+                    const SizedBox(
+                      height: 32,
+                    ),
+            
+                    SizedBox(
+                          width: double.infinity,
+                          height: 63,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return CuriosityColors.graychetau; // Disabled color
+                                }
+                                return CuriosityColors.orangered; // Regular color
+                                }
+                              )
+                            ),
+                            onPressed:!isValid?null: (){
+                              if(validateForm()){
+                                blocProvider.add(OnUserRegister(email: ctrlEmail.text, password: ctrlPassword.text, name: ctrlUsuario.text));
+                              }
+                          }, child: const Text('Crear cuenta')),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                        AppNavigator.push(Routes.auth);
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          '¿Ya tienes una cuenta?',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                            .textTheme.headline6!
+                            .copyWith(
+                              color:CuriosityColors.aquagreen
+                            )
+                        )
+                      ),
+                    ),
+                  ],
+                    ),
+                ),
               ),
             ),
-          ),
-   )
+           ),
+        )
       
     );
   }

@@ -7,6 +7,7 @@ abstract class FavouritesEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class OnFavouritesClear extends FavouritesEvent{}
 class OnFavouritesLoaded extends FavouritesEvent{}
 class OnFavouriteAdd extends FavouritesEvent{
   final String id;

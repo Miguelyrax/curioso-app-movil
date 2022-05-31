@@ -2,7 +2,7 @@ import 'package:curioso_app/features/news/presentation/bloc/general-news/general
 import 'package:curioso_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../core/themes/colors.dart';
 import '../../domain/entities/news.dart';
 
@@ -83,6 +83,7 @@ class New extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     DateTime date = DateTime.fromMillisecondsSinceEpoch(noticia.datetime*1000);
     return GestureDetector(
       onTap: (){
         AppNavigator.push(Routes.web,noticia.url);
@@ -147,6 +148,14 @@ class New extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style:
                             Theme.of(context).textTheme.headline6!
+                    ),
+                    Text(
+                      DateFormat('dd/MM/yyyy').format(date),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                            Theme.of(context).textTheme.headline6!
+                            .copyWith(fontSize: 12,color: CuriosityColors.gray)
                     ),
                   ],
                 ),
