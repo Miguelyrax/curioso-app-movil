@@ -46,7 +46,7 @@ void main() {
     act: (RecoveryBloc blocc) => blocc.add(const OnRecoveryEmail(email: '123', code: 123)),
     expect: () => [
       RecoveryLoaded(),
-      RecoveryEndLoaded()
+      RecoverySendSuccess()
     ],
     verify: (_) async {
     verify(() => mockPostRecoveryPassword.execute(params)).called(1);

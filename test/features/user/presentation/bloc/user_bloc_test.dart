@@ -1,7 +1,6 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:curioso_app/core/usecases/usecase.dart';
-import 'package:curioso_app/features/quiz/domain/entities/riesgo.dart';
 import 'package:curioso_app/features/user/domain/entities/user.dart';
 import 'package:curioso_app/features/user/domain/usecases/login.dart';
 import 'package:curioso_app/features/user/domain/usecases/post_edit_user.dart';
@@ -56,7 +55,7 @@ void main() {
         "should get data from usecase login",
         () async {
           when(()=>mockLogin.execute(userParams))
-          .thenAnswer((_) async =>  Right(data));
+          .thenAnswer((_) async =>  const Right(data));
           bloc.add(const OnUserLoaded(email: 'miguel@albanez.com', password: '123456'));
           await untilCalled(()=>mockLogin.execute(userParams));
           verify(()=>mockLogin.execute(userParams));
@@ -65,7 +64,7 @@ void main() {
 
       blocTest('should emit [loading,has data] when data from login is gotten successfully',
       build: (){
-        when(()=>mockLogin.execute(userParams)).thenAnswer((_) async=>  Right(data));
+        when(()=>mockLogin.execute(userParams)).thenAnswer((_) async=>const Right(data));
         return bloc;
       },
       act: (UserBloc uBloc)=>uBloc.add(const OnUserLoaded(email: 'miguel@albanez.com', password: '123456')),
@@ -87,7 +86,7 @@ void main() {
         "should get data from usecase renew",
         () async {
           when(()=>mockRenew.execute(NoParams()))
-          .thenAnswer((_) async => Right(data));
+          .thenAnswer((_) async => const Right(data));
           bloc.add( OnUserRenew());
           await untilCalled(()=>mockRenew.execute(NoParams()));
           verify(()=>mockRenew.execute(NoParams()));
@@ -96,14 +95,14 @@ void main() {
 
       blocTest('should emit [loading,has data] when data from renew is gotten successfully',
       build: (){
-        when(()=>mockRenew.execute(NoParams())).thenAnswer((_) async => Right(data));
+        when(()=>mockRenew.execute(NoParams())).thenAnswer((_) async => const Right(data));
         return bloc;
       },
       act: (UserBloc uBloc)=>uBloc.add(OnUserRenew()),
       wait: const Duration(milliseconds: 500),
       expect: ()=>[
         UserLoading(),
-        UserHasData(data)
+        const UserHasData(data)
       ],
       verify: (UserBloc uBloc){
        verify(()=>mockRenew.execute(NoParams()));
@@ -118,7 +117,7 @@ void main() {
     test(
       "should get data from register",
       () async {
-        when(()=>mockRegister.execute(userParamsRegister)).thenAnswer((invocation) async => Right(data));
+        when(()=>mockRegister.execute(userParamsRegister)).thenAnswer((invocation) async =>const Right(data));
         bloc.add(const OnUserRegister(email: 'miguel@albanez.com', password: '123456',name: '123'));
         await untilCalled(()=>mockRegister.execute(userParamsRegister));
         verify(()=>mockRegister.execute(userParamsRegister));
@@ -128,13 +127,13 @@ void main() {
       'emits [UserLoading,UserHasData] when data from renew is gotten successfully',
       build: () {
         when(()=>mockRegister.execute(userParamsRegister))
-        .thenAnswer((_) async => Right(data));
+        .thenAnswer((_) async => const Right(data));
         return bloc;
       },
       act: (UserBloc blocc) => blocc.add(const OnUserRegister(email: 'miguel@albanez.com', password: '123456',name: '123')),
       expect: () => [
         UserLoading(),
-        UserHasData(data)
+        const UserHasData(data)
       ],
       verify: (_) async {
       verify(() => mockRegister.execute(userParamsRegister));
@@ -142,36 +141,4 @@ void main() {
     );
   });
 
-  group('Change Profile', () {
-    const user=User(
-        name: '123',
-        email: '123',
-        token: '',
-        status: true,
-        profile: Riesgo(id: '123', name: '123', description: '123', icon: '123')
-      );
-    const id ='123';
-    const dataRiesgo = Riesgo(id: '123', name: '123', description: '123', icon: '123');
-    test(
-      "should return data from putProfile",
-      () async {
-        blocTest(
-      'emits [UserLoading,UserHasData] when data from renew is gotten successfully',
-      build: () {
-        when(()=>mockPutProfile.execute(const UserParamsProfile(id: id)))
-        .thenAnswer((_) async => const Right(true));
-        return bloc;
-      },
-      act: (UserBloc blocc) => blocc.add(const OnUserChangeProfile(dataRiesgo)),
-      expect: () => [
-        UserLoading(),
-        const UserHasData(data)
-      ],
-      verify: (_) async {
-      verify(() => mockPutProfile.execute(const UserParamsProfile(id: id)));
-      },
-    );
-      },
-    );
-  });
 }

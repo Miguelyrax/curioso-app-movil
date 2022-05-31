@@ -207,16 +207,20 @@ void main() {
   group('recovery password', () {
     const email ='123';
     const code =123;
+    final data = {
+      "email":email,
+      "code":code
+    };
     final url = Uri.parse('${Constants.baseURL}/api/auth/send/recovery');
     final dataResp = json.encode({'ok':true});
-    void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers))
+    void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers,body: json.encode(data)))
         .thenAnswer((_) async => http.Response(dataResp,200));
     test(
       "should perfomr Post on a url",
       () async {
         setUpMockHttpClient();
         await datasource.recoveryPassword(email, code);
-        verify(()=>mockHttpClient.post(url,headers: headers));
+        verify(()=>mockHttpClient.post(url,headers: headers,body: json.encode(data)));
       },
     );
     test(
@@ -231,7 +235,7 @@ void main() {
     test(
       "should return ServerExeption when the response status is 500 or other",
       () async {
-        when(()=>mockHttpClient.post(url,headers: headers))
+        when(()=>mockHttpClient.post(url,headers: headers,body: json.encode(data)))
         .thenAnswer((invocation) async=> http.Response('Error',500));
         final call = datasource.recoveryPassword(email, code);
         expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));  
@@ -240,16 +244,19 @@ void main() {
   });
     group('send email', () {
     const email ='123';
+      final data = {
+      "email":email,
+    };
     final url = Uri.parse('${Constants.baseURL}/api/auth/send');
     final dataResp = json.encode({'ok':true});
-    void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers))
+    void setUpMockHttpClient()=>when(()=>mockHttpClient.post(url,headers: headers,body: json.encode(data)))
         .thenAnswer((_) async => http.Response(dataResp,200));
     test(
       "should perfomr Post on a url",
       () async {
         setUpMockHttpClient();
         await datasource.sendEmail(email);
-        verify(()=>mockHttpClient.post(url,headers: headers));
+        verify(()=>mockHttpClient.post(url,headers: headers,body: json.encode(data)));
       },
     );
     test(
@@ -264,7 +271,7 @@ void main() {
     test(
       "should return ServerExeption when the response status is 500 or other",
       () async {
-        when(()=>mockHttpClient.post(url,headers: headers))
+        when(()=>mockHttpClient.post(url,headers: headers,body: json.encode(data)))
         .thenAnswer((invocation) async=> http.Response('Error',500));
         final call = datasource.sendEmail(email);
         expect(()async=>await call, throwsA(const TypeMatcher<ServerException>()));  
